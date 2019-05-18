@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2048</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="title pt-2 pt-md-5 mx-auto">
+                    <h1 class="text-primary">2048</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-md-5 px-md-5">
+            <div class="scores text-info col-6 text-center">
+                <div class="">
+                    Score:
+                </div>
+                <div id="current-score text-center">
+                    12345 
+                </div>
+            </div>
+            <div class="scores text-info col-6 text-center">
+                <div>
+                    Best:
+                </div>
+                <div id="best-score">
+                     349523
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="sub-title py-3 mx-auto">
+                <h5 class="text-warning">Join the numbers to get to the <strong>2048</strong> tile <i>or further </i>!!!</h5>
+            </div>
+        </div>
+    <section class="game-board-container container px-0 mx-auto">
+        <div class="game-board d-flex flex-wrap p-0 py-1 px-1 bg-secondary text-white mx-auto">
+            <div class="game-field m-auto text-center" id="gf-1"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-2"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-3"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-4"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-5"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-6"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-7"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-8"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-9"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-10"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-11"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-12"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-13"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-14"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-15"> 2 </div>
+            <div class="game-field m-auto text-center" id="gf-16"> 2 </div>
+        </div>
+    </section>
+    <section class="buttons pt-1 pt-md-3">
+        <div class="row">
+            <div class="col-3 dummy"></div>
+            <div class="col-3 text-center">
+                <button type="button" id="btn-undo" class="btn btn-outline-danger">Undo</button>
+            </div>
+            <div class="col-3 text-center">
+                <button type="button" id="btn-new-game" class="btn btn-outline-danger">New Game</button>
+            </div>
+            <div class="col-3 dummy"></div>
+    </section>
+    
+    <footer>
+        <div class="col-12 text-center p-5">
+            something will come here as well...
+        </div>
+    </footer>
+    
+    </div>
+    
+</body>
+
+</html>
