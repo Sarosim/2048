@@ -1,102 +1,144 @@
 .game-board {
-    width: 460px;
-    height: 460px;
+    width: 340px;
+    height: 340px;
    /* background-color: #999;*/
 }
 
 .game-field {
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    width: 72px;
+    height: 72px;
+    line-height: 72px;
     border: 3px solid orange;
     border-style: ridge;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
-.scores {
-    width: 100px;
-    height: 70px;
-    font-size: x-large;
+.scores-tile {
+    height: 72px;
+    font-size: 1.6rem;
     border: 3px solid blue;
     border-style: outset;
     border-radius: 5px;
     background-color: orange;
 }
+ .scores-text {
+     font-size: 1.3rem;
+ }
 
 .gf-value-style-0 {
     background-color: transparent;
     color: transparent;
-    font-size: 3.5rem;
+    font-size: 3rem;
 }
 .gf-value-style-2 {
     background-color: #111111;
-    font-size: 3.5rem;
+    font-size: 3rem;
 }
 .gf-value-style-4 {
     background-color: #222222;
-    font-size: 3.5rem;
+    font-size: 3rem;
 }
 .gf-value-style-8 {
     background-color: #333333;
-    font-size: 3.5rem;
+    font-size: 3rem;
 }
 .gf-value-style-16 {
     background-color: #555555;
-    font-size: 3.2rem;
+    font-size: 2.8rem;
 }
 .gf-value-style-32 {
     background-color: #777777;
-    font-size: 3.2rem;
+    font-size: 2.8rem;
 }
 .gf-value-style-64 {
     background-color: #999999;
-    font-size: 3.2rem;
+    font-size: 2.8rem;
 }
 .gf-value-style-128 {
     background-color: #aaaaaa;
-    font-size: 2.6rem;
+    font-size: 2.1rem;
 }
 .gf-value-style-256 {
     background-color: #bbbbbb;
-    font-size: 2.6rem;
+    font-size: 2.1rem;
 }
 .gf-value-style-512 {
     background-color: #cccccc;
-    font-size: 2.6rem;
+    font-size: 2.1rem;
     color: #000;
 }
 .gf-value-style-1024 {
     background-color: #dddddd;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #000;
 }
 .gf-value-style-2048 {
     background-color: #eeeeee;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #000;
 }
 .gf-value-style-4096 {
     background-color: #ffffff;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #000;
 }
 .gf-value-style-8192 {
     background-color: #aabbcc;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #000;
 }
 .gf-value-style-16384 {
     background-color: #ddccaa;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #000;
 }
 .gf-value-style-32768 {
     background-color: #446688;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #000;
 }
 .gf-value-style-65536 {
     background-color: #6688aa;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #000;
+}
+
+#btn-undo {
+    width: 120px;
+    height: 40px;
+    margin-top: 5px;
+    font-size: 1.1rem;
+}
+
+#btn-up {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+    padding: 0;
+}
+
+#btn-new-game {
+    width: 120px;
+    height: 40px;
+    margin-top: 5px;
+    font-size: 1.1rem;
+}
+
+#btn-left {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+    padding: 0;
+}
+#btn-down {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+    padding: 0;
+}
+#btn-right {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+    padding: 0;
 }
