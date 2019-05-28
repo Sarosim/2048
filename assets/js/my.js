@@ -129,25 +129,43 @@ function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
     wasThereAMove = false;
     for (var i = 0; i < 4; i++) { //For each 'row' do the following
 
-        // Check if there are same value tiles, next to each other, or empty in between them; if yes, add them up and empty shift tiles *******************************************************************
-        if ((fieldsForShift[i][0] != 0) && (fieldsForShift[i][0] == fieldsForShift[i][1])) {
+        // Check if there are same value tiles, next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
+
+        if ((fieldsForShift[i][0] != 0) && (fieldsForShift[i][0] == fieldsForShift[i][1])) { // first two
             fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][1];
             fieldsForShift[i][1] = 0;
             wasThereAMove = true;
 
-            if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) {
+            if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) { // first two and the third and fourth
                 fieldsForShift[i][1] = fieldsForShift[i][2] + fieldsForShift[i][3];
                 fieldsForShift[i][2] = 0;
                 fieldsForShift[i][3] = 0;
                 wasThereAMove = true;
             }
         }
-        else if ((fieldsForShift[i][1] != 0) && (fieldsForShift[i][1] == fieldsForShift[i][2])) {
+        else if ((fieldsForShift[i][0] != 0) && ((fieldsForShift[i][0] == fieldsForShift[i][2]) && fieldsForShift[i][1] == 0)) { // first and third if empty in between
+            fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][2];
+            fieldsForShift[i][2] = 0;
+            wasThereAMove = true;
+        }
+        else if ((fieldsForShift[i][0] != 0) && ((fieldsForShift[i][0] == fieldsForShift[i][3]) && fieldsForShift[i][1] + fieldsForShift[i][2] == 0)) { // first and fourth if empty in between
+            fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][3];
+            fieldsForShift[i][3] = 0;
+            wasThereAMove = true;
+        }
+
+        else if ((fieldsForShift[i][1] != 0) && (fieldsForShift[i][1] == fieldsForShift[i][2])) { // second and third
             fieldsForShift[i][1] = fieldsForShift[i][1] + fieldsForShift[i][2];
             fieldsForShift[i][2] = 0;
             wasThereAMove = true;
         }
-        else if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) {
+        else if ((fieldsForShift[i][1] != 0) && ((fieldsForShift[i][1] == fieldsForShift[i][3]) && fieldsForShift[i][2] == 0)) { // second and fourth if empty in between
+            fieldsForShift[i][1] = fieldsForShift[i][1] + fieldsForShift[i][3];
+            fieldsForShift[i][2] = 0;
+            fieldsForShift[i][3] = 0;
+            wasThereAMove = true;
+        }
+        else if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) {  // third and fourth
             fieldsForShift[i][2] = fieldsForShift[i][2] + fieldsForShift[i][3];
             fieldsForShift[i][3] = 0;
             wasThereAMove = true;
