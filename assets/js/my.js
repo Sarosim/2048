@@ -14,8 +14,13 @@ var score = 0;
 var currentHighScore = 0;
 var highScoreHistory = [
     ["Miklos", 518],
-    ["Matyi", 128],
+    ["Matyi", 1352]
 ];
+var gamePlayHistory = [
+    [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 0, 0, 0, 0]
+];
+var maxMovesToStore = 10;
+var scoreHistory = [0];
 
 //****************************************************
 // F U N C T I O N S     D E F I N E D       H E R E
@@ -102,12 +107,7 @@ function reWriteToGameFields(orientation) {
             j = Math.floor(k / 4);
             gameFields[k] = fieldsForShift[i][j];
         }
-        //        for (var ii = 0; ii < 4; ii++) {
-        //          fieldsForShift[ii][4] = 0;
-        //        }
     }
-
-
     if (orientation == 1) { // 1-left
         for (var k = 0; k < 16; k++) {
             i = Math.floor(k / 4);
@@ -178,7 +178,7 @@ function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
 
         else if ((fieldsForShift[i][1] != 0) && (fieldsForShift[i][1] == fieldsForShift[i][2])) { // second and third
             fieldsForShift[i][1] = fieldsForShift[i][1] + fieldsForShift[i][2];
-            score += fieldsForShift[i][1] ;
+            score += fieldsForShift[i][1];
             checkHighScore();
             fieldsForShift[i][2] = 0;
             wasThereAMove = true;
@@ -238,8 +238,8 @@ function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
     formatGameFields();
 }
 
-//Generate new value for one of the empty fields after a move:
-//Randomise 2 or 4 for on empty field
+//Generate new value for one of the empty fields after a move: Randomise 2 or 4 for on empty field
+
 function generateNewField() {
     var emptyFields = [];
     var n = 0; //counter for number of empty fields
@@ -252,6 +252,16 @@ function generateNewField() {
     var pickPosition = Math.floor(Math.random() * n); //random number between 0 and one less than the number of empty cells 
     var newValue = ((Math.floor(Math.random() * 1.25)) + 1) * 2; // randomising 2 or 4 as a new value, with 80% probability of the 2
     gameFields[emptyFields[pickPosition]] = newValue;
+
+    const cloneOfGameFields = [...gameFields];
+    gamePlayHistory.push(cloneOfGameFields);
+    if (gamePlayHistory.length > maxMovesToStore) { // if more moves than max stored, 'forget' of the eldest
+        gamePlayHistory.shift();
+    }
+    scoreHistory.push(score);
+    if (scoreHistory.length > maxMovesToStore) {
+        scoreHistory.shift();
+    }
     formatGameFields();
 }
 
@@ -271,6 +281,8 @@ function onUserInput(dir) {
 
 //****************************************************
 //    E V E N T    H A N D L E R S   
+//****************************************************
+
 
 $("#btn-new-game").click(function() {
     gameInPlay = true;
@@ -278,11 +290,24 @@ $("#btn-new-game").click(function() {
     generateNewField();
     generateNewField();
     score = 0;
+    gamePlayHistory = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    scoreHistory = [0];
     formatGameFields();
 });
 
 $("#btn-undo").click(function() {
-
+    if (gameInPlay) {
+        //        debugger;
+        if (gamePlayHistory.length > 2) {
+            gameFields = gamePlayHistory[gamePlayHistory.length - 2];
+            gamePlayHistory.pop();
+            score = scoreHistory[scoreHistory.length - 2];
+            scoreHistory.pop();
+            formatGameFields();
+        }
+    }
 
 });
 
