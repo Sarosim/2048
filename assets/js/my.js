@@ -165,7 +165,7 @@ function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             fieldsForShift[i][3] = 0;
             wasThereAMove = true;
         }
-        else if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) {  // third and fourth
+        else if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) { // third and fourth
             fieldsForShift[i][2] = fieldsForShift[i][2] + fieldsForShift[i][3];
             fieldsForShift[i][3] = 0;
             wasThereAMove = true;
@@ -227,6 +227,20 @@ function generateNewField() {
     formatGameFields();
 }
 
+function onUserInput(dir) {
+    if (gameInPlay) {
+        shiftFields(dir); //dir(ections): 0-up, 1-left, 2-down, 3-right
+        if (wasThereAMove == true) {
+            generateNewField();
+        }
+        isThereAMove();
+        if (potentialMove == false) {
+            gameInPlay = false;
+            alert("Game Over"); // probably a modal is nicer ...
+        }
+    }
+}
+
 //****************************************************
 //    E V E N T    H A N D L E R S   
 
@@ -244,67 +258,36 @@ $("#btn-undo").click(function() {
 });
 
 $("#btn-up").click(function() {
-    if (gameInPlay) {
-        //        debugger;
-        shiftFields(0); //directions: 0-up, 1-left, 2-down, 3-right
-        if (wasThereAMove == true) {
-            generateNewField();
-        }
-        isThereAMove();
-        if (potentialMove == false) {
-            gameInPlay = false;
-            alert("Game Over"); // probably a modal is nicer ...
-        }
-    }
-
+    onUserInput(0); //dir(ections): 0-up, 1-left, 2-down, 3-right
 });
 
 $("#btn-left").click(function() {
-    if (gameInPlay) {
-        //        debugger;
-        shiftFields(1); //directions: 0-up, 1-left, 2-down, 3-right
-        if (wasThereAMove == true) {
-            generateNewField();
-        }
-        isThereAMove();
-        if (potentialMove == false) {
-            gameInPlay = false;
-            alert("Game Over"); // probably a modal is nicer ...
-        }
-    }
-
+    onUserInput(1); //dir(ections): 0-up, 1-left, 2-down, 3-right
 });
 
 $("#btn-down").click(function() {
-    if (gameInPlay) {
-        //  debugger;
-        shiftFields(2); //directions: 0-up, 1-left, 2-down, 3-right
-        if (wasThereAMove == true) {
-            generateNewField();
-        }
-        isThereAMove();
-        if (potentialMove == false) {
-            gameInPlay = false;
-            alert("Game Over"); // probably a modal is nicer ...
-        }
-    }
+    onUserInput(2); //dir(ections): 0-up, 1-left, 2-down, 3-right
 });
 
 $("#btn-right").click(function() {
-    if (gameInPlay) {
-        //  debugger;
-        shiftFields(3); //directions: 0-up, 1-left, 2-down, 3-right
-        if (wasThereAMove == true) {
-            generateNewField();
-        }
-        isThereAMove();
-        if (potentialMove == false) {
-            gameInPlay = false;
-            alert("Game Over"); // probably a modal is nicer ...
-        }
-    }
+    onUserInput(3); //dir(ections): 0-up, 1-left, 2-down, 3-right
 });
 
+document.onkeydown = function(e) {
+    switch (e.key) {
+        case 'ArrowUp':
+            onUserInput(0); //dir(ections): 0-up, 1-left, 2-down, 3-right
+            break;
+        case 'ArrowDown':
+            onUserInput(2); //dir(ections): 0-up, 1-left, 2-down, 3-right
+            break;
+        case 'ArrowLeft':
+            onUserInput(1); //dir(ections): 0-up, 1-left, 2-down, 3-right
+            break;
+        case 'ArrowRight':
+            onUserInput(3); //dir(ections): 0-up, 1-left, 2-down, 3-right
+    }
+};
 
 //****************************************************
 //    E X E C U T E
