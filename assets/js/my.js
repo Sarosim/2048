@@ -10,6 +10,12 @@ var fieldsForShift = [
     [0, 0, 0, 0, 0]
 ];
 var wasThereAMove = false;
+var score = 0;
+var currentHighScore = 0;
+var highScoreHistory = [
+    ["Miklos", 518],
+    ["Matyi", 128],
+];
 
 //****************************************************
 // F U N C T I O N S     D E F I N E D       H E R E
@@ -30,6 +36,8 @@ function formatGameFields() {
             .addClass(itsClass)
             .text(gameFields[k]);
     }
+    $("#current-score").text(score);
+    $("#best-score").text(currentHighScore);
 }
 
 //check if there is a potential move
@@ -123,6 +131,12 @@ function reWriteToGameFields(orientation) {
     }
 }
 
+function checkHighScore() {
+    if (score > currentHighScore) {
+        currentHighScore = score;
+    }
+}
+
 // the actual moving 
 function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
     renderArray(direction);
@@ -133,11 +147,15 @@ function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
 
         if ((fieldsForShift[i][0] != 0) && (fieldsForShift[i][0] == fieldsForShift[i][1])) { // first two
             fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][1];
+            score += fieldsForShift[i][0];
+            checkHighScore();
             fieldsForShift[i][1] = 0;
             wasThereAMove = true;
 
             if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) { // first two and the third and fourth
                 fieldsForShift[i][1] = fieldsForShift[i][2] + fieldsForShift[i][3];
+                score += fieldsForShift[i][1];
+                checkHighScore();
                 fieldsForShift[i][2] = 0;
                 fieldsForShift[i][3] = 0;
                 wasThereAMove = true;
@@ -145,28 +163,38 @@ function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
         }
         else if ((fieldsForShift[i][0] != 0) && ((fieldsForShift[i][0] == fieldsForShift[i][2]) && fieldsForShift[i][1] == 0)) { // first and third if empty in between
             fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][2];
+            score += fieldsForShift[i][0];
+            checkHighScore();
             fieldsForShift[i][2] = 0;
             wasThereAMove = true;
         }
         else if ((fieldsForShift[i][0] != 0) && ((fieldsForShift[i][0] == fieldsForShift[i][3]) && fieldsForShift[i][1] + fieldsForShift[i][2] == 0)) { // first and fourth if empty in between
             fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][3];
+            score += fieldsForShift[i][0];
+            checkHighScore();
             fieldsForShift[i][3] = 0;
             wasThereAMove = true;
         }
 
         else if ((fieldsForShift[i][1] != 0) && (fieldsForShift[i][1] == fieldsForShift[i][2])) { // second and third
             fieldsForShift[i][1] = fieldsForShift[i][1] + fieldsForShift[i][2];
+            score += fieldsForShift[i][1] ;
+            checkHighScore();
             fieldsForShift[i][2] = 0;
             wasThereAMove = true;
         }
         else if ((fieldsForShift[i][1] != 0) && ((fieldsForShift[i][1] == fieldsForShift[i][3]) && fieldsForShift[i][2] == 0)) { // second and fourth if empty in between
             fieldsForShift[i][1] = fieldsForShift[i][1] + fieldsForShift[i][3];
+            score += fieldsForShift[i][1];
+            checkHighScore();
             fieldsForShift[i][2] = 0;
             fieldsForShift[i][3] = 0;
             wasThereAMove = true;
         }
         else if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) { // third and fourth
             fieldsForShift[i][2] = fieldsForShift[i][2] + fieldsForShift[i][3];
+            score += fieldsForShift[i][2];
+            checkHighScore();
             fieldsForShift[i][3] = 0;
             wasThereAMove = true;
         }
@@ -249,6 +277,7 @@ $("#btn-new-game").click(function() {
     gameFields = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     generateNewField();
     generateNewField();
+    score = 0;
     formatGameFields();
 });
 
