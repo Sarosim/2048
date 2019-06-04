@@ -28,21 +28,65 @@ var scoreHistory = [0];
 
 //Set tile style according to value
 
+//function removeAllClasses(element) {
+//  for (var m = 0; m < 18; m++) {
+//    $(element)
+//      .removeClass("gf-value-style-" + Math.pow(2, m));
+//    }
+//  $(element).removeClass("gf-value-style-0");
+//}
+
 function formatGameFields() {
-    for (var k = 0; k < 16; k++) {
-        var selectedFieldId = "#gf-" + (k + 1);
-        var itsClass = "gf-value-style-" + gameFields[k];
-        for (var m = 0; m < 18; m++) {
-            $(selectedFieldId)
-                .removeClass("gf-value-style-0")
-                .removeClass("gf-value-style-" + Math.pow(2, m));
+    //debugger;
+    for (var k = 0; k < 16; k++) { //  field by field do the following 
+        var selectedFieldId = "#gf-" + (k + 1); //  picks the ID of the element
+        var itsCurrentClass = "gf-value-style-" + $(selectedFieldId).text(); //  gets the current class of the element
+        var itsNewClass = "gf-value-style-" + gameFields[k]; //  based on the value of the field, defines the class to be assigned
+
+        $(selectedFieldId).html(" ");
+
+        if ($(selectedFieldId).hasClass(itsNewClass)) { // if the element has the given class assigned already (meaning its value isn't changing), then do this:  
+            //its value doesn't change, so do nothing  ----- maybe a little animation later...
+            $(selectedFieldId).text(gameFields[k]);
         }
-        $(selectedFieldId)
-            .addClass(itsClass)
-            .text(gameFields[k]);
+        else { // the value is changing
+            $(selectedFieldId)
+                .removeClass(itsCurrentClass)
+                .addClass("gf-value-disappear")
+                .text(gameFields[k])
+                .addClass("gf-value-transition")
+                .removeClass("gf-value-disappear")
+                .addClass(itsNewClass)
+                .removeClass("gf-value-transition");
+        }
     }
-    $("#current-score").text(score);
-    $("#best-score").text(currentHighScore);
+
+    /*
+        for (var k = 0; k < 16; k++) { //  cellánként csinálja végig a következőket
+            selectedFieldId = "#gf-" + (k + 1); //  meghatározza a cella ID-ját
+            itsCurrentClass = "gf-value-style-" + $(selectedFieldId).text(); //  meghatározza a cella előző class-át
+            itsNewClass = "gf-value-style-" + gameFields[k]; //  a cella értéke alapján meghatározza a hozzárendelendő class nevét
+
+            $(selectedFieldId)
+                .stop()
+                .removeAttr("style");
+
+            //        $(selectedFieldId).text(" ");
+            if ($(selectedFieldId).hasClass(itsNewClass)) { // ha a cella már rendelkezik az adott class-al (azaz nem változik az értéke), akkor  
+                //its value doesn't change, so do nothing  ----- maybe a little animation later...
+            }
+            else {
+                //            $(selectedFieldId).stop();
+                $(selectedFieldId) // jQuery - vel rámutatunk a cellára            
+                    .removeClass(itsCurrentClass)
+                    .text(gameFields[k]) // beleírjuk az új értéket a cellába                        
+                    .removeAttr("style")
+                    .addClass(itsNewClass) // hozzáadjuk az aktuális új formátumot
+                ; //                .text(gameFields[k]);
+            }
+        }*/
+    $("#current-score").text(score); //                         THIS NEEDS animation
+    $("#best-score").text(currentHighScore); //                         THIS NEEDS animation
 }
 
 //check if there is a potential move
@@ -269,7 +313,7 @@ function onUserInput(dir) {
     if (gameInPlay) {
         shiftFields(dir); //dir(ections): 0-up, 1-left, 2-down, 3-right
         if (wasThereAMove == true) {
-            generateNewField();
+            setTimeout(generateNewField(), 1000);
         }
         isThereAMove();
         if (potentialMove == false) {
@@ -283,12 +327,13 @@ function onUserInput(dir) {
 //    E V E N T    H A N D L E R S   
 //****************************************************
 
+// Buttons on screen
 
 $("#btn-new-game").click(function() {
     gameInPlay = true;
     gameFields = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    generateNewField();
-    generateNewField();
+    setTimeout(generateNewField(), 500);
+    setTimeout(generateNewField(), 100);
     score = 0;
     gamePlayHistory = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -327,6 +372,9 @@ $("#btn-right").click(function() {
     onUserInput(3); //dir(ections): 0-up, 1-left, 2-down, 3-right
 });
 
+
+// Keyboard
+
 document.onkeydown = function(e) {
     switch (e.key) {
         case 'ArrowUp':
@@ -342,6 +390,8 @@ document.onkeydown = function(e) {
             onUserInput(3); //dir(ections): 0-up, 1-left, 2-down, 3-right
     }
 };
+
+// Touchscreen -- here comes touch screen swipe navigation
 
 //****************************************************
 //    E X E C U T E
