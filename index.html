@@ -28,9 +28,7 @@
                     <div class="scores-text">
                         Score:
                     </div>
-                    <div id="current-score" class="text-center">
-                        12345
-                    </div>
+                    <div id="current-score" class="text-center">1</div>
                 </div>
             </div>
             <div class="col-2 dummy"></div>
@@ -39,16 +37,23 @@
                     <div class="scores-text">
                         Best:
                     </div>
-                    <div id="best-score">
-                        349523
-                    </div>
+                    <div id="best-score">2</div>
                 </div>
             </div>
             <div class="col-1 col-md-2 dummy"></div>
         </div>
-        <div class="row">
-            <div class="sub-title py-1 py-md-3 mx-auto text-center">
-                <h5 class="text-warning">Join the numbers to get to the <strong>2048</strong> tile <i>or further... </i>!!!</h5>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 px-5 tooltip-container">
+                    <div class="details">
+                        <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048. Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge of
+                            the grid. If two tiles of the same number collide while moving, they will merge into a tile with the total value of the two tiles that collided. The resulting tile cannot merge with another tile again in the same move. Every
+                            turn, a new tile will randomly appear in an empty spot on the board with a value of either 2 or 4.</p>
+                    </div>
+                </div>
+                <div class="col-12 sub-title py-1 py-md-3 mx-auto text-center">
+                    <h5 class="text-warning">Join the numbers to get to the <strong>2048</strong> tile <i>or further... </i>!!!</h5>
+                </div>
             </div>
         </div>
         <section class="game-board-container container my-2 px-0 mx-auto">
@@ -78,7 +83,7 @@
                     <button type="button" id="btn-undo" class="btn btn-outline-danger">Undo</button>
                 </div>
                 <div class="col-2 px-0 px-md-2 text-center">
-                    <button type="button" id="btn-up" class="btn btn-outline-info"><i class="fas fa-arrow-circle-up"></i></button>
+                    <button type="button" id="btn-up" class="btn btn-arrow btn-outline-info"><i class="fas fa-arrow-circle-up"></i></button>
                 </div>
                 <div class="col-5 col-md-3 text-center">
                     <button type="button" id="btn-new-game" class="btn btn-outline-danger">New Game</button>
@@ -87,12 +92,22 @@
             </div>
             <div class="row mt-1">
                 <div class="col-12 text-center">
-                    <button type="button" id="btn-left" class="btn btn-outline-info"><i class="fas fa-arrow-circle-left"></i></button>
-                    <button type="button" id="btn-down" class="btn btn-outline-info"><i class="fas fa-arrow-circle-down"></i></button>
-                    <button type="button" id="btn-right" class="btn btn-outline-info"><i class="fas fa-arrow-circle-right"></i></button>                    
+                    <button type="button" id="btn-left" class="btn btn-arrow btn-outline-info"><i class="fas fa-arrow-circle-left"></i></button>
+                    <button type="button" id="btn-down" class="btn btn-arrow btn-outline-info"><i class="fas fa-arrow-circle-down"></i></button>
+                    <button type="button" id="btn-right" class="btn btn-arrow btn-outline-info"><i class="fas fa-arrow-circle-right"></i></button>
                 </div>
             </div>
         </section>
+        <div class="container description d-none d-md-block">
+            <div class="row">
+                <div class="col-12 text-warning mt-3 px-5">
+                    <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048.</p>
+                    <p>Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge of the grid. If two tiles of the same number collide while moving, they will merge into a tile with the total value of
+                        the two tiles that collided. The resulting tile cannot merge with another tile again in the same move. </p>
+                    <p>Every turn, a new tile will randomly appear in an empty spot on the board with a value of either 2 or 4. </p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
