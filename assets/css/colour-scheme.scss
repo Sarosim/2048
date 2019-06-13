@@ -1,0 +1,138 @@
+$class-name: gf-value-style;
+$j: 1;
+$increment: 32; 
+$fontSize: 3rem;
+$fontColor: #000;
+
+@for $i from 0 through 3 {
+    $j: $j * 2;
+    $red: 128 - $increment * $i;
+    $green: 160 - $increment * $i;
+    $blue: 192 - $increment * $i;
+    @if $j<10 {
+        $fontSize: 3rem;
+    } @else if $j<100 {
+        $fontSize: 2.8rem;
+    } @else if $j<1000 {
+        $fontSize: 2.1rem;
+    } @else if $j<10000 {
+        $fontSize: 1.7rem;
+    } @else if $j<100000 {
+        $fontSize: 1.3rem;    
+    } @else {
+        $fontSize: 1.1rem;
+    }    
+    @if $i>1 {
+        $fontColor: #fff;
+    } @else {
+        $fontColor: #000;
+    }
+    .#{$class-name}-#{$j} {
+        background-color: rgb($red, $green, $blue);
+        color: $fontColor;
+        font-size: $fontSize;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 1s ease;
+    }
+}
+
+@for $i from 0 through 3 {
+    $j: $j * 2;
+    $red: 128 - $increment * $i;
+    $green: 192 - $increment * $i;
+    $blue: 160 - $increment * $i;
+    @if $j<10 {
+        $fontSize: 3rem;
+    } @else if $j<100 {
+        $fontSize: 2.8rem;
+    } @else if $j<1000 {
+        $fontSize: 2.1rem;
+    } @else if $j<10000 {
+        $fontSize: 1.7rem;
+    } @else if $j<100000 {
+        $fontSize: 1.3rem;    
+    } @else {
+        $fontSize: 1.1rem;
+    }    
+    @if $i>1 {
+        $fontColor: #fff;
+    } @else {
+        $fontColor: #000;
+    }
+    .#{$class-name}-#{$j} {
+        background-color: rgb($red, $green, $blue);
+        color: $fontColor;
+        font-size: $fontSize;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 1s ease;
+    }
+}
+
+@for $i from 0 through 3 {
+    $j: $j * 2;
+    $red: 255 - $increment * $i / 2;
+    $green: 160 - $increment * $i;
+    $blue: 128 - $increment * $i;
+    @if $j<10 {
+        $fontSize: 3rem;
+    } @else if $j<100 {
+        $fontSize: 2.8rem;
+    } @else if $j<1000 {
+        $fontSize: 2.1rem;
+    } @else if $j<10000 {
+        $fontSize: 1.7rem;
+    } @else if $j<100000 {
+        $fontSize: 1.3rem;    
+    } @else {
+        $fontSize: 1.1rem;
+    }    
+    @if $i>1 {
+        $fontColor: #fff;
+    } @else {
+        $fontColor: #000;
+    }
+    .#{$class-name}-#{$j} {
+        background-color: rgb($red, $green, $blue);
+        color: $fontColor;
+        font-size: $fontSize;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 1s ease;
+    }
+}
+
+@for $i from 0 through 4 {
+    $j: $j * 2;
+    $red: 96 - $increment * $i * 0.75;
+    $green: $red;
+    $blue: $red;
+    @if $j<10 {
+        $fontSize: 3rem;
+    } @else if $j<100 {
+        $fontSize: 2.8rem;
+    } @else if $j<1000 {
+        $fontSize: 2.1rem;
+    } @else if $j<10000 {
+        $fontSize: 1.7rem;
+    } @else if $j<100000 {
+        $fontSize: 1.3rem;    
+    } @else {
+        $fontSize: 1.1rem;
+    }    
+    $fontColor: #fff;
+    .#{$class-name}-#{$j} {
+        background-color: rgb($red, $green, $blue);
+        color: $fontColor;
+        font-size: $fontSize;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 1s ease;
+    }
+}
+

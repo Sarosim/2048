@@ -2,7 +2,7 @@
 
 var gameInPlay = false;
 var potentialMove = true;
-var gameFields = [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 0, 0, 0, 0];
+var gameFields = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 0, 0, 0, 0];
 var fieldsForShift = [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
@@ -49,7 +49,7 @@ function formatGameFields() {
             //its value doesn't change, so do nothing  ----- maybe a little animation later...
             $(selectedFieldId).text(gameFields[k]);
         }
-        else { // the value is changing
+        else { // else, meaning the value is changing
             $(selectedFieldId)
                 .removeClass(itsCurrentClass)
                 .addClass("gf-value-disappear")
@@ -61,32 +61,8 @@ function formatGameFields() {
         }
     }
 
-    /*
-        for (var k = 0; k < 16; k++) { //  cellánként csinálja végig a következőket
-            selectedFieldId = "#gf-" + (k + 1); //  meghatározza a cella ID-ját
-            itsCurrentClass = "gf-value-style-" + $(selectedFieldId).text(); //  meghatározza a cella előző class-át
-            itsNewClass = "gf-value-style-" + gameFields[k]; //  a cella értéke alapján meghatározza a hozzárendelendő class nevét
-
-            $(selectedFieldId)
-                .stop()
-                .removeAttr("style");
-
-            //        $(selectedFieldId).text(" ");
-            if ($(selectedFieldId).hasClass(itsNewClass)) { // ha a cella már rendelkezik az adott class-al (azaz nem változik az értéke), akkor  
-                //its value doesn't change, so do nothing  ----- maybe a little animation later...
-            }
-            else {
-                //            $(selectedFieldId).stop();
-                $(selectedFieldId) // jQuery - vel rámutatunk a cellára            
-                    .removeClass(itsCurrentClass)
-                    .text(gameFields[k]) // beleírjuk az új értéket a cellába                        
-                    .removeAttr("style")
-                    .addClass(itsNewClass) // hozzáadjuk az aktuális új formátumot
-                ; //                .text(gameFields[k]);
-            }
-        }*/
-    $("#current-score").text(score); //                         THIS NEEDS animation
-    $("#best-score").text(currentHighScore); //                         THIS NEEDS animation
+    $("#current-score").text(score); //                         THIS NEEDS animation later
+    $("#best-score").text(currentHighScore); //                         THIS NEEDS animation later
 }
 
 //check if there is a potential move
@@ -313,7 +289,9 @@ function onUserInput(dir) {
     if (gameInPlay) {
         shiftFields(dir); //dir(ections): 0-up, 1-left, 2-down, 3-right
         if (wasThereAMove == true) {
-            setTimeout(generateNewField(), 1000);
+            setTimeout(function() {
+                generateNewField();
+            }, 300);
         }
         isThereAMove();
         if (potentialMove == false) {

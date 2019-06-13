@@ -158,41 +158,7 @@
 
 }
 
-.gf-value-style-2 {
-    background-color: #111111;
-    font-size: 3rem;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 1s ease;
-}
 
-.gf-value-style-4 {
-    background-color: #222222;
-    font-size: 3rem;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 1s ease;
-}
-
-.gf-value-style-8 {
-    background-color: blue;
-    font-size: 3rem;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.7s ease;
-}
-
-.gf-value-style-16 {
-    background-color: red;
-    font-size: 2.8rem;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 2s ease;
-}
 
 .gf-value-style-32 {
     background-color: #777777;
@@ -253,7 +219,7 @@
 }
 
 .gf-value-style-16384 {
-    background-color: #ddccaa;
+    background-color: #224466;
     font-size: 1.3rem;
     color: #000;
 }
