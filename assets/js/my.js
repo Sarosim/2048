@@ -2,7 +2,7 @@
 
 var gameInPlay = false;
 var potentialMove = true;
-var gameFields = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 0, 0, 0, 0];
+var gameFields = [4, 8, 0, 0, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 0, 0, 0, 0];
 var fieldsForShift = [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
@@ -21,29 +21,19 @@ var gamePlayHistory = [
 ];
 var maxMovesToStore = 10;
 var scoreHistory = [0];
-
+var windowWidth;
+var windowHeight;
 //****************************************************
 // F U N C T I O N S     D E F I N E D       H E R E
 //****************************************************
 
-//Set tile style according to value
-
-//function removeAllClasses(element) {
-//  for (var m = 0; m < 18; m++) {
-//    $(element)
-//      .removeClass("gf-value-style-" + Math.pow(2, m));
-//    }
-//  $(element).removeClass("gf-value-style-0");
-//}
-
 function formatGameFields() {
-    //debugger;
     for (var k = 0; k < 16; k++) { //  field by field do the following 
         var selectedFieldId = "#gf-" + (k + 1); //  picks the ID of the element
         var itsCurrentClass = "gf-value-style-" + $(selectedFieldId).text(); //  gets the current class of the element
         var itsNewClass = "gf-value-style-" + gameFields[k]; //  based on the value of the field, defines the class to be assigned
 
-        $(selectedFieldId).html(" ");
+        $(selectedFieldId).text(" ");
 
         if ($(selectedFieldId).hasClass(itsNewClass)) { // if the element has the given class assigned already (meaning its value isn't changing), then do this:  
             //its value doesn't change, so do nothing  ----- maybe a little animation later...
@@ -156,111 +146,181 @@ function checkHighScore() {
         currentHighScore = score;
     }
 }
+// Functions supporting the move
+function deleteTile(x, y) {
+    var positionClass = ".gt-position-style-" + x + "-" + y;
+    $(positionClass).remove();
+}
+
+function changeTileValue(x, y, newValue) {
+    var positionClass = ".gt-position-style-" + x + "-" + y;
+    var oldValueClass = "gf-value-style-" + newValue / 2;
+    var newValueClass = "gf-value-style-" + newValue;
+    $(positionClass)
+        .text(newValue)
+        .removeClass(oldValueClass)
+        .addClass(newValueClass);
+}
+
+function changeTilePosition(xOld, yOld, xNew, yNew) {
+    var oldPositionClass = "gt-position-style-" + xOld + "-" + yOld;
+    var newPositionClass = "gt-position-style-" + xNew + "-" + yNew;
+
+    $("." + oldPositionClass)
+        .addClass(newPositionClass)
+        .removeClass(oldPositionClass);
+}
 
 // the actual moving 
-function shiftFields(direction) { //directions: 0-up, 1-left, 2-down, 3-right
-    renderArray(direction);
+function shiftTilesLeft() { //directions: 0-up, 1-left, 2-down, 3-right
+
     wasThereAMove = false;
-    for (var i = 0; i < 4; i++) { //For each 'row' do the following
+    for (var i = 0; i < 4; i++) { //For each 'row' (meaning line of fields of the direction) do the following
 
-        // Check if there are same value tiles, next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
+        // Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
+        var classOfPosition = [];
+        var valueOfThis = [];
 
-        if ((fieldsForShift[i][0] != 0) && (fieldsForShift[i][0] == fieldsForShift[i][1])) { // first two
-            fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][1];
-            score += fieldsForShift[i][0];
+        for (var k = 0; k < 4; k++) {
+            classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
+            valueOfThis[k] = $(classOfPosition[k]).text();
+        }
+
+        if ((valueOfThis[0] > 0) && (valueOfThis[0] == valueOfThis[1])) {
+            deleteTile(i + 1, 1);
+            changeTileValue(i + 1, 2, valueOfThis[1] * 2);
+            changeTilePosition(i + 1, 2, i + 1, 1);
+            score += 2 * valueOfThis[1];
             checkHighScore();
-            fieldsForShift[i][1] = 0;
             wasThereAMove = true;
+            valueOfThis[0] = valueOfThis[1] * 2;
+            valueOfThis[1] = "";
 
-            if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) { // first two and the third and fourth
-                fieldsForShift[i][1] = fieldsForShift[i][2] + fieldsForShift[i][3];
-                score += fieldsForShift[i][1];
+            if ((valueOfThis[2] > 0) && (valueOfThis[2] == valueOfThis[3])) {
+                deleteTile(i + 1, 3);
+                changeTileValue(i + 1, 4, valueOfThis[3] * 2);
+                changeTilePosition(i + 1, 4, i + 1, 2);
+                score += 2 * valueOfThis[3];
                 checkHighScore();
-                fieldsForShift[i][2] = 0;
-                fieldsForShift[i][3] = 0;
+                valueOfThis[1] = valueOfThis[3] * 2;
+                valueOfThis[2] = "";
+                valueOfThis[3] = "";
+            }
+        }
+        if ((valueOfThis[0] > 0) && ((valueOfThis[0] == valueOfThis[2]) && valueOfThis[1] == 0)) {
+            deleteTile(i + 1, 1);
+            changeTileValue(i + 1, 3, valueOfThis[2] * 2);
+            changeTilePosition(i + 1, 3, i + 1, 1);
+            score += 2 * valueOfThis[2];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[0] = valueOfThis[2] * 2;
+            valueOfThis[2] = "";
+        }
+        if ((valueOfThis[0] > 0) && ((valueOfThis[0] == valueOfThis[3]) && valueOfThis[1] == 0 && valueOfThis[2] == 0)) {
+            deleteTile(i + 1, 1);
+            changeTileValue(i + 1, 4, valueOfThis[3] * 2);
+            changeTilePosition(i + 1, 4, i + 1, 1);
+            score += 2 * valueOfThis[3];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[0] = valueOfThis[3] * 2;
+            valueOfThis[3] = "";
+        }
+        if ((valueOfThis[1] > 0) && (valueOfThis[1] == valueOfThis[2])) {
+            deleteTile(i + 1, 2);
+            changeTileValue(i + 1, 3, valueOfThis[2] * 2);
+            changeTilePosition(i + 1, 3, i + 1, 2);
+            score += 2 * valueOfThis[2];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[1] = valueOfThis[2] * 2;
+            valueOfThis[2] = "";
+        }
+        if ((valueOfThis[1] > 0) && ((valueOfThis[1] == valueOfThis[3]) && valueOfThis[2] == 0)) {
+            deleteTile(i + 1, 2);
+            changeTileValue(i + 1, 4, valueOfThis[3] * 2);
+            changeTilePosition(i + 1, 4, i + 1, 2);
+            score += 2 * valueOfThis[3];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[1] = valueOfThis[3] * 2;
+            valueOfThis[3] = "";
+        }
+        if ((valueOfThis[2] > 0) && (valueOfThis[2] == valueOfThis[3])) {
+            deleteTile(i + 1, 3);
+            changeTileValue(i + 1, 4, valueOfThis[3] * 2);
+            changeTilePosition(i + 1, 4, i + 1, 3);
+            score += 2 * valueOfThis[3];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[2] = valueOfThis[3] * 2;
+            valueOfThis[3] = "";
+        }
+
+        if (valueOfThis[1] != "" || valueOfThis[2] != "" || valueOfThis[3] != "") {
+            while (valueOfThis[0] == "") {
+                for (var m = 1; m <= 3; m++) {
+                    changeTilePosition(i + 1, m + 1, i + 1, m);
+                }
+                valueOfThis.shift();
+                valueOfThis.push("");
                 wasThereAMove = true;
             }
         }
-        else if ((fieldsForShift[i][0] != 0) && ((fieldsForShift[i][0] == fieldsForShift[i][2]) && fieldsForShift[i][1] == 0)) { // first and third if empty in between
-            fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][2];
-            score += fieldsForShift[i][0];
-            checkHighScore();
-            fieldsForShift[i][2] = 0;
-            wasThereAMove = true;
-        }
-        else if ((fieldsForShift[i][0] != 0) && ((fieldsForShift[i][0] == fieldsForShift[i][3]) && fieldsForShift[i][1] + fieldsForShift[i][2] == 0)) { // first and fourth if empty in between
-            fieldsForShift[i][0] = fieldsForShift[i][0] + fieldsForShift[i][3];
-            score += fieldsForShift[i][0];
-            checkHighScore();
-            fieldsForShift[i][3] = 0;
-            wasThereAMove = true;
-        }
-
-        else if ((fieldsForShift[i][1] != 0) && (fieldsForShift[i][1] == fieldsForShift[i][2])) { // second and third
-            fieldsForShift[i][1] = fieldsForShift[i][1] + fieldsForShift[i][2];
-            score += fieldsForShift[i][1];
-            checkHighScore();
-            fieldsForShift[i][2] = 0;
-            wasThereAMove = true;
-        }
-        else if ((fieldsForShift[i][1] != 0) && ((fieldsForShift[i][1] == fieldsForShift[i][3]) && fieldsForShift[i][2] == 0)) { // second and fourth if empty in between
-            fieldsForShift[i][1] = fieldsForShift[i][1] + fieldsForShift[i][3];
-            score += fieldsForShift[i][1];
-            checkHighScore();
-            fieldsForShift[i][2] = 0;
-            fieldsForShift[i][3] = 0;
-            wasThereAMove = true;
-        }
-        else if ((fieldsForShift[i][2] != 0) && (fieldsForShift[i][2] == fieldsForShift[i][3])) { // third and fourth
-            fieldsForShift[i][2] = fieldsForShift[i][2] + fieldsForShift[i][3];
-            score += fieldsForShift[i][2];
-            checkHighScore();
-            fieldsForShift[i][3] = 0;
-            wasThereAMove = true;
-        }
-
-        // Check if there are empty tiles, if yes, shift all the tiles 
-        for (var x = 0; x < 3; x++) {
-            if (fieldsForShift[i][0] == 0) {
-                if ((fieldsForShift[i][1] + fieldsForShift[i][2] + fieldsForShift[i][3]) != 0) {
-                    fieldsForShift[i][0] = fieldsForShift[i][1];
-                    fieldsForShift[i][1] = fieldsForShift[i][2];
-                    fieldsForShift[i][2] = fieldsForShift[i][3];
-                    fieldsForShift[i][3] = fieldsForShift[i][4];
-                    wasThereAMove = true;
+        if (valueOfThis[2] != "" || valueOfThis[3] != "") {
+            while (valueOfThis[1] == "") {
+                for (var m = 2; m <= 3; m++) {
+                    changeTilePosition(i + 1, m + 1, i + 1, m);
                 }
+                valueOfThis.shift();
+                valueOfThis.push("");
+                wasThereAMove = true;
             }
-            else { break; }
         }
-        for (x = 0; x < 2; x++) {
-            if (fieldsForShift[i][1] == 0) {
-                if ((fieldsForShift[i][2] + fieldsForShift[i][3]) != 0) {
-                    fieldsForShift[i][1] = fieldsForShift[i][2];
-                    fieldsForShift[i][2] = fieldsForShift[i][3];
-                    fieldsForShift[i][3] = fieldsForShift[i][4];
-                    wasThereAMove = true;
+        if (valueOfThis[3] != "") {
+            while (valueOfThis[2] == "") {
+                for (var m = 3; m <= 3; m++) {
+                    changeTilePosition(i + 1, m + 1, i + 1, m);
                 }
+                valueOfThis.shift();
+                valueOfThis.push("");
+                wasThereAMove = true;
             }
-            else { break; }
-        }
-        for (x = 0; x < 1; x++) {
-            if (fieldsForShift[i][2] == 0) {
-                if (fieldsForShift[i][3] != 0) {
-                    fieldsForShift[i][2] = fieldsForShift[i][3];
-                    fieldsForShift[i][3] = fieldsForShift[i][4];
-                    wasThereAMove = true;
-                }
-            }
-            else { break; }
         }
     }
-    reWriteToGameFields(direction);
-    formatGameFields();
 }
 
-//Generate new value for one of the empty fields after a move: Randomise 2 or 4 for on empty field
+function createNewTile(x, y, val) {
+    var positionStyle = "gt-position-style-" + x + "-" + y;
+    var valueStyle = "gf-value-style-" + val;
+    $(".game-board").append('<div class="game-tile text-center new-tile"></div>');
+    $(".new-tile")
+        .addClass(positionStyle)
+        .addClass(valueStyle)
+        .text(val)
+        .removeClass("new-tile");
+}
 
-function generateNewField() {
+function generateNewField() { //Generate new value for one of the empty fields: Randomise 2 or 4 for on empty field
+    var emptyFields = [];
+    var n = 0; //counter for number of empty fields
+    for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
+            var pos = ".gt-position-style-" + (i + 1) + "-" + (j + 1);
+            if ($(pos).length) {}
+            else {
+                n++;
+                emptyFields.push(i + 1, j + 1);
+            }
+        }
+    }
+    var pickPosition = Math.floor(Math.random() * n); //random number between 0 and one less than the number of empty cells 
+    var newValue = ((Math.floor(Math.random() * 1.25)) + 1) * 2; // randomising 2 or 4 as a new value, with 80% probability of the 2
+    createNewTile(emptyFields[pickPosition * 2], emptyFields[pickPosition * 2 + 1], newValue);
+}
+
+function generateNewFieldOld() { //Generate new value for one of the empty fields: Randomise 2 or 4 for on empty field
     var emptyFields = [];
     var n = 0; //counter for number of empty fields
     for (var k = 0; k < 16; k++) {
@@ -271,7 +331,7 @@ function generateNewField() {
     }
     var pickPosition = Math.floor(Math.random() * n); //random number between 0 and one less than the number of empty cells 
     var newValue = ((Math.floor(Math.random() * 1.25)) + 1) * 2; // randomising 2 or 4 as a new value, with 80% probability of the 2
-    gameFields[emptyFields[pickPosition]] = newValue;
+    createNewTile(emptyFields[pickPosition * 2], emptyFields[pickPosition * 2 + 1], newValue);
 
     const cloneOfGameFields = [...gameFields];
     gamePlayHistory.push(cloneOfGameFields);
@@ -286,19 +346,19 @@ function generateNewField() {
 }
 
 function onUserInput(dir) {
-    if (gameInPlay) {
-        shiftFields(dir); //dir(ections): 0-up, 1-left, 2-down, 3-right
-        if (wasThereAMove == true) {
-            setTimeout(function() {
-                generateNewField();
-            }, 300);
-        }
-        isThereAMove();
-        if (potentialMove == false) {
-            gameInPlay = false;
-            alert("Game Over"); // probably a modal is nicer ...
-        }
+    //  if (gameInPlay) {
+    if (dir == 1) shiftTilesLeft(); //dir(ections): 0-up, 1-left, 2-down, 3-right
+    if (wasThereAMove == true) {
+        setTimeout(function() {
+            generateNewField();
+        }, 300);
     }
+    isThereAMove();
+    if (potentialMove == false) {
+        gameInPlay = false;
+        alert("Game Over"); // probably a modal is nicer ...
+    }
+    //   }
 }
 
 //****************************************************
@@ -309,15 +369,30 @@ function onUserInput(dir) {
 
 $("#btn-new-game").click(function() {
     gameInPlay = true;
-    gameFields = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    setTimeout(generateNewField(), 500);
-    setTimeout(generateNewField(), 100);
-    score = 0;
-    gamePlayHistory = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ];
-    scoreHistory = [0];
-    formatGameFields();
+    $(".game-board div").remove();
+    setTimeout(function() {
+        generateNewField();
+    }, 50);
+    setTimeout(function() {
+        generateNewField();
+    }, 100);
+    //The gameplay and score history should be redesigned here for the undo function...................................................................................
+
+
+    /*    gameInPlay = true;
+        gameFields = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        setTimeout(function() {
+            generateNewField();
+        }, 100);
+        setTimeout(function() {
+            generateNewField();
+        }, 300);
+        score = 0;
+        gamePlayHistory = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+        scoreHistory = [0];
+        formatGameFields();*/
 });
 
 $("#btn-undo").click(function() {
@@ -373,5 +448,8 @@ document.onkeydown = function(e) {
 
 //****************************************************
 //    E X E C U T E
+
+windowWidth = document.body.clientWidth;
+windowHeight = window.innerHeight;
 
 formatGameFields();
