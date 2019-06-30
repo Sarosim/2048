@@ -181,15 +181,15 @@ function shiftTilesLeft() { //directions: 0-up, 1-left, 2-down, 3-right
         var classOfPosition = [];
         var valueOfThis = [];
 
-        for (var k = 0; k < 4; k++) {
+        for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the row to an array
             classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
             valueOfThis[k] = $(classOfPosition[k]).text();
         }
 
         if ((valueOfThis[0] > 0) && (valueOfThis[0] == valueOfThis[1])) {
-            deleteTile(i + 1, 1);
-            changeTileValue(i + 1, 2, valueOfThis[1] * 2);
-            changeTilePosition(i + 1, 2, i + 1, 1);
+            deleteTile(i + 1, 0+1);
+            changeTileValue(i + 1, 1+1, valueOfThis[1] * 2);
+            changeTilePosition(i + 1, 1+1, i + 1, 0+1);
             score += 2 * valueOfThis[1];
             checkHighScore();
             wasThereAMove = true;
@@ -291,6 +291,264 @@ function shiftTilesLeft() { //directions: 0-up, 1-left, 2-down, 3-right
     }
 }
 
+function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
+ //   debugger;
+    var a, b = 0; //helper variables for the directions
+    switch (direction) {
+        case 3: // right
+            a = 3;
+            b = -1;
+            break;
+        case 1: // left
+            a = 0;
+            b = 1;
+            break;
+
+        default:
+            // code
+    }
+    wasThereAMove = false;
+    for (var i = 0; i < 4; i++) { //For each 'row' (meaning line of fields of the direction) do the following
+
+        // Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
+        var classOfPosition = [];
+        var valueOfThis = [];
+
+        for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the row to an array
+            classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
+            valueOfThis[k] = $(classOfPosition[k]).text();
+        }
+
+        if ((valueOfThis[a + b * 0] > 0) && (valueOfThis[a + b * 0] == valueOfThis[a + b * 1])) {
+            deleteTile(i + 1, a + b * 0 + 1);
+            changeTileValue(i + 1, a + b * 1 + 1, valueOfThis[a + b * 1] * 2);
+            changeTilePosition(i + 1, a + b * 1 + 1, i + 1, a + b * 0 + 1);
+            score += 2 * valueOfThis[a + b * 1];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[a + b * 0] = valueOfThis[a + b * 1] * 2;
+            valueOfThis[a + b * 1] = "";
+
+            if ((valueOfThis[a + b * 2] > 0) && (valueOfThis[a + b * 2] == valueOfThis[a + b * 3])) {
+                deleteTile(i + 1, a + b * 2 + 1);
+                changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
+                changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 1 + 1);
+                score += 2 * valueOfThis[a + b * 3];
+                checkHighScore();
+                valueOfThis[a + b * 1] = valueOfThis[a + b * 3] * 2;
+                valueOfThis[a + b * 2] = "";
+                valueOfThis[a + b * 3] = "";
+            }
+        }
+        if ((valueOfThis[a + b * 0] > 0) && ((valueOfThis[a + b * 0] == valueOfThis[a + b * 2]) && valueOfThis[a + b * 1] == 0)) {
+            deleteTile(i + 1, a + b * 0 + 1);
+            changeTileValue(i + 1, a + b * 2 + 1, valueOfThis[a + b * 2] * 2);
+            changeTilePosition(i + 1, a + b * 2 + 1, i + 1, a + b * 0 + 1);
+            score += 2 * valueOfThis[a + b * 2];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[a + b * 0] = valueOfThis[a + b * 2] * 2;
+            valueOfThis[a + b * 2] = "";
+        }
+        if ((valueOfThis[a + b * 0] > 0) && ((valueOfThis[a + b * 0] == valueOfThis[a + b * 3]) && valueOfThis[a + b * 1] == 0 && valueOfThis[a + b * 2] == 0)) {
+            deleteTile(i + 1, a + b * 0 + 1);
+            changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
+            changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 0 + 1);
+            score += 2 * valueOfThis[a + b * 3];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[a + b * 0] = valueOfThis[a + b * 3] * 2;
+            valueOfThis[a + b * 3] = "";
+        }
+        if ((valueOfThis[a + b * 1] > 0) && (valueOfThis[a + b * 1] == valueOfThis[a + b * 2])) {
+            deleteTile(i + 1, a + b * 1 + 1);
+            changeTileValue(i + 1, a + b * 2 + 1, valueOfThis[a + b * 2] * 2);
+            changeTilePosition(i + 1, a + b * 2 + 1, i + 1, a + b * 1 + 1);
+            score += 2 * valueOfThis[a + b * 2];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[a + b * 1] = valueOfThis[a + b * 2] * 2;
+            valueOfThis[a + b * 2] = "";
+        }
+        if ((valueOfThis[a + b * 1] > 0) && ((valueOfThis[a + b * 1] == valueOfThis[a + b * 3]) && valueOfThis[a + b * 2] == 0)) {
+            deleteTile(i + 1, a + b * 1 + 1);
+            changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
+            changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 1 + 1);
+            score += 2 * valueOfThis[a + b * 3];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[a + b * 1] = valueOfThis[a + b * 3] * 2;
+            valueOfThis[a + b * 3] = "";
+        }
+        if ((valueOfThis[a + b * 2] > 0) && (valueOfThis[a + b * 2] == valueOfThis[a + b * 3])) {
+            deleteTile(i + 1, a + b * 2 + 1);
+            changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
+            changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 2 + 1);
+            score += 2 * valueOfThis[a + b * 3];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[a + b * 2] = valueOfThis[a + b * 3] * 2;
+            valueOfThis[a + b * 3] = "";
+        }
+
+        if (valueOfThis[a + b * 1] != "" || valueOfThis[a + b * 2] != "" || valueOfThis[a + b * 3] != "") {
+            while (valueOfThis[a + b * 0] == "") {
+                for (var m = 0; m < 3; m++) {
+                    changeTilePosition(i + 1, a + b * m + 2, i + 1, a + b * m + 1);
+                }
+                if (b == 1) { valueOfThis.shift(); }
+                else { valueOfThis.pop() }
+                if (b == 1) {valueOfThis.push("");}
+                else {valueOfThis.unshift()}
+                wasThereAMove = true;
+            }
+        }
+        if (valueOfThis[2] != "" || valueOfThis[3] != "") {
+            while (valueOfThis[1] == "") {
+                for (var m = 1; m < 3; m++) {
+                    changeTilePosition(i + 1, a + b * m + 2, i + 1, a + b * m + 1);
+                }
+                if (b == 1) { valueOfThis.shift(); }
+                else { valueOfThis.pop() }
+                if (b == 1) {valueOfThis.push("");}
+                else {valueOfThis.unshift()}
+                wasThereAMove = true;
+            }
+        }
+        if (valueOfThis[3] != "") {
+            while (valueOfThis[2] == "") {
+                for (var m = 2; m < 3; m++) {
+                    changeTilePosition(i + 1, a + b * m + 2, i + 1, a + b * m + 1);
+                }
+                if (b == 1) { valueOfThis.shift(); }
+                else { valueOfThis.pop() }
+                if (b == 1) {valueOfThis.push("");}
+                else {valueOfThis.unshift()}
+                wasThereAMove = true;            }
+        }
+    }
+}
+
+function shiftTilesRight() { //directions: 0-up, 1-left, 2-down, 3-right
+
+    wasThereAMove = false;
+    for (var i = 0; i < 4; i++) { //For each 'row' do the following
+
+        // Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
+        var classOfPosition = [];
+        var valueOfThis = [];
+
+        for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the row to an array
+            classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
+            valueOfThis[k] = $(classOfPosition[k]).text();
+        }
+
+        if ((valueOfThis[3] > 0) && (valueOfThis[3] == valueOfThis[2])) {
+            deleteTile(i + 1, 2);
+            changeTileValue(i + 1, 3, valueOfThis[2] * 2);
+            changeTilePosition(i + 1, 3, i + 1, 4);
+            score += 2 * valueOfThis[2];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[3] = valueOfThis[2] * 2;
+            valueOfThis[2] = "";
+
+            if ((valueOfThis[1] > 0) && (valueOfThis[1] == valueOfThis[0])) {
+                deleteTile(i + 1, 1);
+                changeTileValue(i + 1, 1, valueOfThis[0] * 2);
+                changeTilePosition(i + 1, 1, i + 1, 3);
+                score += 2 * valueOfThis[0];
+                checkHighScore();
+                valueOfThis[2] = valueOfThis[0] * 2;
+                valueOfThis[1] = "";
+                valueOfThis[0] = "";
+            }
+        }
+        if ((valueOfThis[3] > 0) && ((valueOfThis[3] == valueOfThis[1]) && valueOfThis[2] == 0)) {
+            deleteTile(i + 1, 4);
+            changeTileValue(i + 1, 2, valueOfThis[1] * 2);
+            changeTilePosition(i + 1, 2, i + 1, 4);
+            score += 2 * valueOfThis[1];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[3] = valueOfThis[1] * 2;
+            valueOfThis[1] = "";
+        }
+        if ((valueOfThis[3] > 0) && ((valueOfThis[3] == valueOfThis[0]) && valueOfThis[2] == 0 && valueOfThis[1] == 0)) {
+            deleteTile(i + 1, 4);
+            changeTileValue(i + 1, 1, valueOfThis[0] * 2);
+            changeTilePosition(i + 1, 1, i + 1, 4);
+            score += 2 * valueOfThis[0];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[3] = valueOfThis[0] * 2;
+            valueOfThis[0] = "";
+        }
+        if ((valueOfThis[2] > 0) && (valueOfThis[2] == valueOfThis[1])) {
+            deleteTile(i + 1, 3);
+            changeTileValue(i + 1, 2, valueOfThis[1] * 2);
+            changeTilePosition(i + 1, 2, i + 1, 3);
+            score += 2 * valueOfThis[1];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[2] = valueOfThis[1] * 2;
+            valueOfThis[1] = "";
+        }
+        if ((valueOfThis[2] > 0) && ((valueOfThis[2] == valueOfThis[0]) && valueOfThis[1] == 0)) {
+            deleteTile(i + 1, 3);
+            changeTileValue(i + 1, 1, valueOfThis[0] * 2);
+            changeTilePosition(i + 1, 1, i + 1, 3);
+            score += 2 * valueOfThis[0];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[2] = valueOfThis[0] * 2;
+            valueOfThis[0] = "";
+        }
+        if ((valueOfThis[1] > 0) && (valueOfThis[1] == valueOfThis[0])) {
+            deleteTile(i + 1, 2);
+            changeTileValue(i + 1, 1, valueOfThis[0] * 2);
+            changeTilePosition(i + 1, 1, i + 1, 2);
+            score += 2 * valueOfThis[0];
+            checkHighScore();
+            wasThereAMove = true;
+            valueOfThis[1] = valueOfThis[0] * 2;
+            valueOfThis[0] = "";
+        }
+
+        if (valueOfThis[2] != "" || valueOfThis[1] != "" || valueOfThis[0] != "") {
+            while (valueOfThis[3] == "") {
+                for (var m = 3; m >= 1; m--) {
+                    changeTilePosition(i + 1, m, i + 1, m + 1);
+                }
+                valueOfThis.shift();
+                valueOfThis.push("");
+                wasThereAMove = true;
+            }
+        }
+        if (valueOfThis[1] != "" || valueOfThis[0] != "") {
+            while (valueOfThis[2] == "") {
+                for (var m = 3; m >= 2; m--) {
+                    changeTilePosition(i + 1, m, i + 1, m + 1);
+                }
+                valueOfThis.shift();
+                valueOfThis.push("");
+                wasThereAMove = true;
+            }
+        }
+        if (valueOfThis[0] != "") {
+            while (valueOfThis[1] == "") {
+                for (var m = 3; m >= 3; m--) {
+                    changeTilePosition(i + 1, m, i + 1, m + 1);
+                }
+                valueOfThis.shift();
+                valueOfThis.push("");
+                wasThereAMove = true;
+            }
+        }
+    }
+}
+
+
 function createNewTile(x, y, val) {
     var positionStyle = "gt-position-style-" + x + "-" + y;
     var valueStyle = "gf-value-style-" + val;
@@ -302,7 +560,7 @@ function createNewTile(x, y, val) {
         .removeClass("new-tile");
 }
 
-function generateNewField() { //Generate new value for one of the empty fields: Randomise 2 or 4 for on empty field
+function generateNewTileData() { //Generate new value for one of the empty fields: Randomise 2 or 4 for on empty field
     var emptyFields = [];
     var n = 0; //counter for number of empty fields
     for (var i = 0; i < 4; i++) {
@@ -347,10 +605,14 @@ function generateNewFieldOld() { //Generate new value for one of the empty field
 
 function onUserInput(dir) {
     //  if (gameInPlay) {
-    if (dir == 1) shiftTilesLeft(); //dir(ections): 0-up, 1-left, 2-down, 3-right
+    //if (dir == 1) shiftTilesLeft(); //dir(ections): 0-up, 1-left, 2-down, 3-right
+    //if (dir == 3) shiftTilesRight(); //dir(ections): 0-up, 1-left, 2-down, 3-right
+
+    shiftTiles(dir);
+
     if (wasThereAMove == true) {
         setTimeout(function() {
-            generateNewField();
+            generateNewTileData();
         }, 300);
     }
     isThereAMove();
@@ -371,10 +633,10 @@ $("#btn-new-game").click(function() {
     gameInPlay = true;
     $(".game-board div").remove();
     setTimeout(function() {
-        generateNewField();
+        generateNewTileData();
     }, 50);
     setTimeout(function() {
-        generateNewField();
+        generateNewTileData();
     }, 100);
     //The gameplay and score history should be redesigned here for the undo function...................................................................................
 
