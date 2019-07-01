@@ -187,9 +187,9 @@ function shiftTilesLeft() { //directions: 0-up, 1-left, 2-down, 3-right
         }
 
         if ((valueOfThis[0] > 0) && (valueOfThis[0] == valueOfThis[1])) {
-            deleteTile(i + 1, 0+1);
-            changeTileValue(i + 1, 1+1, valueOfThis[1] * 2);
-            changeTilePosition(i + 1, 1+1, i + 1, 0+1);
+            deleteTile(i + 1, 0 + 1);
+            changeTileValue(i + 1, 1 + 1, valueOfThis[1] * 2);
+            changeTilePosition(i + 1, 1 + 1, i + 1, 0 + 1);
             score += 2 * valueOfThis[1];
             checkHighScore();
             wasThereAMove = true;
@@ -292,8 +292,8 @@ function shiftTilesLeft() { //directions: 0-up, 1-left, 2-down, 3-right
 }
 
 function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
- //   debugger;
     var a, b = 0; //helper variables for the directions
+    var fromPosition, toPosition;
     switch (direction) {
         case 3: // right
             a = 3;
@@ -318,6 +318,8 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
             valueOfThis[k] = $(classOfPosition[k]).text();
         }
+
+//  debugger;
 
         if ((valueOfThis[a + b * 0] > 0) && (valueOfThis[a + b * 0] == valueOfThis[a + b * 1])) {
             deleteTile(i + 1, a + b * 0 + 1);
@@ -393,38 +395,45 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
 
         if (valueOfThis[a + b * 1] != "" || valueOfThis[a + b * 2] != "" || valueOfThis[a + b * 3] != "") {
             while (valueOfThis[a + b * 0] == "") {
-                for (var m = 0; m < 3; m++) {
-                    changeTilePosition(i + 1, a + b * m + 2, i + 1, a + b * m + 1);
+                for (var m = 1; m <= 3; m++) {
+                    fromPosition = m + 1 + a + (m * b * 2) * a / 3;
+                    toPosition = fromPosition - b;
+                    changeTilePosition(i + 1, fromPosition, i + 1, toPosition);
                 }
                 if (b == 1) { valueOfThis.shift(); }
-                else { valueOfThis.pop() }
-                if (b == 1) {valueOfThis.push("");}
-                else {valueOfThis.unshift()}
+                else { valueOfThis.pop(); }
+                if (b == 1) { valueOfThis.push(""); }
+                else { valueOfThis.unshift(""); }
                 wasThereAMove = true;
             }
         }
-        if (valueOfThis[2] != "" || valueOfThis[3] != "") {
-            while (valueOfThis[1] == "") {
-                for (var m = 1; m < 3; m++) {
-                    changeTilePosition(i + 1, a + b * m + 2, i + 1, a + b * m + 1);
+        if (valueOfThis[a + b *2] != "" || valueOfThis[a + b *3] != "") {
+            while (valueOfThis[a + b *1] == "") {
+                for (var m = 2; m <= 3; m++) {
+                    fromPosition = m + 1 + a + (m * b * 2) * a / 3;
+                    toPosition = fromPosition - b;
+                    changeTilePosition(i + 1, fromPosition, i + 1, toPosition);
                 }
                 if (b == 1) { valueOfThis.shift(); }
-                else { valueOfThis.pop() }
-                if (b == 1) {valueOfThis.push("");}
-                else {valueOfThis.unshift()}
+                else { valueOfThis.pop(); }
+                if (b == 1) { valueOfThis.push(""); }
+                else { valueOfThis.unshift(""); }
                 wasThereAMove = true;
             }
         }
-        if (valueOfThis[3] != "") {
-            while (valueOfThis[2] == "") {
-                for (var m = 2; m < 3; m++) {
-                    changeTilePosition(i + 1, a + b * m + 2, i + 1, a + b * m + 1);
+        if (valueOfThis[a + b *3] != "") {
+            while (valueOfThis[a + b *2] == "") {
+                for (var m = 3; m <= 3; m++) {
+                    fromPosition = m + 1 + a + (m * b * 2) * a / 3;
+                    toPosition = fromPosition - b;
+                    changeTilePosition(i + 1, fromPosition, i + 1, toPosition);
                 }
                 if (b == 1) { valueOfThis.shift(); }
-                else { valueOfThis.pop() }
-                if (b == 1) {valueOfThis.push("");}
-                else {valueOfThis.unshift()}
-                wasThereAMove = true;            }
+                else { valueOfThis.pop(); }
+                if (b == 1) { valueOfThis.push(""); }
+                else { valueOfThis.unshift(""); }
+                wasThereAMove = true;
+            }
         }
     }
 }
