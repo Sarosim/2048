@@ -1,14 +1,8 @@
 // my.js is linked in the bottom of index.html, therefore didn't start with document ready function, may consider...
 
 var gameInPlay = false;
+var readyStatus = true;
 var potentialMove = true;
-var gameFields = [4, 8, 0, 0, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 0, 0, 0, 0];
-var fieldsForShift = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0]
-];
 var wasThereAMove = false;
 var score = 0;
 var currentHighScore = 0;
@@ -16,11 +10,9 @@ var highScoreHistory = [
     ["Miklos", 518],
     ["Matyi", 1352]
 ];
-var gamePlayHistory = [
-    [2, 4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 0, 0, 0, 0]
-];
-var maxMovesToStore = 10;
-var scoreHistory = [0];
+var gamePlayHistory = [];
+var maxMovesToStore = 15;
+var scoreHistory = [];
 var windowWidth;
 var windowHeight;
 
@@ -74,6 +66,52 @@ function changeTilePosition(xOld, yOld, xNew, yNew) {
         .removeClass(oldPositionClass);
 }
 
+function recordTilePositions() {
+    var currentTiles = document.getElementsByClassName("game-tile");
+    const cloneOfCurrentTiles = [...currentTiles];
+    gamePlayHistory.push(cloneOfCurrentTiles);
+    console.log(gamePlayHistory);
+    if (gamePlayHistory.length > maxMovesToStore) { // if more moves than max stored, 'forget' of the eldest
+        gamePlayHistory.shift();
+    }
+}
+
+function recordCurrentScore() {
+    scoreHistory.push(score);
+    console.log(scoreHistory);
+    if (scoreHistory.length > maxMovesToStore) {
+        scoreHistory.shift();
+    }
+}
+
+function checkForDoubleTiles() {
+    var pos = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+    ];
+    var positionStyle;
+    var currentTiles = document.getElementsByClassName("game-tile");
+    var amountOfTiles = currentTiles.length;
+    for (var i = 0; i < amountOfTiles; i++) {
+        for (var j = 1; j <= 4; j++) {
+            for (var k = 1; k <= 4; k++) {
+                positionStyle = "gt-position-style-" + j + "-" + k;
+                if ($(currentTiles[i]).hasClass(positionStyle)) {
+                    pos[j - 1][k - 1]++;
+                }
+            }
+        }
+    }
+    for (var j = 0; j < 4; j++) {
+        pos[j].sort();
+        if (pos[j][3] > 1) {
+            alert("there are two tiles on a cell in the first line");
+        }
+    }
+}
+
 // the actual moving 
 function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
     var a, b, vertical, horizontal, x1, y1, x2, y2; //helper variables for the directions
@@ -106,7 +144,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
     }
 
     wasThereAMove = false;
-    for (var i = 0; i < 4; i++) { //For each 'row' (meaning line of fields of the direction) do the following
+    for (var i = 0; i < 4; i++) { //For each 'row' (meaning line of the direction) do the following
 
 
         var classOfPosition = [];
@@ -117,7 +155,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[k] = $(classOfPosition[k]).text();
         }
 
-// Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles 
+        // Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles 
         if ((valueOfThis[a + b * 0] > 0) && (valueOfThis[a + b * 0] == valueOfThis[a + b * 1])) {
             x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
@@ -173,7 +211,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
         }
         if ((valueOfThis[a + b * 0] > 0) && ((valueOfThis[a + b * 0] == valueOfThis[a + b * 3]) && valueOfThis[a + b * 1] == 0 && valueOfThis[a + b * 2] == 0)) {
             x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
-            x1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
+            y1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
             deleteTile(x1, y1);
             x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
@@ -236,7 +274,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[a + b * 3] = "";
         }
 
-// Check if there are empty spaces in the direction of move in front of existing tiles, if yes, shift them
+        // Check if there are empty spaces in the direction of move in front of existing tiles, if yes, shift them
         if (valueOfThis[a + b * 1] != "" || valueOfThis[a + b * 2] != "" || valueOfThis[a + b * 3] != "") {
             while (valueOfThis[a + b * 0] == "") {
                 for (var m = 1; m <= 3; m++) {
@@ -292,6 +330,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             }
         }
     }
+    checkForDoubleTiles();
 }
 
 function createNewTile(x, y, val) {
@@ -323,51 +362,39 @@ function generateNewTileData() { //Generate new value for one of the empty field
     createNewTile(emptyFields[pickPosition * 2], emptyFields[pickPosition * 2 + 1], newValue);
 }
 
-function generateNewFieldOld() { //Generate new value for one of the empty fields: Randomise 2 or 4 for on empty field
-    var emptyFields = [];
-    var n = 0; //counter for number of empty fields
-    for (var k = 0; k < 16; k++) {
-        if (gameFields[k] == 0) {
-            n++;
-            emptyFields.push(k);
+function onUserInput(dir) {
+    if (gameInPlay) {
+        if (readyStatus) {
+            
+            recordTilePositions();
+            recordCurrentScore();
+            shiftTiles(dir);
+            if (wasThereAMove == true) {
+                readyStatus = false;
+                var scoring = function() {
+                    $("#current-score")
+                        .fadeOut(1000)
+                        .text(score)
+                        .fadeIn(1000);
+                    return $("#best-score")
+                        .fadeOut(1000)
+                        .text(currentHighScore)
+                        .fadeIn(1000);
+                };
+                $.when(scoring()).done(function() {
+                    setTimeout(function() {
+                        generateNewTileData();
+                    }, 200);
+                    readyStatus = true;
+                });
+            }
+            isThereAMove();
+            if (potentialMove == false) {
+                gameInPlay = false;
+                alert("Game Over"); // probably a modal is nicer ...
+            }
         }
     }
-    var pickPosition = Math.floor(Math.random() * n); //random number between 0 and one less than the number of empty cells 
-    var newValue = ((Math.floor(Math.random() * 1.25)) + 1) * 2; // randomising 2 or 4 as a new value, with 80% probability of the 2
-    createNewTile(emptyFields[pickPosition * 2], emptyFields[pickPosition * 2 + 1], newValue);
-
-    const cloneOfGameFields = [...gameFields];
-    gamePlayHistory.push(cloneOfGameFields);
-    if (gamePlayHistory.length > maxMovesToStore) { // if more moves than max stored, 'forget' of the eldest
-        gamePlayHistory.shift();
-    }
-    scoreHistory.push(score);
-    if (scoreHistory.length > maxMovesToStore) {
-        scoreHistory.shift();
-    }
-    formatGameFields();
-}
-
-function onUserInput(dir) {
-    //  if (gameInPlay) {
-    //if (dir == 1) shiftTilesLeft(); //dir(ections): 0-up, 1-left, 2-down, 3-right
-    //if (dir == 3) shiftTilesRight(); //dir(ections): 0-up, 1-left, 2-down, 3-right
-
-    shiftTiles(dir);
-
-    if (wasThereAMove == true) {
-        $("#current-score").text(score); //                         THIS NEEDS animation later
-        $("#best-score").text(currentHighScore); //                         THIS NEEDS animation later
-        setTimeout(function() {
-            generateNewTileData();
-        }, 200);
-    }
-    isThereAMove();
-    if (potentialMove == false) {
-        gameInPlay = false;
-        alert("Game Over"); // probably a modal is nicer ...
-    }
-    //   }
 }
 
 //****************************************************
@@ -385,28 +412,12 @@ $("#btn-new-game").click(function() {
     setTimeout(function() {
         generateNewTileData();
     }, 100);
-    //The gameplay and score history should be redesigned here for the undo function...................................................................................
-
-
-    /*    gameInPlay = true;
-        gameFields = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        setTimeout(function() {
-            generateNewField();
-        }, 100);
-        setTimeout(function() {
-            generateNewField();
-        }, 300);
-        score = 0;
-        gamePlayHistory = [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-        scoreHistory = [0];
-        formatGameFields();*/
+    // initialising still missing - histories for undo
 });
 
 $("#btn-undo").click(function() {
     if (gameInPlay) {
-        //        debugger;
+        //        debugger;     THIS STILL MISSING
         if (gamePlayHistory.length > 2) {
             gameFields = gamePlayHistory[gamePlayHistory.length - 2];
             gamePlayHistory.pop();
@@ -415,7 +426,6 @@ $("#btn-undo").click(function() {
             formatGameFields();
         }
     }
-
 });
 
 $("#btn-up").click(function() {
@@ -460,4 +470,3 @@ document.onkeydown = function(e) {
 
 windowWidth = document.body.clientWidth;
 windowHeight = window.innerHeight;
-

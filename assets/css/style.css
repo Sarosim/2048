@@ -217,7 +217,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-2-3 {
@@ -227,7 +227,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-2-4 {
@@ -237,7 +237,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-3-1 {
@@ -247,7 +247,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-3-2 {
@@ -257,7 +257,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-3-3 {
@@ -267,7 +267,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-3-4 {
@@ -277,7 +277,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-4-1 {
@@ -287,7 +287,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-4-2 {
@@ -297,7 +297,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-4-3 {
@@ -307,7 +307,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gt-position-style-4-4 {
@@ -317,7 +317,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 1s ease;
+    transition: all 0.2s ease;
 }
 
 .gf-value-transition {
@@ -325,7 +325,7 @@ body {
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
-    transition: all 2s ease;
+    transition: all 0.2s ease;
 }
 
 .gf-value-disappear {
