@@ -23,37 +23,10 @@ var maxMovesToStore = 10;
 var scoreHistory = [0];
 var windowWidth;
 var windowHeight;
+
 //****************************************************
 // F U N C T I O N S     D E F I N E D       H E R E
 //****************************************************
-
-function formatGameFields() {
-    for (var k = 0; k < 16; k++) { //  field by field do the following 
-        var selectedFieldId = "#gf-" + (k + 1); //  picks the ID of the element
-        var itsCurrentClass = "gf-value-style-" + $(selectedFieldId).text(); //  gets the current class of the element
-        var itsNewClass = "gf-value-style-" + gameFields[k]; //  based on the value of the field, defines the class to be assigned
-
-        $(selectedFieldId).text(" ");
-
-        if ($(selectedFieldId).hasClass(itsNewClass)) { // if the element has the given class assigned already (meaning its value isn't changing), then do this:  
-            //its value doesn't change, so do nothing  ----- maybe a little animation later...
-            $(selectedFieldId).text(gameFields[k]);
-        }
-        else { // else, meaning the value is changing
-            $(selectedFieldId)
-                .removeClass(itsCurrentClass)
-                .addClass("gf-value-disappear")
-                .text(gameFields[k])
-                .addClass("gf-value-transition")
-                .removeClass("gf-value-disappear")
-                .addClass(itsNewClass)
-                .removeClass("gf-value-transition");
-        }
-    }
-
-    $("#current-score").text(score); //                         THIS NEEDS animation later
-    $("#best-score").text(currentHighScore); //                         THIS NEEDS animation later
-}
 
 //check if there is a potential move
 function isThereAMove() {
@@ -69,83 +42,13 @@ function isThereAMove() {
         }
     }
 }
-
-// create an array of the fields of the board depending on the direction of the intended move 
-function renderArray(orientation) { //orientation = direction: 0-up, 1-left, 2-down, 3-right
-    var i;
-    var j;
-    if (orientation == 0) { // 0-up
-        for (var k = 0; k < 16; k++) {
-            i = k % 4;
-            j = Math.floor(k / 4);
-            fieldsForShift[i][j] = gameFields[k];
-        }
-    }
-    else if (orientation == 1) { // 1-left
-        for (var k = 0; k < 16; k++) {
-            i = Math.floor(k / 4);
-            j = k % 4;
-            fieldsForShift[i][j] = gameFields[k];
-        }
-    }
-    else if (orientation == 2) { // 2-down
-        for (var k = 0; k < 16; k++) {
-            i = (k % 4);
-            j = 3 - Math.floor(k / 4);
-            fieldsForShift[i][j] = gameFields[k];
-        }
-    }
-    else if (orientation == 3) { //3-right
-        for (var k = 0; k < 16; k++) {
-            i = Math.floor(k / 4);
-            j = 3 - (k % 4);
-            fieldsForShift[i][j] = gameFields[k];
-        }
-    }
-    else {
-        alert("This is impossible... --> there are only four directions :( :( ");
-    }
-}
-
-// re-write the board after the move 
-function reWriteToGameFields(orientation) {
-    var i;
-    var j;
-    if (orientation == 0) { // 0-up
-        for (var k = 0; k < 16; k++) {
-            i = k % 4;
-            j = Math.floor(k / 4);
-            gameFields[k] = fieldsForShift[i][j];
-        }
-    }
-    if (orientation == 1) { // 1-left
-        for (var k = 0; k < 16; k++) {
-            i = Math.floor(k / 4);
-            j = k % 4;
-            gameFields[k] = fieldsForShift[i][j];
-        }
-    }
-    if (orientation == 2) { // 2-down
-        for (var k = 0; k < 16; k++) {
-            i = (k % 4);
-            j = 3 - Math.floor(k / 4);
-            gameFields[k] = fieldsForShift[i][j];
-        }
-    }
-    if (orientation == 3) {
-        for (var k = 0; k < 16; k++) {
-            i = Math.floor(k / 4);
-            j = 3 - (k % 4);
-            gameFields[k] = fieldsForShift[i][j];
-        }
-    }
-}
-
+//check if current score is higher than highscore
 function checkHighScore() {
     if (score > currentHighScore) {
         currentHighScore = score;
     }
 }
+
 // Functions supporting the move
 function deleteTile(x, y) {
     var positionClass = ".gt-position-style-" + x + "-" + y;
@@ -172,159 +75,61 @@ function changeTilePosition(xOld, yOld, xNew, yNew) {
 }
 
 // the actual moving 
-function shiftTilesLeft() { //directions: 0-up, 1-left, 2-down, 3-right
-
-    wasThereAMove = false;
-    for (var i = 0; i < 4; i++) { //For each 'row' (meaning line of fields of the direction) do the following
-
-        // Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
-        var classOfPosition = [];
-        var valueOfThis = [];
-
-        for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the row to an array
-            classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
-            valueOfThis[k] = $(classOfPosition[k]).text();
-        }
-
-        if ((valueOfThis[0] > 0) && (valueOfThis[0] == valueOfThis[1])) {
-            deleteTile(i + 1, 0 + 1);
-            changeTileValue(i + 1, 1 + 1, valueOfThis[1] * 2);
-            changeTilePosition(i + 1, 1 + 1, i + 1, 0 + 1);
-            score += 2 * valueOfThis[1];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[0] = valueOfThis[1] * 2;
-            valueOfThis[1] = "";
-
-            if ((valueOfThis[2] > 0) && (valueOfThis[2] == valueOfThis[3])) {
-                deleteTile(i + 1, 3);
-                changeTileValue(i + 1, 4, valueOfThis[3] * 2);
-                changeTilePosition(i + 1, 4, i + 1, 2);
-                score += 2 * valueOfThis[3];
-                checkHighScore();
-                valueOfThis[1] = valueOfThis[3] * 2;
-                valueOfThis[2] = "";
-                valueOfThis[3] = "";
-            }
-        }
-        if ((valueOfThis[0] > 0) && ((valueOfThis[0] == valueOfThis[2]) && valueOfThis[1] == 0)) {
-            deleteTile(i + 1, 1);
-            changeTileValue(i + 1, 3, valueOfThis[2] * 2);
-            changeTilePosition(i + 1, 3, i + 1, 1);
-            score += 2 * valueOfThis[2];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[0] = valueOfThis[2] * 2;
-            valueOfThis[2] = "";
-        }
-        if ((valueOfThis[0] > 0) && ((valueOfThis[0] == valueOfThis[3]) && valueOfThis[1] == 0 && valueOfThis[2] == 0)) {
-            deleteTile(i + 1, 1);
-            changeTileValue(i + 1, 4, valueOfThis[3] * 2);
-            changeTilePosition(i + 1, 4, i + 1, 1);
-            score += 2 * valueOfThis[3];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[0] = valueOfThis[3] * 2;
-            valueOfThis[3] = "";
-        }
-        if ((valueOfThis[1] > 0) && (valueOfThis[1] == valueOfThis[2])) {
-            deleteTile(i + 1, 2);
-            changeTileValue(i + 1, 3, valueOfThis[2] * 2);
-            changeTilePosition(i + 1, 3, i + 1, 2);
-            score += 2 * valueOfThis[2];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[1] = valueOfThis[2] * 2;
-            valueOfThis[2] = "";
-        }
-        if ((valueOfThis[1] > 0) && ((valueOfThis[1] == valueOfThis[3]) && valueOfThis[2] == 0)) {
-            deleteTile(i + 1, 2);
-            changeTileValue(i + 1, 4, valueOfThis[3] * 2);
-            changeTilePosition(i + 1, 4, i + 1, 2);
-            score += 2 * valueOfThis[3];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[1] = valueOfThis[3] * 2;
-            valueOfThis[3] = "";
-        }
-        if ((valueOfThis[2] > 0) && (valueOfThis[2] == valueOfThis[3])) {
-            deleteTile(i + 1, 3);
-            changeTileValue(i + 1, 4, valueOfThis[3] * 2);
-            changeTilePosition(i + 1, 4, i + 1, 3);
-            score += 2 * valueOfThis[3];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[2] = valueOfThis[3] * 2;
-            valueOfThis[3] = "";
-        }
-
-        if (valueOfThis[1] != "" || valueOfThis[2] != "" || valueOfThis[3] != "") {
-            while (valueOfThis[0] == "") {
-                for (var m = 1; m <= 3; m++) {
-                    changeTilePosition(i + 1, m + 1, i + 1, m);
-                }
-                valueOfThis.shift();
-                valueOfThis.push("");
-                wasThereAMove = true;
-            }
-        }
-        if (valueOfThis[2] != "" || valueOfThis[3] != "") {
-            while (valueOfThis[1] == "") {
-                for (var m = 2; m <= 3; m++) {
-                    changeTilePosition(i + 1, m + 1, i + 1, m);
-                }
-                valueOfThis.shift();
-                valueOfThis.push("");
-                wasThereAMove = true;
-            }
-        }
-        if (valueOfThis[3] != "") {
-            while (valueOfThis[2] == "") {
-                for (var m = 3; m <= 3; m++) {
-                    changeTilePosition(i + 1, m + 1, i + 1, m);
-                }
-                valueOfThis.shift();
-                valueOfThis.push("");
-                wasThereAMove = true;
-            }
-        }
-    }
-}
-
 function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
-    var a, b = 0; //helper variables for the directions
+    var a, b, vertical, horizontal, x1, y1, x2, y2; //helper variables for the directions
     var fromPosition, toPosition;
     switch (direction) {
         case 3: // right
             a = 3;
             b = -1;
+            horizontal = 1;
+            vertical = 0;
             break;
         case 1: // left
             a = 0;
             b = 1;
+            horizontal = 1;
+            vertical = 0;
             break;
-
-        default:
-            // code
+        case 2: // down
+            a = 3;
+            b = -1;
+            horizontal = 0;
+            vertical = 1;
+            break;
+        case 0: // up
+            a = 0;
+            b = 1;
+            horizontal = 0;
+            vertical = 1;
+            break;
     }
+
     wasThereAMove = false;
     for (var i = 0; i < 4; i++) { //For each 'row' (meaning line of fields of the direction) do the following
 
-        // Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
+
         var classOfPosition = [];
         var valueOfThis = [];
 
         for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the row to an array
-            classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
+            classOfPosition[k] = ".gt-position-style-" + ((i + 1) * horizontal + (k + 1) * vertical) + "-" + ((i + 1) * vertical + (k + 1) * horizontal);
             valueOfThis[k] = $(classOfPosition[k]).text();
         }
 
-//  debugger;
-
+// Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles 
         if ((valueOfThis[a + b * 0] > 0) && (valueOfThis[a + b * 0] == valueOfThis[a + b * 1])) {
-            deleteTile(i + 1, a + b * 0 + 1);
-            changeTileValue(i + 1, a + b * 1 + 1, valueOfThis[a + b * 1] * 2);
-            changeTilePosition(i + 1, a + b * 1 + 1, i + 1, a + b * 0 + 1);
+            x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
+            deleteTile(x1, y1);
+            x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+            changeTileValue(x1, y1, valueOfThis[a + b * 1] * 2);
+            x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+            x2 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
+            changeTilePosition(x1, y1, x2, y2);
             score += 2 * valueOfThis[a + b * 1];
             checkHighScore();
             wasThereAMove = true;
@@ -332,9 +137,17 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[a + b * 1] = "";
 
             if ((valueOfThis[a + b * 2] > 0) && (valueOfThis[a + b * 2] == valueOfThis[a + b * 3])) {
-                deleteTile(i + 1, a + b * 2 + 1);
-                changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
-                changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 1 + 1);
+                x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
+                y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
+                deleteTile(x1, y1);
+                x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+                y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+                changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
+                x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+                y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+                x2 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+                y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+                changeTilePosition(x1, y1, x2, y2);
                 score += 2 * valueOfThis[a + b * 3];
                 checkHighScore();
                 valueOfThis[a + b * 1] = valueOfThis[a + b * 3] * 2;
@@ -343,9 +156,15 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             }
         }
         if ((valueOfThis[a + b * 0] > 0) && ((valueOfThis[a + b * 0] == valueOfThis[a + b * 2]) && valueOfThis[a + b * 1] == 0)) {
-            deleteTile(i + 1, a + b * 0 + 1);
-            changeTileValue(i + 1, a + b * 2 + 1, valueOfThis[a + b * 2] * 2);
-            changeTilePosition(i + 1, a + b * 2 + 1, i + 1, a + b * 0 + 1);
+            x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
+            deleteTile(x1, y1);
+            x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
+            changeTileValue(x1, y1, valueOfThis[a + b * 2] * 2);
+            x2 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
+            changeTilePosition(x1, y1, x2, y2);
             score += 2 * valueOfThis[a + b * 2];
             checkHighScore();
             wasThereAMove = true;
@@ -353,9 +172,15 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[a + b * 2] = "";
         }
         if ((valueOfThis[a + b * 0] > 0) && ((valueOfThis[a + b * 0] == valueOfThis[a + b * 3]) && valueOfThis[a + b * 1] == 0 && valueOfThis[a + b * 2] == 0)) {
-            deleteTile(i + 1, a + b * 0 + 1);
-            changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
-            changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 0 + 1);
+            x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
+            x1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
+            deleteTile(x1, y1);
+            x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+            changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
+            x2 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
+            changeTilePosition(x1, y1, x2, y2);
             score += 2 * valueOfThis[a + b * 3];
             checkHighScore();
             wasThereAMove = true;
@@ -363,9 +188,15 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[a + b * 3] = "";
         }
         if ((valueOfThis[a + b * 1] > 0) && (valueOfThis[a + b * 1] == valueOfThis[a + b * 2])) {
-            deleteTile(i + 1, a + b * 1 + 1);
-            changeTileValue(i + 1, a + b * 2 + 1, valueOfThis[a + b * 2] * 2);
-            changeTilePosition(i + 1, a + b * 2 + 1, i + 1, a + b * 1 + 1);
+            x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+            deleteTile(x1, y1);
+            x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
+            changeTileValue(x1, y1, valueOfThis[a + b * 2] * 2);
+            x2 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+            changeTilePosition(x1, y1, x2, y2);
             score += 2 * valueOfThis[a + b * 2];
             checkHighScore();
             wasThereAMove = true;
@@ -373,9 +204,15 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[a + b * 2] = "";
         }
         if ((valueOfThis[a + b * 1] > 0) && ((valueOfThis[a + b * 1] == valueOfThis[a + b * 3]) && valueOfThis[a + b * 2] == 0)) {
-            deleteTile(i + 1, a + b * 1 + 1);
-            changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
-            changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 1 + 1);
+            x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+            deleteTile(x1, y1);
+            x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+            changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
+            x2 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+            changeTilePosition(x1, y1, x2, y2);
             score += 2 * valueOfThis[a + b * 3];
             checkHighScore();
             wasThereAMove = true;
@@ -383,9 +220,15 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[a + b * 3] = "";
         }
         if ((valueOfThis[a + b * 2] > 0) && (valueOfThis[a + b * 2] == valueOfThis[a + b * 3])) {
-            deleteTile(i + 1, a + b * 2 + 1);
-            changeTileValue(i + 1, a + b * 3 + 1, valueOfThis[a + b * 3] * 2);
-            changeTilePosition(i + 1, a + b * 3 + 1, i + 1, a + b * 2 + 1);
+            x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
+            deleteTile(x1, y1);
+            x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+            y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+            changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
+            x2 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
+            changeTilePosition(x1, y1, x2, y2);
             score += 2 * valueOfThis[a + b * 3];
             checkHighScore();
             wasThereAMove = true;
@@ -393,12 +236,17 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             valueOfThis[a + b * 3] = "";
         }
 
+// Check if there are empty spaces in the direction of move in front of existing tiles, if yes, shift them
         if (valueOfThis[a + b * 1] != "" || valueOfThis[a + b * 2] != "" || valueOfThis[a + b * 3] != "") {
             while (valueOfThis[a + b * 0] == "") {
                 for (var m = 1; m <= 3; m++) {
                     fromPosition = m + 1 + a + (m * b * 2) * a / 3;
                     toPosition = fromPosition - b;
-                    changeTilePosition(i + 1, fromPosition, i + 1, toPosition);
+                    x1 = (i + 1) * horizontal + fromPosition * vertical;
+                    y1 = (i + 1) * vertical + fromPosition * horizontal;
+                    x2 = (i + 1) * horizontal + toPosition * vertical;
+                    y2 = (i + 1) * vertical + toPosition * horizontal;
+                    changeTilePosition(x1, y1, x2, y2);
                 }
                 if (b == 1) { valueOfThis.shift(); }
                 else { valueOfThis.pop(); }
@@ -407,12 +255,16 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
                 wasThereAMove = true;
             }
         }
-        if (valueOfThis[a + b *2] != "" || valueOfThis[a + b *3] != "") {
-            while (valueOfThis[a + b *1] == "") {
+        if (valueOfThis[a + b * 2] != "" || valueOfThis[a + b * 3] != "") {
+            while (valueOfThis[a + b * 1] == "") {
                 for (var m = 2; m <= 3; m++) {
                     fromPosition = m + 1 + a + (m * b * 2) * a / 3;
                     toPosition = fromPosition - b;
-                    changeTilePosition(i + 1, fromPosition, i + 1, toPosition);
+                    x1 = (i + 1) * horizontal + fromPosition * vertical;
+                    y1 = (i + 1) * vertical + fromPosition * horizontal;
+                    x2 = (i + 1) * horizontal + toPosition * vertical;
+                    y2 = (i + 1) * vertical + toPosition * horizontal;
+                    changeTilePosition(x1, y1, x2, y2);
                 }
                 if (b == 1) { valueOfThis.shift(); }
                 else { valueOfThis.pop(); }
@@ -421,12 +273,16 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
                 wasThereAMove = true;
             }
         }
-        if (valueOfThis[a + b *3] != "") {
-            while (valueOfThis[a + b *2] == "") {
+        if (valueOfThis[a + b * 3] != "") {
+            while (valueOfThis[a + b * 2] == "") {
                 for (var m = 3; m <= 3; m++) {
                     fromPosition = m + 1 + a + (m * b * 2) * a / 3;
                     toPosition = fromPosition - b;
-                    changeTilePosition(i + 1, fromPosition, i + 1, toPosition);
+                    x1 = (i + 1) * horizontal + fromPosition * vertical;
+                    y1 = (i + 1) * vertical + fromPosition * horizontal;
+                    x2 = (i + 1) * horizontal + toPosition * vertical;
+                    y2 = (i + 1) * vertical + toPosition * horizontal;
+                    changeTilePosition(x1, y1, x2, y2);
                 }
                 if (b == 1) { valueOfThis.shift(); }
                 else { valueOfThis.pop(); }
@@ -437,126 +293,6 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
         }
     }
 }
-
-function shiftTilesRight() { //directions: 0-up, 1-left, 2-down, 3-right
-
-    wasThereAMove = false;
-    for (var i = 0; i < 4; i++) { //For each 'row' do the following
-
-        // Check if there are same value tiles next to each other, or empty in between them; if yes, add them up and shift empty tiles *******************************************************************
-        var classOfPosition = [];
-        var valueOfThis = [];
-
-        for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the row to an array
-            classOfPosition[k] = ".gt-position-style-" + (i + 1) + "-" + (k + 1);
-            valueOfThis[k] = $(classOfPosition[k]).text();
-        }
-
-        if ((valueOfThis[3] > 0) && (valueOfThis[3] == valueOfThis[2])) {
-            deleteTile(i + 1, 2);
-            changeTileValue(i + 1, 3, valueOfThis[2] * 2);
-            changeTilePosition(i + 1, 3, i + 1, 4);
-            score += 2 * valueOfThis[2];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[3] = valueOfThis[2] * 2;
-            valueOfThis[2] = "";
-
-            if ((valueOfThis[1] > 0) && (valueOfThis[1] == valueOfThis[0])) {
-                deleteTile(i + 1, 1);
-                changeTileValue(i + 1, 1, valueOfThis[0] * 2);
-                changeTilePosition(i + 1, 1, i + 1, 3);
-                score += 2 * valueOfThis[0];
-                checkHighScore();
-                valueOfThis[2] = valueOfThis[0] * 2;
-                valueOfThis[1] = "";
-                valueOfThis[0] = "";
-            }
-        }
-        if ((valueOfThis[3] > 0) && ((valueOfThis[3] == valueOfThis[1]) && valueOfThis[2] == 0)) {
-            deleteTile(i + 1, 4);
-            changeTileValue(i + 1, 2, valueOfThis[1] * 2);
-            changeTilePosition(i + 1, 2, i + 1, 4);
-            score += 2 * valueOfThis[1];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[3] = valueOfThis[1] * 2;
-            valueOfThis[1] = "";
-        }
-        if ((valueOfThis[3] > 0) && ((valueOfThis[3] == valueOfThis[0]) && valueOfThis[2] == 0 && valueOfThis[1] == 0)) {
-            deleteTile(i + 1, 4);
-            changeTileValue(i + 1, 1, valueOfThis[0] * 2);
-            changeTilePosition(i + 1, 1, i + 1, 4);
-            score += 2 * valueOfThis[0];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[3] = valueOfThis[0] * 2;
-            valueOfThis[0] = "";
-        }
-        if ((valueOfThis[2] > 0) && (valueOfThis[2] == valueOfThis[1])) {
-            deleteTile(i + 1, 3);
-            changeTileValue(i + 1, 2, valueOfThis[1] * 2);
-            changeTilePosition(i + 1, 2, i + 1, 3);
-            score += 2 * valueOfThis[1];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[2] = valueOfThis[1] * 2;
-            valueOfThis[1] = "";
-        }
-        if ((valueOfThis[2] > 0) && ((valueOfThis[2] == valueOfThis[0]) && valueOfThis[1] == 0)) {
-            deleteTile(i + 1, 3);
-            changeTileValue(i + 1, 1, valueOfThis[0] * 2);
-            changeTilePosition(i + 1, 1, i + 1, 3);
-            score += 2 * valueOfThis[0];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[2] = valueOfThis[0] * 2;
-            valueOfThis[0] = "";
-        }
-        if ((valueOfThis[1] > 0) && (valueOfThis[1] == valueOfThis[0])) {
-            deleteTile(i + 1, 2);
-            changeTileValue(i + 1, 1, valueOfThis[0] * 2);
-            changeTilePosition(i + 1, 1, i + 1, 2);
-            score += 2 * valueOfThis[0];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[1] = valueOfThis[0] * 2;
-            valueOfThis[0] = "";
-        }
-
-        if (valueOfThis[2] != "" || valueOfThis[1] != "" || valueOfThis[0] != "") {
-            while (valueOfThis[3] == "") {
-                for (var m = 3; m >= 1; m--) {
-                    changeTilePosition(i + 1, m, i + 1, m + 1);
-                }
-                valueOfThis.shift();
-                valueOfThis.push("");
-                wasThereAMove = true;
-            }
-        }
-        if (valueOfThis[1] != "" || valueOfThis[0] != "") {
-            while (valueOfThis[2] == "") {
-                for (var m = 3; m >= 2; m--) {
-                    changeTilePosition(i + 1, m, i + 1, m + 1);
-                }
-                valueOfThis.shift();
-                valueOfThis.push("");
-                wasThereAMove = true;
-            }
-        }
-        if (valueOfThis[0] != "") {
-            while (valueOfThis[1] == "") {
-                for (var m = 3; m >= 3; m--) {
-                    changeTilePosition(i + 1, m, i + 1, m + 1);
-                }
-                valueOfThis.shift();
-                valueOfThis.push("");
-                wasThereAMove = true;
-            }
-        }
-    }
-}
-
 
 function createNewTile(x, y, val) {
     var positionStyle = "gt-position-style-" + x + "-" + y;
@@ -620,9 +356,11 @@ function onUserInput(dir) {
     shiftTiles(dir);
 
     if (wasThereAMove == true) {
+        $("#current-score").text(score); //                         THIS NEEDS animation later
+        $("#best-score").text(currentHighScore); //                         THIS NEEDS animation later
         setTimeout(function() {
             generateNewTileData();
-        }, 300);
+        }, 200);
     }
     isThereAMove();
     if (potentialMove == false) {
@@ -723,4 +461,3 @@ document.onkeydown = function(e) {
 windowWidth = document.body.clientWidth;
 windowHeight = window.innerHeight;
 
-formatGameFields();
