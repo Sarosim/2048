@@ -1,5 +1,7 @@
 // my.js is linked in the bottom of index.html, therefore didn't start with document ready function, may consider...
 
+var gameFields = [];
+
 var gameInPlay = false;
 var readyStatus = true;
 var potentialMove = true;
@@ -66,22 +68,54 @@ function changeTilePosition(xOld, yOld, xNew, yNew) {
         .removeClass(oldPositionClass);
 }
 
-function recordTilePositions() {
+function recordTileData() {
+    var startPos;
+    var xPos, yPos, val;
+    var currentTileData = [];
     var currentTiles = document.getElementsByClassName("game-tile");
-    const cloneOfCurrentTiles = [...currentTiles];
-    gamePlayHistory.push(cloneOfCurrentTiles);
-    console.log(gamePlayHistory);
+    for (var i = 0; i < currentTiles.length; i++) {
+        var str = currentTiles[i].className;
+        //        debugger;
+        startPos = str.indexOf("position-style");
+        xPos = parseInt(str.slice(startPos + 15, startPos + 16));
+        yPos = parseInt(str.slice(startPos + 17, startPos + 18));
+        val = parseInt(currentTiles[i].textContent);
+        currentTileData.push(xPos);
+        currentTileData.push(yPos);
+        currentTileData.push(val);
+    }
+    const cloneOfCurrentTileData = [...currentTileData];
+    gamePlayHistory.push(cloneOfCurrentTileData);
     if (gamePlayHistory.length > maxMovesToStore) { // if more moves than max stored, 'forget' of the eldest
         gamePlayHistory.shift();
     }
 }
 
+function undoLastMove() {
+    var tileData = gamePlayHistory[gamePlayHistory.length - 1];
+    var numOfTiles = tileData.length / 3;
+    var xPos, yPos, val;
+ //   debugger;
+    $(".game-board div").remove();
+    //   remove all children of .game-board
+    for (i = 0; i < numOfTiles; i++) {
+        xPos = tileData[i * 3];
+        yPos = tileData[i * 3 + 1];
+        val = tileData[i * 3 + 2];
+        createNewTile(xPos, yPos, val);
+    }
+    gamePlayHistory.pop();
+}
+
 function recordCurrentScore() {
     scoreHistory.push(score);
-    console.log(scoreHistory);
     if (scoreHistory.length > maxMovesToStore) {
         scoreHistory.shift();
     }
+}
+
+function undoLastScore() {
+
 }
 
 function checkForDoubleTiles() {
@@ -365,26 +399,26 @@ function generateNewTileData() { //Generate new value for one of the empty field
 function onUserInput(dir) {
     if (gameInPlay) {
         if (readyStatus) {
-            
-            recordTilePositions();
+
+            recordTileData();
             recordCurrentScore();
             shiftTiles(dir);
             if (wasThereAMove == true) {
                 readyStatus = false;
                 var scoring = function() {
                     $("#current-score")
-                        .fadeOut(1000)
+                        .fadeOut(100)
                         .text(score)
-                        .fadeIn(1000);
+                        .fadeIn(100);
                     return $("#best-score")
-                        .fadeOut(1000)
+                        .fadeOut(100)
                         .text(currentHighScore)
-                        .fadeIn(1000);
+                        .fadeIn(100);
                 };
                 $.when(scoring()).done(function() {
                     setTimeout(function() {
                         generateNewTileData();
-                    }, 200);
+                    }, 100);
                     readyStatus = true;
                 });
             }
@@ -417,13 +451,15 @@ $("#btn-new-game").click(function() {
 
 $("#btn-undo").click(function() {
     if (gameInPlay) {
-        //        debugger;     THIS STILL MISSING
-        if (gamePlayHistory.length > 2) {
-            gameFields = gamePlayHistory[gamePlayHistory.length - 2];
-            gamePlayHistory.pop();
-            score = scoreHistory[scoreHistory.length - 2];
-            scoreHistory.pop();
-            formatGameFields();
+
+        if (gamePlayHistory.length > 1) {
+            undoLastMove();
+            undoLastScore();
+            //          gameFields = gamePlayHistory[gamePlayHistory.length - 2];
+            //        gamePlayHistory.pop();
+            //      score = scoreHistory[scoreHistory.length - 2];
+            //    scoreHistory.pop();
+            //  formatGameFields();
         }
     }
 });
