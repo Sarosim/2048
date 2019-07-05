@@ -1,8 +1,13 @@
+/*   *************************************VALUE based styling****************   */
+
 $class-name: gf-value-style;
 $j: 1;
-$increment: 32; 
+$increment: 32;
 $fontSize: 3rem;
 $fontColor: #000;
+$trans-dur-val: 0.2s;
+$trans-timing-val: ease;
+
 
 @for $i from 0 through 3 {
     $j: $j * 2;
@@ -11,30 +16,36 @@ $fontColor: #000;
     $blue: 192 - $increment * $i;
     @if $j<10 {
         $fontSize: 3rem;
-    } @else if $j<100 {
+    }
+    @else if $j<100 {
         $fontSize: 2.8rem;
-    } @else if $j<1000 {
+    }
+    @else if $j<1000 {
         $fontSize: 2.1rem;
-    } @else if $j<10000 {
+    }
+    @else if $j<10000 {
         $fontSize: 1.7rem;
-    } @else if $j<100000 {
-        $fontSize: 1.3rem;    
-    } @else {
+    }
+    @else if $j<100000 {
+        $fontSize: 1.3rem;
+    }
+    @else {
         $fontSize: 1.1rem;
-    }    
+    }
     @if $i>1 {
         $fontColor: #fff;
-    } @else {
+    }
+    @else {
         $fontColor: #000;
     }
     .#{$class-name}-#{$j} {
         background-color: rgb($red, $green, $blue);
         color: $fontColor;
         font-size: $fontSize;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 1s ease;
+        -webkit-transition: all $trans-dur-val $trans-timing-val;
+        -moz-transition: all $trans-dur-val $trans-timing-val;
+        -o-transition: all $trans-dur-val $trans-timing-val;
+        transition: all $trans-dur-val $trans-timing-val;
     }
 }
 
@@ -45,30 +56,36 @@ $fontColor: #000;
     $blue: 160 - $increment * $i;
     @if $j<10 {
         $fontSize: 3rem;
-    } @else if $j<100 {
+    }
+    @else if $j<100 {
         $fontSize: 2.8rem;
-    } @else if $j<1000 {
+    }
+    @else if $j<1000 {
         $fontSize: 2.1rem;
-    } @else if $j<10000 {
+    }
+    @else if $j<10000 {
         $fontSize: 1.7rem;
-    } @else if $j<100000 {
-        $fontSize: 1.3rem;    
-    } @else {
+    }
+    @else if $j<100000 {
+        $fontSize: 1.3rem;
+    }
+    @else {
         $fontSize: 1.1rem;
-    }    
+    }
     @if $i>1 {
         $fontColor: #fff;
-    } @else {
+    }
+    @else {
         $fontColor: #000;
     }
     .#{$class-name}-#{$j} {
         background-color: rgb($red, $green, $blue);
         color: $fontColor;
         font-size: $fontSize;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 1s ease;
+        -webkit-transition: all $trans-dur-val $trans-timing-val;
+        -moz-transition: all $trans-dur-val $trans-timing-val;
+        -o-transition: all $trans-dur-val $trans-timing-val;
+        transition: all $trans-dur-val $trans-timing-val;
     }
 }
 
@@ -79,30 +96,36 @@ $fontColor: #000;
     $blue: 128 - $increment * $i;
     @if $j<10 {
         $fontSize: 3rem;
-    } @else if $j<100 {
+    }
+    @else if $j<100 {
         $fontSize: 2.8rem;
-    } @else if $j<1000 {
+    }
+    @else if $j<1000 {
         $fontSize: 2.1rem;
-    } @else if $j<10000 {
+    }
+    @else if $j<10000 {
         $fontSize: 1.7rem;
-    } @else if $j<100000 {
-        $fontSize: 1.3rem;    
-    } @else {
+    }
+    @else if $j<100000 {
+        $fontSize: 1.3rem;
+    }
+    @else {
         $fontSize: 1.1rem;
-    }    
+    }
     @if $i>1 {
         $fontColor: #fff;
-    } @else {
+    }
+    @else {
         $fontColor: #000;
     }
     .#{$class-name}-#{$j} {
         background-color: rgb($red, $green, $blue);
         color: $fontColor;
         font-size: $fontSize;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 1s ease;
+        -webkit-transition: all $trans-dur-val $trans-timing-val;
+        -moz-transition: all $trans-dur-val $trans-timing-val;
+        -o-transition: all $trans-dur-val $trans-timing-val;
+        transition: all $trans-dur-val $trans-timing-val;
     }
 }
 
@@ -113,26 +136,115 @@ $fontColor: #000;
     $blue: $red;
     @if $j<10 {
         $fontSize: 3rem;
-    } @else if $j<100 {
+    }
+    @else if $j<100 {
         $fontSize: 2.8rem;
-    } @else if $j<1000 {
+    }
+    @else if $j<1000 {
         $fontSize: 2.1rem;
-    } @else if $j<10000 {
+    }
+    @else if $j<10000 {
         $fontSize: 1.7rem;
-    } @else if $j<100000 {
-        $fontSize: 1.3rem;    
-    } @else {
+    }
+    @else if $j<100000 {
+        $fontSize: 1.3rem;
+    }
+    @else {
         $fontSize: 1.1rem;
-    }    
+    }
     $fontColor: #fff;
     .#{$class-name}-#{$j} {
         background-color: rgb($red, $green, $blue);
         color: $fontColor;
         font-size: $fontSize;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 1s ease;
+        -webkit-transition: all $trans-dur-val $trans-timing-val;
+        -moz-transition: all $trans-dur-val $trans-timing-val;
+        -o-transition: all $trans-dur-val $trans-timing-val;
+        transition: all $trans-dur-val $trans-timing-val;
     }
 }
 
+/*   ************************************* POSITION based styling ****************   */
+
+$class-name: gt-position-style;
+$margin: 8px;
+$tile-size: 78px;
+$trans-dur-pos: 0.2s;
+$trans-timing-pos: ease-in-out;
+
+@for $i from 1 through 4 {
+    @for $k from 1 through 4 {
+        .#{$class-name}-#{$i}-#{$k} {
+            position: absolute;
+            top: $margin + ($i - 1) * ($tile-size + $margin);
+            left: $margin + ($k - 1) * ($tile-size + $margin);
+            -webkit-transition: all $trans-dur-pos $trans-timing-pos;
+            -moz-transition: all $trans-dur-pos $trans-timing-pos;
+            -o-transition: all $trans-dur-pos $trans-timing-pos;
+            transition: all $trans-dur-pos $trans-timing-pos;
+
+        }
+    }
+}
+
+/* Small and large screens */
+
+$margin: 6px;
+$tile-size: 54px;
+
+@media only screen and (max-width: 376px) {
+
+    @for $i from 1 through 4 {
+        @for $k from 1 through 4 {
+            .#{$class-name}-#{$i}-#{$k} {
+                position: absolute;
+                top: $margin + ($i - 1) * ($tile-size + $margin);
+                left: $margin + ($k - 1) * ($tile-size + $margin);
+                -webkit-transition: all $trans-dur-pos $trans-timing-pos;
+                -moz-transition: all $trans-dur-pos $trans-timing-pos;
+                -o-transition: all $trans-dur-pos $trans-timing-pos;
+                transition: all $trans-dur-pos $trans-timing-pos;
+
+            }
+        }
+    }
+    .game-tile {
+        width: $tile-size;
+        height: $tile-size;
+        line-height: $tile-size;
+        border: 2px solid orange;
+        border-style: ridge;
+        border-radius: 3px;
+    }
+
+}
+
+$margin: 10px;
+$tile-size: 100px;
+
+@media only screen and (min-width: 900px) {
+
+    @for $i from 1 through 4 {
+        @for $k from 1 through 4 {
+            .#{$class-name}-#{$i}-#{$k} {
+                position: absolute;
+                top: $margin + ($i - 1) * ($tile-size + $margin);
+                left: $margin + ($k - 1) * ($tile-size + $margin);
+                -webkit-transition: all $trans-dur-pos $trans-timing-pos;
+                -moz-transition: all $trans-dur-pos $trans-timing-pos;
+                -o-transition: all $trans-dur-pos $trans-timing-pos;
+                transition: all $trans-dur-pos $trans-timing-pos;
+
+            }
+        }
+    }
+    .game-tile {
+        width: $tile-size;
+        height: $tile-size;
+        line-height: $tile-size;
+        border: 3px solid orange;
+        border-style: ridge;
+        border-radius: 5px;
+    }
+
+}

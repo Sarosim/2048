@@ -159,7 +159,7 @@ body {
         opacity: 100%;
     }
 }
-
+/*
 .gt-position-style-1-1 {
     position: absolute;
     top: 8px;
@@ -327,7 +327,7 @@ body {
     -o-transition: all 0.2s ease;
     transition: all 0.2s ease;
 }
-
+*/
 .gf-value-disappear {
     background-color: white;
     color: white;
