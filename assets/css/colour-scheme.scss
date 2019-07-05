@@ -189,6 +189,9 @@ $trans-timing-pos: ease-in-out;
 
 /* Small and large screens */
 
+/* SMALL*/
+
+$class-name: gt-position-style;
 $margin: 6px;
 $tile-size: 54px;
 
@@ -216,11 +219,42 @@ $tile-size: 54px;
         border-style: ridge;
         border-radius: 3px;
     }
+    $class-name: gf-value-style;
+    $j: 1;
+    @for $i from 0 through 16 {
+        $j: $j * 2;
 
+        $fontSize: 1.1rem;
+
+        @if $j<100000 {
+            $fontSize: 1.3rem;
+        }
+        @if $j<10000 {
+            $fontSize: 1.7rem;
+        }
+        @if $j<1000 {
+            $fontSize: 2.1rem;
+        }
+        @if $j<100 {
+            $fontSize: 2.8rem;
+        }
+        @if $j<10 {
+            $fontSize: 3rem;
+        }
+
+        $fontSize: $fontSize * 0.75;
+        .#{$class-name}-#{$j} {
+            font-size: $fontSize;
+        }
+    }
 }
 
 $margin: 10px;
 $tile-size: 100px;
+
+/*
+LARGE
+*/
 
 @media only screen and (min-width: 900px) {
 
@@ -246,5 +280,34 @@ $tile-size: 100px;
         border-style: ridge;
         border-radius: 5px;
     }
+    $class-name: gf-value-style;
+    $j: 1;
+    $class-name: gf-value-style;
+    $j: 1;
+    @for $i from 0 through 16 {
+        $j: $j * 2;
 
+        $fontSize: 1.1rem;
+
+        @if $j<100000 {
+            $fontSize: 1.3rem;
+        }
+        @if $j<10000 {
+            $fontSize: 1.7rem;
+        }
+        @if $j<1000 {
+            $fontSize: 2.1rem;
+        }
+        @if $j<100 {
+            $fontSize: 2.8rem;
+        }
+        @if $j<10 {
+            $fontSize: 3rem;
+        }
+
+        $fontSize: $fontSize * 1.25;
+        .#{$class-name}-#{$j} {
+            font-size: $fontSize;
+        }
+    }
 }

@@ -92,13 +92,12 @@ function recordTileData() {
 }
 
 function undoLastMove() {
-    var tileData = gamePlayHistory[gamePlayHistory.length - 1];
+    var tileData = gamePlayHistory[gamePlayHistory.length - 1]; //lehetne gamePlayHistory.pop() ? ? ? nem műxik !!!
     var numOfTiles = tileData.length / 3;
     var xPos, yPos, val;
- //   debugger;
     $(".game-board div").remove();
     //   remove all children of .game-board
-    for (i = 0; i < numOfTiles; i++) {
+    for (var i = 0; i < numOfTiles; i++) {
         xPos = tileData[i * 3];
         yPos = tileData[i * 3 + 1];
         val = tileData[i * 3 + 2];
@@ -109,13 +108,15 @@ function undoLastMove() {
 
 function recordCurrentScore() {
     scoreHistory.push(score);
-    if (scoreHistory.length > maxMovesToStore) {
+    if (scoreHistory.length - 1 > maxMovesToStore) {
         scoreHistory.shift();
     }
 }
 
 function undoLastScore() {
-
+    score = scoreHistory[scoreHistory.length - 1];
+    $("#current-score").text(score);
+    scoreHistory.pop();
 }
 
 function checkForDoubleTiles() {
@@ -455,11 +456,6 @@ $("#btn-undo").click(function() {
         if (gamePlayHistory.length > 1) {
             undoLastMove();
             undoLastScore();
-            //          gameFields = gamePlayHistory[gamePlayHistory.length - 2];
-            //        gamePlayHistory.pop();
-            //      score = scoreHistory[scoreHistory.length - 2];
-            //    scoreHistory.pop();
-            //  formatGameFields();
         }
     }
 });
