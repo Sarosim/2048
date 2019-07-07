@@ -68,7 +68,7 @@ function changeTilePosition(xOld, yOld, xNew, yNew) {
         .removeClass(oldPositionClass);
 }
 
-function recordTileData() {
+function recordTileData() { //for undo
     var startPos;
     var xPos, yPos, val;
     var currentTileData = [];
@@ -107,6 +107,7 @@ function undoLastMove() {
 }
 
 function recordCurrentScore() {
+    //for undo
     scoreHistory.push(score);
     if (scoreHistory.length - 1 > maxMovesToStore) {
         scoreHistory.shift();
@@ -194,119 +195,131 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
         if ((valueOfThis[a + b * 0] > 0) && (valueOfThis[a + b * 0] == valueOfThis[a + b * 1])) {
             x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
-            deleteTile(x1, y1);
-            x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
-            y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
-            changeTileValue(x1, y1, valueOfThis[a + b * 1] * 2);
-            x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
-            y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
-            x2 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
-            y2 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
-            changeTilePosition(x1, y1, x2, y2);
-            score += 2 * valueOfThis[a + b * 1];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[a + b * 0] = valueOfThis[a + b * 1] * 2;
-            valueOfThis[a + b * 1] = "";
+            x2 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+            if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
+            else {
+                deleteTile(x1, y1);
+                changeTileValue(x2, y2, valueOfThis[a + b * 1] * 2);
+                $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
+                changeTilePosition(x2, y2, x1, y1);
+                score += 2 * valueOfThis[a + b * 1];
+                checkHighScore();
+                wasThereAMove = true;
+                valueOfThis[a + b * 0] = valueOfThis[a + b * 1] * 2;
+                valueOfThis[a + b * 1] = "";
+            }
 
             if ((valueOfThis[a + b * 2] > 0) && (valueOfThis[a + b * 2] == valueOfThis[a + b * 3])) {
                 x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
                 y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
-                deleteTile(x1, y1);
-                x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
-                y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
-                changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
-                x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
-                y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
-                x2 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
-                y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
-                changeTilePosition(x1, y1, x2, y2);
-                score += 2 * valueOfThis[a + b * 3];
-                checkHighScore();
-                valueOfThis[a + b * 1] = valueOfThis[a + b * 3] * 2;
-                valueOfThis[a + b * 2] = "";
-                valueOfThis[a + b * 3] = "";
+                x2 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+                y2 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+                if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
+                else {
+                    deleteTile(x1, y1);
+                    changeTileValue(x2, y2, valueOfThis[a + b * 3] * 2);
+                    $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
+                    x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
+                    y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
+                    changeTilePosition(x2, y2, x1, y1);
+                    score += 2 * valueOfThis[a + b * 3];
+                    checkHighScore();
+                    valueOfThis[a + b * 1] = valueOfThis[a + b * 3] * 2;
+                    valueOfThis[a + b * 2] = "";
+                    valueOfThis[a + b * 3] = "";
+                }
             }
         }
         if ((valueOfThis[a + b * 0] > 0) && ((valueOfThis[a + b * 0] == valueOfThis[a + b * 2]) && valueOfThis[a + b * 1] == 0)) {
             x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
-            deleteTile(x1, y1);
-            x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
-            y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
-            changeTileValue(x1, y1, valueOfThis[a + b * 2] * 2);
-            x2 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
-            y2 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
-            changeTilePosition(x1, y1, x2, y2);
-            score += 2 * valueOfThis[a + b * 2];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[a + b * 0] = valueOfThis[a + b * 2] * 2;
-            valueOfThis[a + b * 2] = "";
+            x2 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
+            if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
+            else {
+                deleteTile(x1, y1);
+                changeTileValue(x2, y2, valueOfThis[a + b * 2] * 2);
+                $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
+                changeTilePosition(x2, y2, x1, y1);
+                score += 2 * valueOfThis[a + b * 2];
+                checkHighScore();
+                wasThereAMove = true;
+                valueOfThis[a + b * 0] = valueOfThis[a + b * 2] * 2;
+                valueOfThis[a + b * 2] = "";
+            }
         }
         if ((valueOfThis[a + b * 0] > 0) && ((valueOfThis[a + b * 0] == valueOfThis[a + b * 3]) && valueOfThis[a + b * 1] == 0 && valueOfThis[a + b * 2] == 0)) {
             x1 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
-            deleteTile(x1, y1);
-            x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
-            y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
-            changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
-            x2 = (i + 1) * horizontal + (a + b * 0 + 1) * vertical;
-            y2 = (i + 1) * vertical + (a + b * 0 + 1) * horizontal;
-            changeTilePosition(x1, y1, x2, y2);
-            score += 2 * valueOfThis[a + b * 3];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[a + b * 0] = valueOfThis[a + b * 3] * 2;
-            valueOfThis[a + b * 3] = "";
+            x2 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+            if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
+            else {
+                deleteTile(x1, y1);
+                changeTileValue(x2, y2, valueOfThis[a + b * 3] * 2);
+                $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
+                changeTilePosition(x2, y2, x1, y1);
+                score += 2 * valueOfThis[a + b * 3];
+                checkHighScore();
+                wasThereAMove = true;
+                valueOfThis[a + b * 0] = valueOfThis[a + b * 3] * 2;
+                valueOfThis[a + b * 3] = "";
+            }
         }
         if ((valueOfThis[a + b * 1] > 0) && (valueOfThis[a + b * 1] == valueOfThis[a + b * 2])) {
             x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
-            deleteTile(x1, y1);
-            x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
-            y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
-            changeTileValue(x1, y1, valueOfThis[a + b * 2] * 2);
-            x2 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
-            y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
-            changeTilePosition(x1, y1, x2, y2);
-            score += 2 * valueOfThis[a + b * 2];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[a + b * 1] = valueOfThis[a + b * 2] * 2;
-            valueOfThis[a + b * 2] = "";
+            x2 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
+            if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
+            else {
+                deleteTile(x1, y1);
+                changeTileValue(x2, y2, valueOfThis[a + b * 2] * 2);
+                $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
+                changeTilePosition(x2, y2, x1, y1);
+                score += 2 * valueOfThis[a + b * 2];
+                checkHighScore();
+                wasThereAMove = true;
+                valueOfThis[a + b * 1] = valueOfThis[a + b * 2] * 2;
+                valueOfThis[a + b * 2] = "";
+            }
         }
         if ((valueOfThis[a + b * 1] > 0) && ((valueOfThis[a + b * 1] == valueOfThis[a + b * 3]) && valueOfThis[a + b * 2] == 0)) {
             x1 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
-            deleteTile(x1, y1);
-            x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
-            y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
-            changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
-            x2 = (i + 1) * horizontal + (a + b * 1 + 1) * vertical;
-            y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
-            changeTilePosition(x1, y1, x2, y2);
-            score += 2 * valueOfThis[a + b * 3];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[a + b * 1] = valueOfThis[a + b * 3] * 2;
-            valueOfThis[a + b * 3] = "";
+            x2 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+            if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
+            else {
+                deleteTile(x1, y1);
+                changeTileValue(x2, y2, valueOfThis[a + b * 3] * 2);
+                $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
+                changeTilePosition(x2, y2, x1, y1);
+                score += 2 * valueOfThis[a + b * 3];
+                checkHighScore();
+                wasThereAMove = true;
+                valueOfThis[a + b * 1] = valueOfThis[a + b * 3] * 2;
+                valueOfThis[a + b * 3] = "";
+            }
         }
         if ((valueOfThis[a + b * 2] > 0) && (valueOfThis[a + b * 2] == valueOfThis[a + b * 3])) {
             x1 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
             y1 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
-            deleteTile(x1, y1);
-            x1 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
-            y1 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
-            changeTileValue(x1, y1, valueOfThis[a + b * 3] * 2);
-            x2 = (i + 1) * horizontal + (a + b * 2 + 1) * vertical;
-            y2 = (i + 1) * vertical + (a + b * 2 + 1) * horizontal;
-            changeTilePosition(x1, y1, x2, y2);
-            score += 2 * valueOfThis[a + b * 3];
-            checkHighScore();
-            wasThereAMove = true;
-            valueOfThis[a + b * 2] = valueOfThis[a + b * 3] * 2;
-            valueOfThis[a + b * 3] = "";
+            x2 = (i + 1) * horizontal + (a + b * 3 + 1) * vertical;
+            y2 = (i + 1) * vertical + (a + b * 3 + 1) * horizontal;
+            if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
+            else {
+                deleteTile(x1, y1);
+                changeTileValue(x2, y2, valueOfThis[a + b * 3] * 2);
+                $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
+                changeTilePosition(x2, y2, x1, y1);
+                score += 2 * valueOfThis[a + b * 3];
+                checkHighScore();
+                wasThereAMove = true;
+                valueOfThis[a + b * 2] = valueOfThis[a + b * 3] * 2;
+                valueOfThis[a + b * 3] = "";
+            }
         }
 
         // Check if there are empty spaces in the direction of move in front of existing tiles, if yes, shift them
@@ -365,6 +378,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
             }
         }
     }
+    $(".game-board div").removeClass("changed");
     checkForDoubleTiles();
 }
 
@@ -398,6 +412,7 @@ function generateNewTileData() { //Generate new value for one of the empty field
 }
 
 function onUserInput(dir) {
+    gameInPlay = true; // Just for the testing!!!
     if (gameInPlay) {
         if (readyStatus) {
 
