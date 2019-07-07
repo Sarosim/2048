@@ -26,10 +26,6 @@ var windowHeight;
 function isThereAMove() {
     potentialMove = false;
     for (var i = 0; i < 15; i++) {
-        if (gameFields[i] == 0) {
-            potentialMove = true;
-            return potentialMove;
-        }
         if ((gameFields[i] == gameFields[i + 1] && i % 4 != 3) || (gameFields[i] == gameFields[i + 4])) {
             potentialMove = true;
             return potentialMove;
@@ -120,7 +116,7 @@ function undoLastScore() {
     scoreHistory.pop();
 }
 
-function checkForDoubleTiles() {
+function isItGameOver() { // It also checks whether there are two tiles on the same position (bug control)
     var pos = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -130,6 +126,7 @@ function checkForDoubleTiles() {
     var positionStyle;
     var currentTiles = document.getElementsByClassName("game-tile");
     var amountOfTiles = currentTiles.length;
+
     for (var i = 0; i < amountOfTiles; i++) {
         for (var j = 1; j <= 4; j++) {
             for (var k = 1; k <= 4; k++) {
@@ -143,7 +140,27 @@ function checkForDoubleTiles() {
     for (var j = 0; j < 4; j++) {
         pos[j].sort();
         if (pos[j][3] > 1) {
-            alert("there are two tiles on a cell in the first line");
+            alert("there are two tiles on a cell ! ! ! This is a bug, please inform the developer :) ");
+        }
+    }
+
+    if (amountOfTiles == 16) {
+        //debugger;
+        potentialMove = false;
+        var valIJ, valIPlus1J, valIJPlus1;
+        for (i = 1; i < 4; i++) {
+            for (j = 1; j <= 4; j++) {
+                var theTile = document.getElementsByClassName("gt-position-style-" + i + "-" + j);
+                valIJ = $(theTile[0]).text();
+                theTile = document.getElementsByClassName("gt-position-style-" + (i + 1) + "-" + j);
+                valIPlus1J = $(theTile[0]).text();
+                theTile = document.getElementsByClassName("gt-position-style-" + i + "-" + (j + 1));
+                valIJPlus1 = $(theTile[0]).text();
+                if ((valIJ == valIPlus1J) || (valIJ == valIJPlus1)) {
+                    potentialMove = true;
+                    return potentialMove;
+                }
+            }
         }
     }
 }
@@ -379,7 +396,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
         }
     }
     $(".game-board div").removeClass("changed");
-    checkForDoubleTiles();
+    isItGameOver();
 }
 
 function createNewTile(x, y, val) {
@@ -391,6 +408,10 @@ function createNewTile(x, y, val) {
         .addClass(valueStyle)
         .text(val)
         .removeClass("new-tile");
+    isItGameOver();
+    if (potentialMove == false) {
+        alert("GAME OVER!!!");
+    }
 }
 
 function generateNewTileData() { //Generate new value for one of the empty fields: Randomise 2 or 4 for on empty field
