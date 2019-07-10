@@ -1,7 +1,5 @@
 // my.js is linked in the bottom of index.html, therefore didn't start with document ready function, may consider...
 
-var gameFields = [];
-
 var gameInPlay = false;
 var readyStatus = true;
 var potentialMove = true;
@@ -17,13 +15,17 @@ var maxMovesToStore = 15;
 var scoreHistory = [];
 var windowWidth;
 var windowHeight;
-
+var goalReached = false;
+var wantToContinue = false;
+var modalLabel, modalText, modalButton;
+var modalButtonOne = "Yes, carry on",
+    modalButtonTwo = "Start New Game";
 //****************************************************
 // F U N C T I O N S     D E F I N E D       H E R E
 //****************************************************
 
 //check if there is a potential move
-function isThereAMove() {
+/*function isThereAMove() {
     potentialMove = false;
     for (var i = 0; i < 15; i++) {
         if ((gameFields[i] == gameFields[i + 1] && i % 4 != 3) || (gameFields[i] == gameFields[i + 4])) {
@@ -31,7 +33,21 @@ function isThereAMove() {
             return potentialMove;
         }
     }
+}*/
+function newGame() {
+    gameInPlay = true;
+    potentialMove = true;
+    wantToContinue = false;
+    $(".game-board div").remove();
+    setTimeout(function() {
+        generateNewTileData();
+    }, 50);
+    setTimeout(function() {
+        generateNewTileData();
+    }, 100);
+    // initialising still missing - histories for undo
 }
+
 //check if current score is higher than highscore
 function checkHighScore() {
     if (score > currentHighScore) {
@@ -53,6 +69,10 @@ function changeTileValue(x, y, newValue) {
         .text(newValue)
         .removeClass(oldValueClass)
         .addClass(newValueClass);
+    console.log(newValue);
+    if (newValue == 2048) {
+        goalReached = true;
+    }
 }
 
 function changeTilePosition(xOld, yOld, xNew, yNew) {
@@ -116,7 +136,8 @@ function undoLastScore() {
     scoreHistory.pop();
 }
 
-function isItGameOver() { // It also checks whether there are two tiles on the same position (bug control)
+// It also checks whether there are two tiles on the same position (bug control)
+function isItGameOver() {
     var pos = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -126,7 +147,7 @@ function isItGameOver() { // It also checks whether there are two tiles on the s
     var positionStyle;
     var currentTiles = document.getElementsByClassName("game-tile");
     var amountOfTiles = currentTiles.length;
-
+    //debugger;
     for (var i = 0; i < amountOfTiles; i++) {
         for (var j = 1; j <= 4; j++) {
             for (var k = 1; k <= 4; k++) {
@@ -143,12 +164,11 @@ function isItGameOver() { // It also checks whether there are two tiles on the s
             alert("there are two tiles on a cell ! ! ! This is a bug, please inform the developer :) ");
         }
     }
-
+    console.log("amountOfTiles: ", amountOfTiles, potentialMove);
     if (amountOfTiles == 16) {
-        //debugger;
         potentialMove = false;
         var valIJ, valIPlus1J, valIJPlus1;
-        for (i = 1; i < 4; i++) {
+        for (i = 1; i <= 4; i++) {
             for (j = 1; j <= 4; j++) {
                 var theTile = document.getElementsByClassName("gt-position-style-" + i + "-" + j);
                 valIJ = $(theTile[0]).text();
@@ -203,7 +223,7 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
         var classOfPosition = [];
         var valueOfThis = [];
 
-        for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the row to an array
+        for (var k = 0; k < 4; k++) { // fill the values of the tiles for each position in the 'row' to an array
             classOfPosition[k] = ".gt-position-style-" + ((i + 1) * horizontal + (k + 1) * vertical) + "-" + ((i + 1) * vertical + (k + 1) * horizontal);
             valueOfThis[k] = $(classOfPosition[k]).text();
         }
@@ -396,7 +416,6 @@ function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
         }
     }
     $(".game-board div").removeClass("changed");
-    isItGameOver();
 }
 
 function createNewTile(x, y, val) {
@@ -409,8 +428,16 @@ function createNewTile(x, y, val) {
         .text(val)
         .removeClass("new-tile");
     isItGameOver();
+    console.log("most futott az isItGameOver");
     if (potentialMove == false) {
-        alert("GAME OVER!!!");
+        modalLabel = "Game Over!";
+        modalText = "No possible move available --> game over! Want to try again?";
+        modalButton = modalButtonTwo;
+        debugger;
+        $("#modallabel").text(modalLabel);
+        $("#modalmessage").text(modalText);
+        $("#mymodalbtn").text(modalButton);
+        $("#message-modal").modal();
     }
 }
 
@@ -436,7 +463,6 @@ function onUserInput(dir) {
     gameInPlay = true; // Just for the testing!!!
     if (gameInPlay) {
         if (readyStatus) {
-
             recordTileData();
             recordCurrentScore();
             shiftTiles(dir);
@@ -458,11 +484,18 @@ function onUserInput(dir) {
                     }, 100);
                     readyStatus = true;
                 });
-            }
-            isThereAMove();
-            if (potentialMove == false) {
-                gameInPlay = false;
-                alert("Game Over"); // probably a modal is nicer ...
+                if (goalReached) {
+                        debugger;
+                        if (wantToContinue == false) {
+                        modalLabel = "2048 Reached!";
+                        modalText = "You've reached 2048! Congratulations! Do you want to continue?";
+                        modalButton = modalButtonOne;
+                        $("#modallabel").text(modalLabel);
+                        $("#modalmessage").text(modalText);
+                        $("#mymodalbtn").text(modalButton);
+                        $("#message-modal").modal();
+                    }
+                }
             }
         }
     }
@@ -475,15 +508,7 @@ function onUserInput(dir) {
 // Buttons on screen
 
 $("#btn-new-game").click(function() {
-    gameInPlay = true;
-    $(".game-board div").remove();
-    setTimeout(function() {
-        generateNewTileData();
-    }, 50);
-    setTimeout(function() {
-        generateNewTileData();
-    }, 100);
-    // initialising still missing - histories for undo
+    newGame();
 });
 
 $("#btn-undo").click(function() {
@@ -512,6 +537,19 @@ $("#btn-right").click(function() {
     onUserInput(3); //dir(ections): 0-up, 1-left, 2-down, 3-right
 });
 
+// Modal button
+
+$("#mymodalbtn").click(function() {
+    var buttonText = $("mymodalbtn").text();
+    switch (buttonText) {
+        case modalButtonOne:
+            wantToContinue = true;
+            break;
+
+        case modalButtonTwo:
+            newGame();
+    }
+});
 
 // Keyboard
 

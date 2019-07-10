@@ -5,6 +5,11 @@ body {
     overflow: hidden
 }
 
+/*.modal-backdrop {
+    /* bug fix - no overlay     
+    display: none;    
+}*/
+
 .title-row {
     height: 8vh;
 }
