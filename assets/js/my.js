@@ -24,19 +24,13 @@ var modalButtonOne = "Yes, carry on",
 // F U N C T I O N S     D E F I N E D       H E R E
 //****************************************************
 
-//check if there is a potential move
-/*function isThereAMove() {
-    potentialMove = false;
-    for (var i = 0; i < 15; i++) {
-        if ((gameFields[i] == gameFields[i + 1] && i % 4 != 3) || (gameFields[i] == gameFields[i + 4])) {
-            potentialMove = true;
-            return potentialMove;
-        }
-    }
-}*/
 function newGame() {
     gameInPlay = true;
     potentialMove = true;
+    score = 0;
+    gamePlayHistory = [];
+    scoreHistory = [];
+    goalReached = false;
     wantToContinue = false;
     $(".game-board div").remove();
     setTimeout(function() {
@@ -45,7 +39,6 @@ function newGame() {
     setTimeout(function() {
         generateNewTileData();
     }, 100);
-    // initialising still missing - histories for undo
 }
 
 //check if current score is higher than highscore
@@ -433,11 +426,10 @@ function createNewTile(x, y, val) {
         modalLabel = "Game Over!";
         modalText = "No possible move available --> game over! Want to try again?";
         modalButton = modalButtonTwo;
-        debugger;
         $("#modallabel").text(modalLabel);
         $("#modalmessage").text(modalText);
         $("#mymodalbtn").text(modalButton);
-        $("#message-modal").modal();
+        $("#message-modal").modal('show');
     }
 }
 
@@ -485,15 +477,14 @@ function onUserInput(dir) {
                     readyStatus = true;
                 });
                 if (goalReached) {
-                        debugger;
-                        if (wantToContinue == false) {
+                    if (!wantToContinue) {
                         modalLabel = "2048 Reached!";
                         modalText = "You've reached 2048! Congratulations! Do you want to continue?";
                         modalButton = modalButtonOne;
                         $("#modallabel").text(modalLabel);
                         $("#modalmessage").text(modalText);
                         $("#mymodalbtn").text(modalButton);
-                        $("#message-modal").modal();
+                        $("#message-modal").modal('show');
                     }
                 }
             }
@@ -540,13 +531,15 @@ $("#btn-right").click(function() {
 // Modal button
 
 $("#mymodalbtn").click(function() {
-    var buttonText = $("mymodalbtn").text();
+    var buttonText = $("#mymodalbtn").text();
     switch (buttonText) {
         case modalButtonOne:
             wantToContinue = true;
+            $("#message-modal").modal('hide');
             break;
 
         case modalButtonTwo:
+            $("#message-modal").modal('hide');
             newGame();
     }
 });
@@ -573,6 +566,7 @@ document.onkeydown = function(e) {
 
 //****************************************************
 //    E X E C U T E
+
 
 windowWidth = document.body.clientWidth;
 windowHeight = window.innerHeight;
