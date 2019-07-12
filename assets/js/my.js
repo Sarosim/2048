@@ -618,7 +618,7 @@ window.addEventListener('load', function() {
     var hideTimer = null;
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
-         //   var arrowID = "#btn-" + swipeDir;
+            var arrowID = "#btn-" + swipeDir;
             alert("arrowID: ", arrowID);
           //  clearTimeout(hideTimer);
             $("#arrowID").remove();
