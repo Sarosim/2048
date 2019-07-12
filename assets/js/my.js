@@ -613,7 +613,7 @@ document.onkeydown = function(e) {
 // Touchscreen -- touch screen swipe navigation
 window.addEventListener('load', function() {
 
-    var theElement = $("swipe-area");
+    var theElement = document.getElementById("swipe-area");
 
     var hideTimer = null;
     swipeDetect(theElement, function(swipeDir) {
