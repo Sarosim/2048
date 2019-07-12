@@ -505,9 +505,9 @@ function swipeDetect(theElement, callback){
     allowedTime = 300, // maximum time allowed to travel that distance
     elapsedTime,
     startTime,
-    handleSwipe = callback || function(swipedir){};
+    handleSwipe = callback || function(swipeDir){};
   
-    touchSurface.addEventListener("touchstart", function(e){
+    touchSurface.addEventListener('touchstart', function(e){
         var touchobj = e.changedTouches[0];
         swipeDir = 'none';
         distX = 0;
@@ -536,7 +536,7 @@ function swipeDetect(theElement, callback){
             }
         }
         handleSwipe(swipeDir);
-        e.preventDefault();
+        e.preventDefault(); // prevent scrolling when inside DIV
     }, false);
 }
 
@@ -613,15 +613,16 @@ document.onkeydown = function(e) {
 // Touchscreen -- touch screen swipe navigation
 window.addEventListener('load', function() {
 
-    var el = document.getElementByClassName("game-board-container");
+    var theElement = document.getElementById("swipe-area");
 
-    var hidetimer = null;
-    swipeDetect(el, function(swipedir) {
-        if (swipedir != 'none') {
-            var arrowID = "#btn-" + swipedir;
-            clearTimeout(hidetimer);
-            $(arrowID).focus();
-            hidetimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
+    var hideTimer = null;
+    swipeDetect(theElement, function(swipeDir) {
+        if (swipeDir != 'none') {
+            var arrowID = "#btn-" + swipeDir;
+            clearTimeout(hideTimer);
+            $("#current-score").remove();
+            
+            hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
                $(arrowID).blur();
             }, 1000);
         }
