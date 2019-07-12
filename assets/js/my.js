@@ -182,10 +182,6 @@ function isItGameOver() {
 function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
     var a, b, vertical, horizontal, x1, y1, x2, y2; //helper variables for the directions
     var fromPosition, toPosition;
-    debugger;
-    if (typeof direction == 'number') {
-        alert(direction + " is a number :)");
-    }
     switch (direction) {
         case 3: // right
             a = 3;
@@ -626,25 +622,16 @@ document.onkeydown = function(e) {
 
 // Touchscreen -- touch screen swipe navigation
 window.addEventListener('load', function() {
-
     var theElement = document.getElementById("swipe-area");
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
-            alert("The current swipeDir: " + swipeDir);
-            shiftTiles(swipeDir)
-        }
-        else {
-            alert("There was a swipe, but no swipeDir " + swipeDir);
+            shiftTiles(swipeDir);
         }
     });
-
 }, false); // end window.onload
-
-
 
 //****************************************************
 //    E X E C U T E
-
 
 windowWidth = document.body.clientWidth;
 windowHeight = window.innerHeight;
