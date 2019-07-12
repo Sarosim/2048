@@ -182,6 +182,10 @@ function isItGameOver() {
 function shiftTiles(direction) { //directions: 0-up, 1-left, 2-down, 3-right
     var a, b, vertical, horizontal, x1, y1, x2, y2; //helper variables for the directions
     var fromPosition, toPosition;
+    debugger;
+    if (typeof direction == 'number') {
+        alert(direction + " is a number :)");
+    }
     switch (direction) {
         case 3: // right
             a = 3;
@@ -529,10 +533,20 @@ function swipeDetect(element, callback) {
         elapsedTime = new Date().getTime() - startTime; // get time elapsed
         if (elapsedTime <= allowedTime) { // first condition for a swipe met
             if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) { // 2nd condition for horizontal swipe met
-                swipeDir = (distX < 0) ? "left" : "right"; // if dist traveled is negative, it indicates left swipe
+                if (distX < 0) { // if dist traveled horizontally is negative, it indicates left swipe
+                    swipeDir = 1;
+                }
+                else {
+                    swipeDir = 3; //otherwie it is right swipe
+                } //dir(ections): 0-up, 1-left, 2-down, 3-right
             }
             else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint) { // 2nd condition for vertical swipe met
-                swipeDir = (distY < 0) ? "up" : "down"; // if dist traveled is negative, it indicates up swipe
+                if (distY < 0) { // if dist traveled vertically is negative, it indicates up swipe
+                    swipeDir = 0;
+                }
+                else {
+                    swipeDir = 2; // otherwie it is down swipe
+                }
             }
         }
         handleSwipe(swipeDir);
@@ -614,20 +628,13 @@ document.onkeydown = function(e) {
 window.addEventListener('load', function() {
 
     var theElement = document.getElementById("swipe-area");
-
-    var hideTimer = null;
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
-            var arrowID = "#btn-" + swipeDir;
             alert("The current swipeDir: " + swipeDir);
-            //  clearTimeout(hideTimer);
-            $("#arrowID").remove();
-            //   hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
-            //     $(arrowID).blur();
-            //    }, 1000);
+            shiftTiles(swipeDir)
         }
         else {
-            alert("There was a swipe, but no swipeDir" + swipeDir);
+            alert("There was a swipe, but no swipeDir " + swipeDir);
         }
     });
 
