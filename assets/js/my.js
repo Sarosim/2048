@@ -492,22 +492,22 @@ function onUserInput(dir) {
     }
 }
 
-function swipeDetect(theElement, callback){
-  
+function swipeDetect(theElement, callback) {
+
     var touchSurface = theElement,
-    swipeDir,
-    startX,
-    startY,
-    distX,
-    distY,
-    threshold = 150, //required min distance traveled to be considered swipe
-    restraint = 100, // maximum distance allowed at the same time in perpendicular direction
-    allowedTime = 300, // maximum time allowed to travel that distance
-    elapsedTime,
-    startTime,
-    handleSwipe = callback || function(swipeDir){};
-  
-    touchSurface.addEventListener('touchstart', function(e){
+        swipeDir,
+        startX,
+        startY,
+        distX,
+        distY,
+        threshold = 150, //required min distance traveled to be considered swipe
+        restraint = 100, // maximum distance allowed at the same time in perpendicular direction
+        allowedTime = 300, // maximum time allowed to travel that distance
+        elapsedTime,
+        startTime,
+        handleSwipe = callback || function(swipeDir) {};
+
+    touchSurface.addEventListener('touchstart', function(e) {
         var touchobj = e.changedTouches[0];
         swipeDir = 'none';
         distX = 0;
@@ -517,22 +517,22 @@ function swipeDetect(theElement, callback){
         startTime = new Date().getTime(); // record time when finger first makes contact with surface
         e.preventDefault();
     }, false);
-  
-    touchSurface.addEventListener('touchmove', function(e){
+
+    touchSurface.addEventListener('touchmove', function(e) {
         e.preventDefault(); // prevent scrolling when inside DIV
     }, false);
-  
-    touchSurface.addEventListener('touchend', function(e){
+
+    touchSurface.addEventListener('touchend', function(e) {
         var touchobj = e.changedTouches[0];
         distX = touchobj.pageX - startX; // get horizontal dist traveled by finger while in contact with surface
         distY = touchobj.pageY - startY; // get vertical dist traveled by finger while in contact with surface
         elapsedTime = new Date().getTime() - startTime; // get time elapsed
-        if (elapsedTime <= allowedTime){ // first condition for a swipe met
-            if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint){ // 2nd condition for horizontal swipe met
-                swipeDir = (distX < 0)? "left" : "right"; // if dist traveled is negative, it indicates left swipe
+        if (elapsedTime <= allowedTime) { // first condition for a swipe met
+            if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) { // 2nd condition for horizontal swipe met
+                swipeDir = (distX < 0) ? "left" : "right"; // if dist traveled is negative, it indicates left swipe
             }
-            else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint){ // 2nd condition for vertical swipe met
-                swipeDir = (distY < 0)? "up" : "down"; // if dist traveled is negative, it indicates up swipe
+            else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint) { // 2nd condition for vertical swipe met
+                swipeDir = (distY < 0) ? "up" : "down"; // if dist traveled is negative, it indicates up swipe
             }
         }
         handleSwipe(swipeDir);
@@ -613,62 +613,21 @@ document.onkeydown = function(e) {
 // Touchscreen -- touch screen swipe navigation
 window.addEventListener('load', function() {
 
-    var theElement = document.getElementById("swipe-area");
+    var theElement = $("swipe-area");
 
     var hideTimer = null;
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
             var arrowID = "#btn-" + swipeDir;
+            alert("arrowID: ", arrowID);
             clearTimeout(hideTimer);
-            $("#current-score").remove();
-            
+            $("#arrowID").focus();
             hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
-               $(arrowID).blur();
+                $(arrowID).blur();
             }, 1000);
         }
     });
 
-    /*    var touchsurface = document.getElementById('touchsurface'),
-            startX,
-            startY,
-            dist,
-            threshold = 150, //required min distance traveled to be considered swipe
-            allowedTime = 200, // maximum time allowed to travel that distance
-            elapsedTime,
-            startTime
-     
-        function handleswipe(isrightswipe){
-            if (isrightswipe)
-                touchsurface.innerHTML = 'Congrats, you\'ve made a <span style="color:red">right swipe!</span>'
-            else{
-                touchsurface.innerHTML = 'Condition for right swipe not met yet'
-            }
-        }
-     
-        touchsurface.addEventListener('touchstart', function(e){
-            touchsurface.innerHTML = ''
-            var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
-            dist = 0
-            startX = touchobj.pageX
-            startY = touchobj.pageY
-            startTime = new Date().getTime() // record time when finger first makes contact with surface
-            e.preventDefault()
-        }, false)
-     
-        touchsurface.addEventListener('touchmove', function(e){
-            e.preventDefault() // prevent scrolling when inside DIV
-        }, false)
-     
-        touchsurface.addEventListener('touchend', function(e){
-            var touchobj = e.changedTouches[0]
-            dist = touchobj.pageX - startX // get total dist traveled by finger while in contact with surface
-            elapsedTime = new Date().getTime() - startTime // get time elapsed
-            // check that elapsed time is within specified, horizontal dist traveled >= threshold, and vertical dist traveled <= 100
-            var swiperightBol = (elapsedTime <= allowedTime && dist >= threshold && Math.abs(touchobj.pageY - startY) <= 100)
-            handleswipe(swiperightBol)
-            e.preventDefault()
-        }, false)
-    */
 }, false); // end window.onload
 
 
