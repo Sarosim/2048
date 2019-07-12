@@ -492,9 +492,9 @@ function onUserInput(dir) {
     }
 }
 
-function swipeDetect(theElement, callback) {
+function swipeDetect(element, callback) {
 
-    var touchSurface = theElement,
+    var touchSurface = element,
         swipeDir,
         startX,
         startY,
@@ -618,13 +618,16 @@ window.addEventListener('load', function() {
     var hideTimer = null;
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
-            var arrowID = "#btn-" + swipeDir;
+         //   var arrowID = "#btn-" + swipeDir;
             alert("arrowID: ", arrowID);
-            clearTimeout(hideTimer);
-            $("#arrowID").focus();
-            hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
-                $(arrowID).blur();
-            }, 1000);
+          //  clearTimeout(hideTimer);
+            $("#arrowID").remove();
+         //   hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
+           //     $(arrowID).blur();
+        //    }, 1000);
+        }
+        else{
+            alert("There was a swipe, but no swipeDir", swipeDir );
         }
     });
 
