@@ -619,7 +619,7 @@ window.addEventListener('load', function() {
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
             var arrowID = "#btn-" + swipeDir;
-            alert("arrowID: ", arrowID);
+            alert("swipDir: ", swipeDir);
           //  clearTimeout(hideTimer);
             $("#arrowID").remove();
          //   hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
