@@ -619,15 +619,15 @@ window.addEventListener('load', function() {
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
             var arrowID = "#btn-" + swipeDir;
-            alert("swipDir: ", swipeDir);
-          //  clearTimeout(hideTimer);
+            alert("The current swipeDir: " + swipeDir);
+            //  clearTimeout(hideTimer);
             $("#arrowID").remove();
-         //   hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
-           //     $(arrowID).blur();
-        //    }, 1000);
+            //   hideTimer = setTimeout(function() { // remove focus from corresponding arrow after 1 second
+            //     $(arrowID).blur();
+            //    }, 1000);
         }
-        else{
-            alert("There was a swipe, but no swipeDir", swipeDir );
+        else {
+            alert("There was a swipe, but no swipeDir" + swipeDir);
         }
     });
 
