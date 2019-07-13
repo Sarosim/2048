@@ -1,30 +1,28 @@
 html,
 body {
     margin: 0;
-    height: 100vh;
-    overflow: hidden
+    /*  height: 100vh; 
+    overflow: hidden */
 }
-
-/*.modal-backdrop {
-    /* bug fix - no overlay     
-    display: none;    
-}*/
 
 .title-row {
-    height: 8vh;
+    padding-top: 10px;
 }
+
 
 .scores-row {
-    height: 10vh;
+    padding-top: 10px;
 }
 
+
 .message-row {
-    height: 7vh;
+    padding-top: 14px;
 }
 
 .game-board-container {
     position: relative;
-    height: 45vh;
+    padding-top: 14px;
+    padding-bottom: 24px;
 }
 
 .game-board {
@@ -42,9 +40,10 @@ body {
     border-radius: 5px;
 }
 
+/*
 .buttons {
     height: 10vh;
-}
+}*/
 
 .scores-tile {
     height: 72px;
@@ -77,11 +76,12 @@ body {
     top: 36px;
     right: 18px;
     text-align: center;
-    background-color: #BCDBEA;
+    background-color: #6080a0;
+    opacity: 0.8;
     border-radius: 50%;
     width: 24px;
     height: 24px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 26px;
     cursor: default;
     z-index: 5;
@@ -115,7 +115,7 @@ body {
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
     right: -4px;
     color: #FFF;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.4;
 
 }
@@ -192,6 +192,15 @@ body {
     body {
         background-color: #111;
     }
+    h5 {
+        font-size: 1.3rem;
+    }
+
+    .details {
+        top: 26px;
+        right: 18px;
+    }
+
     .game-board {
         width: 246px;
         height: 246px;

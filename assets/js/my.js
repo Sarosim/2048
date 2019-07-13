@@ -62,7 +62,6 @@ function changeTileValue(x, y, newValue) {
         .text(newValue)
         .removeClass(oldValueClass)
         .addClass(newValueClass);
-    console.log(newValue);
     if (newValue == 2048) {
         goalReached = true;
     }
@@ -84,7 +83,6 @@ function recordTileData() { //for undo
     var currentTiles = document.getElementsByClassName("game-tile");
     for (var i = 0; i < currentTiles.length; i++) {
         var str = currentTiles[i].className;
-        //        debugger;
         startPos = str.indexOf("position-style");
         xPos = parseInt(str.slice(startPos + 15, startPos + 16));
         yPos = parseInt(str.slice(startPos + 17, startPos + 18));
@@ -140,7 +138,6 @@ function isItGameOver() {
     var positionStyle;
     var currentTiles = document.getElementsByClassName("game-tile");
     var amountOfTiles = currentTiles.length;
-    //debugger;
     for (var i = 0; i < amountOfTiles; i++) {
         for (var j = 1; j <= 4; j++) {
             for (var k = 1; k <= 4; k++) {
@@ -157,7 +154,6 @@ function isItGameOver() {
             alert("there are two tiles on a cell ! ! ! This is a bug, please inform the developer :) ");
         }
     }
-    console.log("amountOfTiles: ", amountOfTiles, potentialMove);
     if (amountOfTiles == 16) {
         potentialMove = false;
         var valIJ, valIPlus1J, valIJPlus1;
@@ -421,7 +417,6 @@ function createNewTile(x, y, val) {
         .text(val)
         .removeClass("new-tile");
     isItGameOver();
-    console.log("most futott az isItGameOver");
     if (potentialMove == false) {
         modalLabel = "Game Over!";
         modalText = "No possible move available --> game over! Want to try again?";
@@ -452,7 +447,7 @@ function generateNewTileData() { //Generate new value for one of the empty field
 }
 
 function onUserInput(dir) {
-    gameInPlay = true; // Just for the testing!!!
+ //   gameInPlay = true; // Just for the testing!!!
     if (gameInPlay) {
         if (readyStatus) {
             recordTileData();
@@ -465,7 +460,8 @@ function onUserInput(dir) {
                         .fadeOut(100)
                         .text(score)
                         .fadeIn(100);
-                    return $("#best-score")
+                    return;
+                    $("#best-score")
                         .fadeOut(100)
                         .text(currentHighScore)
                         .fadeIn(100);
@@ -625,7 +621,7 @@ window.addEventListener('load', function() {
     var theElement = document.getElementById("swipe-area");
     swipeDetect(theElement, function(swipeDir) {
         if (swipeDir != 'none') {
-            shiftTiles(swipeDir);
+            onUserInput(swipeDir); //dir(ections): 0-up, 1-left, 2-down, 3-right
         }
     });
 }, false); // end window.onload
