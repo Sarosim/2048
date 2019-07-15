@@ -447,7 +447,7 @@ function generateNewTileData() { //Generate new value for one of the empty field
 }
 
 function onUserInput(dir) {
- //   gameInPlay = true; // Just for the testing!!!
+    //   gameInPlay = true; // Just for the testing!!!
     if (gameInPlay) {
         if (readyStatus) {
             recordTileData();
@@ -631,3 +631,8 @@ window.addEventListener('load', function() {
 
 windowWidth = document.body.clientWidth;
 windowHeight = window.innerHeight;
+console.log("Width: ", windowWidth, "; Height: ", windowHeight);
+if (windowWidth > windowHeight * 1.3) {
+    $(".title-row").removeClass("d-md-block");
+    $("#title-landscape h1").text("2048");
+}

@@ -26,7 +26,7 @@
                 </div>
                 <div class="modal-body">
                     <p id="modalmessage" class="message">
-                       --> game over! Want to try again?
+                        --> game over! Want to try again?
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -39,16 +39,16 @@
 
     <!--The page itself-->
     <div class="full-viewport">
-        <div class="row ">
+        <div class="row container mx-auto">
             <div class="col-12 text-center">
                 <div class="title-row d-none d-md-block mx-auto">
                     <h1 class="text-primary">2048</h1>
                 </div>
             </div>
         </div>
-        <div class="row scores-row">
-            <div class="col-2 col-md-3 dummy"></div>
-            <div class="scores text-info col-4 col-md-3 text-center">
+        <div class="row container mx-auto text-center scores-row">
+            <div class="d-none d-md-block col-md-1 dummy"></div>
+            <div class="scores text-info col-6 col-md-4 text-center">
                 <div class="scores-tile">
                     <div class="scores-text">
                         Score:
@@ -56,8 +56,10 @@
                     <div id="current-score" class="text-center">0</div>
                 </div>
             </div>
-           
-            <div class="scores text-info col-4 col-md-3 text-center">
+            <div id="title-landscape" class="d-none d-md-block col-md-2">
+                <h1 class="text-primary"></h1>
+            </div>
+            <div class="scores text-info col-6 col-md-4 text-center">
                 <div class="scores-tile">
                     <div class="scores-text">
                         Best:
@@ -65,16 +67,21 @@
                     <div id="best-score">0</div>
                 </div>
             </div>
-            <div class="col-2 col-md-3 dummy"></div>
+            <div class="d-none d-md-block col-md-1 dummy"></div>
         </div>
         <div class="container">
             <div class="row message-row">
                 <div class="col-12 d-md-none tooltip-container">
                     <div class="details">
-                        <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number <strong>2048</strong>. <br> Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge
-                            of the grid. <br> If two tiles of the same number collide while moving, they will <strong>merge</strong> into a tile with the <strong>total value of the two tiles</strong> that collided. <br>The <em>resulting tile cannot merge</em> with another tile <strong>again</strong> <em>in the same
-                            move</em>. Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4.</p>
+                        <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number <strong>2048</strong>. <br> 
+                             If two tiles of the same number collide while moving, they will <strong>merge</strong> into a tile with the <strong>total value of the two.</strong> <br>
+                             Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br>
+                        <a href="#">Detailed description</a>     
+                        </p>
                     </div>
+                <!--Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge of the grid. <br>
+                tiles that collided. The <em>resulting tile cannot merge</em> with another tile <strong>again</strong> <em>in the same
+                            move</em>. -->
                 </div>
                 <div class="col-12 sub-title mx-auto text-center">
                     <h5 class="text-warning">Join the numbers to get to the <strong>2048</strong> tile <i>or further... </i>!!!</h5>
@@ -89,11 +96,12 @@
                 <div class="game-tile text-center gf-value-style-2 gt-position-style-1-1">2</div>
                 <div class="game-tile text-center gf-value-style-4 gt-position-style-1-2">4</div>
                 <div class="game-tile text-center gf-value-style-16 gt-position-style-1-3">16</div>
-        <!--        <div class="game-tile text-center gf-value-style-1024 gt-position-style-1-4">1024</div>-->
+                <!--        <div class="game-tile text-center gf-value-style-1024 gt-position-style-1-4">1024</div>-->
                 <div class="game-tile text-center gf-value-style-32 gt-position-style-2-1">32</div>
-        <!--        <div class="game-tile text-center gf-value-style-1024 gt-position-style-3-3">1024</div>
+                <!--        <div class="game-tile text-center gf-value-style-1024 gt-position-style-3-3">1024</div>
                 <div class="game-tile text-center gf-value-style-1024 gt-position-style-4-4">1024</div>
-        -->        <div class="game-tile text-center gf-value-style-64 gt-position-style-2-2">64</div>
+        -->
+                <div class="game-tile text-center gf-value-style-64 gt-position-style-2-2">64</div>
                 <div class="game-tile text-center gf-value-style-128 gt-position-style-2-3">128</div>
                 <div class="game-tile text-center gf-value-style-256 gt-position-style-2-4">256</div>
                 <div class="game-tile text-center gf-value-style-512 gt-position-style-3-1">512</div>
@@ -129,7 +137,7 @@
                 </div>
             </div>
         </section>
-        <div class="container description d-none d-md-block">
+        <div class="container description d-none d-md-block mt-3">
             <div class="row">
                 <div class="col-12 text-warning">
                     <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048.</p>
