@@ -73,13 +73,12 @@
             <div class="row message-row">
                 <div class="col-12 d-md-none tooltip-container">
                     <div class="details">
-                        <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number <strong>2048</strong>. <br> 
-                             If two tiles of the same number collide while moving, they will <strong>merge</strong> into a tile with the <strong>total value of the two.</strong> <br>
-                             Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br>
-                        <a href="#">Detailed description</a>     
+                        <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number <strong>2048</strong>. <br> If two tiles of the same number collide while moving, they will <strong>merge</strong> into
+                            a tile with the <strong>total value of the two.</strong> <br> Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br>
+                            <a href="#">Detailed description</a>
                         </p>
                     </div>
-                <!--Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge of the grid. <br>
+                    <!--Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge of the grid. <br>
                 tiles that collided. The <em>resulting tile cannot merge</em> with another tile <strong>again</strong> <em>in the same
                             move</em>. -->
                 </div>
@@ -95,8 +94,8 @@
             <div class="game-board py-1 px-1 bg-secondary mx-auto">
                 <div class="game-tile text-center gf-value-style-2 gt-position-style-1-1">2</div>
                 <div class="game-tile text-center gf-value-style-4 gt-position-style-1-2">4</div>
-                <div class="game-tile text-center gf-value-style-16 gt-position-style-1-3">16</div>
-                <!--        <div class="game-tile text-center gf-value-style-1024 gt-position-style-1-4">1024</div>-->
+                <div class="game-tile text-center gf-value-style-8 gt-position-style-1-3">8</div>
+                <div class="game-tile text-center gf-value-style-16 gt-position-style-1-4">16</div>
                 <div class="game-tile text-center gf-value-style-32 gt-position-style-2-1">32</div>
                 <!--        <div class="game-tile text-center gf-value-style-1024 gt-position-style-3-3">1024</div>
                 <div class="game-tile text-center gf-value-style-1024 gt-position-style-4-4">1024</div>
@@ -137,16 +136,16 @@
                 </div>
             </div>
         </section>
-        <div class="container description d-none d-md-block mt-3">
-            <div class="row">
-                <div class="col-12 text-warning">
-                    <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048.</p>
-                    <p>Tiles slide as far as possible in the chosen direction until they are stopped by either another tile or the edge of the grid. If two tiles of the same number collide while moving, they will merge into a tile with the total value of
-                        the two tiles that collided. The resulting tile cannot merge with another tile again in the same move. </p>
-                    <p>Every turn, a new tile will randomly appear in an empty spot on the board with a value of either 2 or 4. </p>
-                </div>
+        <blockquote class="blockquote text-center">
+            <div class="mb-0 text-warning d-none d-md-block mt-3">
+                <p>The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number <strong>2048</strong>.</p>
+                <p>If two tiles of the same number collide while moving, they will <strong>merge</strong> into a tile with the <strong>total value of the two.</strong> </p>
+                <p>Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br>
+                    <a href="#">Detailed description</a>
+                </p>
+                </p>
             </div>
-        </div>
+        </blockquote>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

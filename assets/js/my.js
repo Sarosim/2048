@@ -127,8 +127,8 @@ function undoLastScore() {
     scoreHistory.pop();
 }
 
-// It also checks whether there are two tiles on the same position (bug control)
-function isItGameOver() {
+function isItGameOver() { 
+    // It also checks whether there are two tiles on the same position (bug control)
     var pos = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],

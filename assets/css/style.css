@@ -53,12 +53,6 @@ body {
     font-size: 1.3rem;
 }
 
-.description {
-    font-size: medium;
-    text-align: justify;
-    height: 15vh;
-}
-
 /*    TOOLTIP    */
 
 .tooltip-container {
