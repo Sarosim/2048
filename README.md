@@ -5,10 +5,6 @@ Provide details in your README.md of the logic you have used to build your game 
 
 notes:
 
-Cloning an array: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
-
-inline help tips idea and css solution is from tutorialzine, (https://tutorialzine.com/2014/07/css-inline-help-tips) Create inline help tips for your site with a bit of CSS
-
 
 these are just thoughts for the readme:
 - I wanted to include graphs in order to deepen as well as showcase my D3.js knowledge
@@ -36,3 +32,62 @@ As with many arcade games, the user's best score is shown alongside the current 
 
 The game is won when a tile with a value of 2048 appears on the board, hence the name of the game. After reaching the 2048 tile, players can continue to play (beyond the 2048 tile) to reach higher scores.
 When the player has no legal moves (there are no empty spaces and no adjacent tiles with the same value), the game ends.
+
+## Game functionality
+
+On top of the necessary *start game* / *new game*, my version includes:
+
+- Undo 
+- High score 
+- ~~Imitated high score statistics: comparing the current score and high score of the session to other users records.~~
+
+**Game control option are:**
+- Keyboard arrows 
+- On-screen arrow buttons 
+- Screen swipe for touch-screen devices. 
+
+# Technologies used:
+
+*HTML* and *CSS* used for the look and feel of the game, including **Bootswatch Cyborg theme**. Besides the built in responsive functionality
+of bootstrap, I used further media queries, javaScript to identify landscape/portrait format as well as sass to generate more appropriate 
+size variants. I also used sass to generate the colour scheme for the game tiles as well as the style attributes for the tile positioning classes.  
+
+The gameplay functionality was developed in *JavaScript*. 
+
+I used *Stackoverflow* and *w3schools.com* to help me better understand certain JavaScript functionalities and overcome obstacles as 
+well as fix bugs.  Advice from Code Institute Slack community has also helped me to learn about debugging in JavaScript. 
+
+# Detail how the project was developed:
+
+At first I concentrated on the maths part of the game and started with a simple grid where I calculated the value of each position of the grid
+whenever the user indicated a move. I got stuck with emulating the moves, numbers were changing on the position, but I realised I had 
+to use actual tiles and have them sliding on user input. 
+
+Then I implemented the tiles and re-coded the controls. This solution works with two particular classes assigned to each tiles. 
+One determines the look and feel of it (colour, font size, font colour), the second sets the position. 
+
+Instead of writing separate functions for moving to each directions I decided to pass the direction as an argument to the the function
+that handles the swipe. 
+
+In order to manage the undoing of the last moves, the status of the game board and the current score are recorded to respective arrays
+before the actual move takes place. Once the user clicks the undo button, the last element is read from both arrays and the previous 
+board state and score are reset accordingly. The length of the arrays storing game play and score history is limited, as there can be 
+several thousand moves in a single game play. 
+
+At a certain point in the development there was a bug causing two tiles appearing at the same board position. In order to find the 
+cause of the problem I inserted a function to determine when that happened. I decided to leave it in the final version, just in case, 
+although the bug has been eliminated. 
+
+# UX
+
+# Testing
+
+# Deployment
+
+# Credits
+
+Solution for cloning an array to avoid changing with the original array is from Smantha Ming: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
+
+Tooltip idea and css solution is from tutorialzine: (https://tutorialzine.com/2014/07/css-inline-help-tips) Create inline help tips for your site with a bit of CSS
+
+
