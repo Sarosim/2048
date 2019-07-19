@@ -645,7 +645,6 @@
                 setTimeout(function() {
                     arrowDir.removeClass("imitate-hover");
                 }, 250);
-
                 onUserInput(3); //dir(ections): 0-up, 1-left, 2-down, 3-right
         }
     };
@@ -655,12 +654,10 @@
         var theElement = document.getElementById("swipe-area");
         swipeDetect(theElement, function(swipeDir) {
             if (swipeDir != 'none') {
-                alert("swipeDir = " + swipeDir + "arrowDir = " + arrowDir);
                 arrowDir.addClass("imitate-hover");
                 setTimeout(function() {
                     arrowDir.removeClass("imitate-hover");
                 }, 250);
-                alert("this is after the imitation");
                 onUserInput(swipeDir); //dir(ections): 0-up, 1-left, 2-down, 3-right
             }
         });
