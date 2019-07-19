@@ -18,7 +18,7 @@
     var modalLabelElement = $("#modallabel");
     var modalMessageElement = $("#modalmessage");
     var modalButtonElement = $("#mymodalbtn");
-    var myModal = $("#combined-modal")
+    var myModal = $("#combined-modal");
     var highScoreDiv = $("#best-score");
     var scoreDiv = $("#current-score");
     var gameBoardDiv = $(".game-board");
@@ -536,7 +536,7 @@
                 if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) { // 2nd condition for horizontal swipe met
                     if (distX < 0) { // if dist traveled horizontally is negative, it indicates left swipe
                         swipeDir = 1;
-                        arrowDir = btnLeft
+                        arrowDir = btnLeft;
                     }
                     else {
                         swipeDir = 3; //otherwie it is right swipe
@@ -655,10 +655,12 @@
         var theElement = document.getElementById("swipe-area");
         swipeDetect(theElement, function(swipeDir) {
             if (swipeDir != 'none') {
+                alert("swipeDir = " + swipeDir + "arrowDir = " + arrowDir);
                 arrowDir.addClass("imitate-hover");
                 setTimeout(function() {
                     arrowDir.removeClass("imitate-hover");
                 }, 250);
+                alert("this is after the imitation");
                 onUserInput(swipeDir); //dir(ections): 0-up, 1-left, 2-down, 3-right
             }
         });
