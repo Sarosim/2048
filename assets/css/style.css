@@ -223,3 +223,12 @@ body {
     }
 
 }
+
+@media (orientation: landscape) {
+  .title-container {
+      display: none;
+  }
+  .title-landscape h1 {
+      display: block;
+  }
+}
