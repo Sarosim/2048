@@ -1,4 +1,5 @@
 // my.js is linked in the bottom of index.html, therefore didn't start with document ready function, may consider...
+(function () {
 
 var gameInPlay = false;
 var readyStatus = true;
@@ -6,15 +7,9 @@ var potentialMove = true;
 var wasThereAMove = false;
 var score = 0;
 var currentHighScore = 0;
-var highScoreHistory = [
-    ["Miklos", 518],
-    ["Matyi", 1352]
-];
 var gamePlayHistory = [];
 var maxMovesToStore = 15;
 var scoreHistory = [];
-var windowWidth;
-var windowHeight;
 var goalReached = false;
 var wantToContinue = false;
 var modalLabel, modalText, modalButton;
@@ -629,10 +624,4 @@ window.addEventListener('load', function() {
 //****************************************************
 //    E X E C U T E
 
-windowWidth = document.body.clientWidth;
-windowHeight = window.innerHeight;
-console.log("Width: ", windowWidth, "; Height: ", windowHeight);
-if (windowWidth > windowHeight * 1.3) {
-    $(".title-row").removeClass("d-md-block");
-    $("#title-landscape h1").text("2048");
-}
+}) ();
