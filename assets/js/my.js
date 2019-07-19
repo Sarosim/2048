@@ -28,6 +28,7 @@
         btnLeft = $("#btn-left"),
         btnRight = $("#btn-right"),
         btnDown = $("#btn-down");
+    var arrowDir;
     //****************************************************
     // F U N C T I O N S     D E F I N E D       H E R E
     //****************************************************
@@ -46,7 +47,7 @@
         }, 50);
         setTimeout(function() {
             generateNewTileData();
-        }, 100);
+        }, 150);
     }
 
     //check if current score is higher than highscore
@@ -504,8 +505,8 @@
             startY,
             distX,
             distY,
-            threshold = 100, //required min distance traveled to be considered swipe
-            restraint = 70, // maximum distance allowed at the same time in perpendicular direction
+            threshold = 80, //required min distance traveled to be considered swipe
+            restraint = 50, // maximum distance allowed at the same time in perpendicular direction
             allowedTime = 300, // maximum time allowed to travel that distance
             elapsedTime,
             startTime,
@@ -535,17 +536,21 @@
                 if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) { // 2nd condition for horizontal swipe met
                     if (distX < 0) { // if dist traveled horizontally is negative, it indicates left swipe
                         swipeDir = 1;
+                        arrowDir = btnLeft
                     }
                     else {
                         swipeDir = 3; //otherwie it is right swipe
+                        arrowDir = btnRight;
                     } //dir(ections): 0-up, 1-left, 2-down, 3-right
                 }
                 else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint) { // 2nd condition for vertical swipe met
                     if (distY < 0) { // if dist traveled vertically is negative, it indicates up swipe
                         swipeDir = 0;
+                        arrowDir = btnUp;
                     }
                     else {
                         swipeDir = 2; // otherwie it is down swipe
+                        arrowDir = btnDown;
                     }
                 }
             }
@@ -611,15 +616,36 @@
     document.onkeydown = function(e) {
         switch (e.key) {
             case 'ArrowUp':
+                arrowDir = btnUp;
+                arrowDir.addClass("imitate-hover");
+                setTimeout(function() {
+                    arrowDir.removeClass("imitate-hover");
+                }, 250);
                 onUserInput(0); //dir(ections): 0-up, 1-left, 2-down, 3-right
                 break;
             case 'ArrowDown':
+                arrowDir = btnDown;
+                arrowDir.addClass("imitate-hover");
+                setTimeout(function() {
+                    arrowDir.removeClass("imitate-hover");
+                }, 250);
                 onUserInput(2); //dir(ections): 0-up, 1-left, 2-down, 3-right
                 break;
             case 'ArrowLeft':
+                arrowDir = btnLeft;
+                arrowDir.addClass("imitate-hover");
+                setTimeout(function() {
+                    arrowDir.removeClass("imitate-hover");
+                }, 250);
                 onUserInput(1); //dir(ections): 0-up, 1-left, 2-down, 3-right
                 break;
             case 'ArrowRight':
+                arrowDir = btnRight;
+                arrowDir.addClass("imitate-hover");
+                setTimeout(function() {
+                    arrowDir.removeClass("imitate-hover");
+                }, 250);
+
                 onUserInput(3); //dir(ections): 0-up, 1-left, 2-down, 3-right
         }
     };
@@ -629,6 +655,10 @@
         var theElement = document.getElementById("swipe-area");
         swipeDetect(theElement, function(swipeDir) {
             if (swipeDir != 'none') {
+                arrowDir.addClass("imitate-hover");
+                setTimeout(function() {
+                    arrowDir.removeClass("imitate-hover");
+                }, 250);
                 onUserInput(swipeDir); //dir(ections): 0-up, 1-left, 2-down, 3-right
             }
         });

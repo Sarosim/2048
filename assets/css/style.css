@@ -176,6 +176,27 @@ body {
     padding: 0;
 }
 
+.description {
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+}
+.emph1 {
+    font-size: 1.35rem;
+    color: #f60;
+    text-shadow: 1px -1px #fff;
+    
+}
+.emph2 {
+font-style: oblique;
+}
+
+.imitate-hover {
+    color: #fff;
+    background-color: #9933CC;
+    border-color: #9933CC;
+    text-decoration: none;
+}
+
 /* Small and large screens */
 
 @media only screen and (max-width: 376px) {
