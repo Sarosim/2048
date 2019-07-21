@@ -41,8 +41,7 @@ body {
 }
 
 .scores-tile {
-    height: 72px;
-    font-size: 1.6rem;
+    height: 70px;
     border: 3px solid blue;
     border-style: outset;
     border-radius: 5px;
@@ -52,6 +51,27 @@ body {
 .scores-text {
     font-size: 1.3rem;
 }
+
+.score {
+    font-size: 1.6rem;
+    margin-top: -5px;
+        color: #9933CC;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+
+.score-animate {
+    font-size: 2.8rem;
+    margin-top: -20px;
+    color: #CC0000;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+
 
 /*    TOOLTIP    */
 
@@ -85,7 +105,6 @@ body {
 .details:hover p {
     display: block;
     transform-origin: 100% 0%;
-
     -webkit-animation: fadeIn 0.3s ease-in-out;
     -moz-animation: fadeIn 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
@@ -185,11 +204,11 @@ body {
     font-size: 1.35rem;
     color: #f60;
     text-shadow: 1px -1px #fff;
-    
+
 }
 
 .emph2 {
-font-style: oblique;
+    font-style: oblique;
 }
 
 .emph3 {
@@ -252,10 +271,10 @@ font-style: oblique;
 }
 
 @media (orientation: landscape) {
-  .title-container {
-      display: none;
-  }
-  .title-landscape h1 {
-      display: block;
-  }
+    .title-container {
+        display: none;
+    }
+    .title-landscape h1 {
+        display: block;
+    }
 }

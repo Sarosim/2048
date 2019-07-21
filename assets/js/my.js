@@ -7,6 +7,8 @@
     var wasThereAMove = false;
     var score = 0;
     var currentHighScore = 0;
+    var scoreChange = false,
+        highScoreChange = false;
     var gamePlayHistory = [];
     var maxMovesToStore = 15;
     var scoreHistory = [];
@@ -37,6 +39,10 @@
         gameInPlay = true;
         potentialMove = true;
         score = 0;
+        highScoreChange = false;
+        scoreChange = true;
+        scoring();
+        scoreChange = false;
         gamePlayHistory = [];
         scoreHistory = [];
         goalReached = false;
@@ -54,6 +60,31 @@
     function checkHighScore() {
         if (score > currentHighScore) {
             currentHighScore = score;
+            highScoreChange = true;
+        }
+    }
+
+    function scoring() {
+        if (highScoreChange) {
+            highScoreDiv
+                .text(currentHighScore)
+                .addClass("score-animate");
+            setTimeout(function() {
+                highScoreDiv.removeClass("score-animate");
+            }, 200);
+            //.fadeOut(50)
+            //.fadeIn(50);
+            highScoreChange = false;
+        }
+        if (scoreChange) {
+            scoreDiv
+                .text(score)
+                .addClass("score-animate");
+            setTimeout(function() {
+                scoreDiv.removeClass("score-animate");
+            }, 200);
+            scoreChange = false;
+            return;
         }
     }
 
@@ -67,6 +98,7 @@
         var positionClass = ".gt-position-style-" + x + "-" + y;
         var oldValueClass = "gf-value-style-" + newValue / 2;
         var newValueClass = "gf-value-style-" + newValue;
+        scoreChange = true;
         $(positionClass)
             .text(newValue)
             .removeClass(oldValueClass)
@@ -79,7 +111,6 @@
     function changeTilePosition(xOld, yOld, xNew, yNew) {
         var oldPositionClass = "gt-position-style-" + xOld + "-" + yOld;
         var newPositionClass = "gt-position-style-" + xNew + "-" + yNew;
-
         $("." + oldPositionClass)
             .addClass(newPositionClass)
             .removeClass(oldPositionClass);
@@ -462,23 +493,14 @@
                 recordTileData();
                 recordCurrentScore();
                 shiftTiles(dir);
-                if (wasThereAMove == true) {
+                if (wasThereAMove) {
                     readyStatus = false;
-                    var scoring = function() {
-                        highScoreDiv
-                            .fadeOut(100)
-                            .text(currentHighScore)
-                            .fadeIn(100);
-                        scoreDiv
-                            .fadeOut(100)
-                            .text(score)
-                            .fadeIn(100);
-                        return;
-                    };
+                    //     debugger;
+
                     $.when(scoring()).done(function() {
                         setTimeout(function() {
                             generateNewTileData();
-                        }, 100);
+                        }, 250);
                         readyStatus = true;
                     });
                     if (goalReached) {
