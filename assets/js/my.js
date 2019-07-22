@@ -139,11 +139,10 @@
     }
 
     function undoLastMove() {
-        var tileData = gamePlayHistory[gamePlayHistory.length - 1]; //lehetne gamePlayHistory.pop() ? ? ? nem műxik !!!
+        var tileData = gamePlayHistory[gamePlayHistory.length - 1];
         var numOfTiles = tileData.length / 3;
         var xPos, yPos, val;
-        $(".game-board div").remove();
-        //   remove all children of .game-board
+        $(".game-board div").remove(); //   remove all children of .game-board
         for (var i = 0; i < numOfTiles; i++) {
             xPos = tileData[i * 3];
             yPos = tileData[i * 3 + 1];
@@ -207,9 +206,19 @@
                     valIJPlus1 = $(theTile[0]).text();
                     if ((valIJ == valIPlus1J) || (valIJ == valIJPlus1)) {
                         potentialMove = true;
-                        return potentialMove;
+
                     }
                 }
+            }
+            if (!potentialMove) {
+                modalLabel = "Game Over!";
+                modalText = "No possible move available --> game over! Want to try again?";
+                modalButton = modalButtonTwo;
+                modalLabelElement.text(modalLabel);
+                modalMessageElement.text(modalText);
+                modalButtonElement.text(modalButton);
+                myModal.modal('show');
+                // Here ends if modal button 'Close' clicked
             }
         }
     }
@@ -457,15 +466,7 @@
             .text(val)
             .removeClass("new-tile");
         isItGameOver();
-        if (potentialMove == false) {
-            modalLabel = "Game Over!";
-            modalText = "No possible move available --> game over! Want to try again?";
-            modalButton = modalButtonTwo;
-            modalLabelElement.text(modalLabel);
-            modalMessageElement.text(modalText);
-            modalButtonElement.text(modalButton);
-            myModal.modal('show');
-        }
+
     }
 
     function generateNewTileData() { //Generate new value for one of the empty fields: Randomise 2 or 4 for on empty field
@@ -487,7 +488,7 @@
     }
 
     function onUserInput(dir) {
-        gameInPlay = true; // Just for the testing!!!
+        gameInPlay = true; // Just for the testing!!! DELETE FROM PRODUCTION VERSION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (gameInPlay) {
             if (readyStatus) {
                 recordTileData();
@@ -495,8 +496,6 @@
                 shiftTiles(dir);
                 if (wasThereAMove) {
                     readyStatus = false;
-                    //     debugger;
-
                     $.when(scoring()).done(function() {
                         setTimeout(function() {
                             generateNewTileData();
@@ -593,7 +592,6 @@
 
     undoButton.click(function() {
         if (gameInPlay) {
-
             if (gamePlayHistory.length > 1) {
                 undoLastMove();
                 undoLastScore();
