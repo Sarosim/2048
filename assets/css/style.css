@@ -55,7 +55,7 @@ body {
 .score {
     font-size: 1.6rem;
     margin-top: -5px;
-        color: #9933CC;
+    color: #9933CC;
     -webkit-transition: all 0.2s linear;
     -moz-transition: all 0.2s linear;
     -o-transition: all 0.2s linear;
@@ -267,7 +267,24 @@ body {
         width: 450px;
         height: 450px;
     }
+    .details {
+        top: 0px;
+        right: 120px;
+    }
+}
 
+@media only screen and (min-width: 768px) {
+    .details {
+        top: 0px;
+        right: 20px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .details {
+        top: 0px;
+        right: 120px;
+    }
 }
 
 @media (orientation: landscape) {

@@ -20,6 +20,8 @@ I was right, it was much more complex, it includes complicated logic and a lot t
 
 **These are the exact resons why I loved developing it!** I hope you love playing it and I equally hope you like some of my solutions. 
 
+Be careful when playing, it's addictive :)
+
 # UX
 
 ## Differing from the UX of the original game
@@ -44,8 +46,22 @@ Based on these I drew the following wireframes:
 
 # Design
 
-The final design of the gameboard itself: 
-![](assets/documents/game2048_logo.jpg)
+## The final design of the gameboard itself
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/gameboard.png "game board")
+
+## Mobile layout
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/preview_index.html_iPhone5_SE.png "Mobile layout")
+
+## Tablet layout
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/preview_index.html_iPad_landscape.png "tablet portrait")
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/preview_index.html_iPad_portrait.png "tablet landscape")
+
+## Desktop layout
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/desktop.png "laptop/desktop")
 
 # Features
 
@@ -90,6 +106,8 @@ The gameplay functionality was developed in [*JavaScript*](https://www.javascrip
 
 ## Development process
 
+### Game board and moves
+
 At first I concentrated on the maths part of the game and started with a simple grid where I calculated the value of each position of the grid
 whenever the user indicated a move. I got stuck with emulating the moves, numbers were changing on the position, but I realised I had 
 to use actual tiles and have them sliding on user input. 
@@ -100,10 +118,20 @@ One determines the look and feel of it (colour, font size, font colour), the sec
 Instead of writing separate functions for moving to each directions I decided to pass the direction as an argument to the function
 that handles the swipe. 
 
+### Undo
+
 In order to manage the undoing of the last moves, the status of the game board and the current score are recorded to respective arrays
 before the actual move takes place. Once the user clicks the undo button, the last element is read from both arrays and the previous 
 board state and score are reset accordingly. The length of the arrays storing game play and score history is limited, as there can be 
 several thousand moves in a single game play. 
+
+### Ending the game
+
+The game can end either:
+- if there is no potential move, or
+- if the aim of the game is reached and the player doesn’t want to continue playing. 
+(Once 2048 reached, they can still continue, but they are congratulated!)
+
 
 ## 
 
