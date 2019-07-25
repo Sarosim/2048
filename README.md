@@ -96,7 +96,8 @@ On top of the necessary *start game*/*new game*, my version includes:
 
 # Technologies used
 
-[*HTML*](https://en.wikipedia.org/wiki/HTML5) and [*CSS*](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) used for the look and feel of the game, as well as Bootstrap framework, more specifically  **Bootswatch Cyborg theme**. Besides the built in responsive functionality
+[*HTML*](https://en.wikipedia.org/wiki/HTML5) and [*CSS*](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) used for the look
+and feel of the game, as well as Bootstrap framework, more specifically  **Bootswatch Cyborg theme**. Besides the built in responsive functionality
 of Bootstrap, I used further media queries to generate more appropriate size variants and to identify landscape/portrait format. 
 I also used [*Sass*](https://en.wikipedia.org/wiki/Sass_(stylesheet_language)) to generate the colour scheme for the game tiles as well as the style attributes for the tile positioning classes.  
 
@@ -118,12 +119,37 @@ One determines the look and feel of it (colour, font size, font colour), the sec
 Instead of writing separate functions for moving to each directions I decided to pass the direction as an argument to the function
 that handles the swipe. 
 
+## Logic I have used to build the game
+
+### Event handlers 
+
+There are event handlers attached to each button as well as the keyboard arrows and touch screen. The 'New game' and 
+'Undo' buttons call their respective functions directly, while the arrow keys, buttons and touch-screen swiping call the same function, 
+named onUserInput, which takes the direction as its argument.
+
+### New game
+
+The newGame function initializes all the variables, cleans the gameboard by deleting all the content of the game-board div.
+and starts the game by randomizing two tiles and waiting for user input.
+
 ### Undo
 
 In order to manage the undoing of the last moves, the status of the game board and the current score are recorded to respective arrays
 before the actual move takes place. Once the user clicks the undo button, the last element is read from both arrays and the previous 
 board state and score are reset accordingly. The length of the arrays storing game play and score history is limited, as there can be 
 several thousand moves in a single game play. 
+
+### On user input of direction
+
+The following steps are performed once a user indicated the required direction:
+
+- recording position and value of all tiles currently on the board into the `gamePlayHistory` array,
+- recording the current score to the `scoreHistory` array,
+- shifting the tiles by passing the direction into the function handling the move `shiftTiles(direction)`.
+- checks if there was a move 
+- if there was a move then generates a new tile, checks whether there is a potential move otherwise it is game over; 
+- updates the score 
+- checks if the aim of the game was reached.
 
 ### Ending the game
 
@@ -132,25 +158,70 @@ The game can end either:
 - if the aim of the game is reached and the player doesn’t want to continue playing. 
 (Once 2048 reached, they can still continue, but they are congratulated!)
 
-
-## 
-
-
 # Testing
 
-At a certain point in the development there was a bug causing two tiles appearing at the same board position. In order to find the 
-cause of the problem I inserted a function to determine when that happened. I decided to leave it in the final version, just in case, 
-although the bug has been eliminated. 
+## Design and responsiveness
+
+I performed manual tests on available devices (Android 6.0.1 and 8.1 on Sony and Samsung, iPhone 4S, SE and 6, Google Chrome 75.0.3770.142 
+both on laptop and desktop) and asked family members to do the same by checking page layout, clicking the link to Wikipedia page
+as well as playing the game. I've also checked all different sizes available in Chrome Dev Tools.
+
+The outcome was that in case of landscape orientation on a tablet the screen width is 'large' enough to display the descripton
+but it wouldn't fit to the screen. Instead of shrinking the gameboard, I decided to modify the UX and go for the tooltip
+for landscape tablets.
+
+Bootstrap makes the page responsive by displaying certain elements differently depending on the screen size, but doesn't 
+change the size of the gameboard itself. This created bad user experience, because sizing the gameboard to small mobile screens 
+resulted in too small gameboard on larger devices and vice versa. I used media queries and generated three different gameboard size variants
+to overcome this issue.
+
+## JavaScript
+
+For the testing of most gameplay solutions I simulated the gameboard by inserting the appropriate 'tiles' into the HTML file,
+then faked game in play status in the javaScript by forcing the variable that checks whether there is a game in play. 
+(this has been deleted from the production version).
+
+I have also extensively used `debugger`, `alert` and `console.log` to check values of certain variables at any given moment as well as the flow of the code.
+
+**There were several bugs, a few of the interesting ones:**
+
+- At a certain point in the development there was a bug causing two tiles appearing at the same board position. In order to find the 
+cause of the problem I inserted a function to determine when that happened. I decided to leave it in the final version
+(it is part of the `isItGameOver()` function, just in case, although the bug has been eliminated. 
+
+- Pressing the arrow buttons/keys fast resulted in starting another move, before the previous move has finished. 
+To overcome the problem, I implemented a `readyStatus` boolean variable, 
+set it to `false` every time when an actual move starts. When the new tile has been generated and displayed after a move, it is set to `true`.
+On user input, if the `readyStatus` isn't `true` the user input is neglected.
+
+## Testing against the user stories
+
+1. "let the user realise what this game is and how to play, regardless of the platform they came accross it." --> either the tooltip 
+or the description under the gameboard informs the user.
+2. let the user click on-screen buttons for control. --> done, works nice (hover status is simulated briefly when touch-screen is swiped)
+3. provide a harmonic colour experience, while keeping the original idea of changing tile colour with increasing tile value. --> Generating the colours by a code helped achieve it.
+4. build in the opportunity of undoing in case of accidentially sliding tiles to unwanted direction or bad luck with random tile position or value when getting a new tile. 
+Especially when it results in game over. --> specifically tested by generating game over situations, works well.
 
 # Deployment
+
+I deployed the site on GitHub Pages from the master branch. Any future changes committed to the master branch will automatically update the deployed site. 
+By default on GitHub, the landing page must be named index.html, therefore it may not be renamed.
+
+I also used GitHub for version control. There was only one isntace I had to revert to an earlier version, but only to the last committed change,
+therefore a `git checkout <filename>` solved my issue.
+
+## Differences between the deployed production version and the development version
+
+- production version uses minified javaScript file to reduce file size and loading time and potentially mobile data usage.
 
 # Credits
 
 I used *Stackoverflow* and *w3schools.com* to help me better understand certain JavaScript functionalities and overcome obstacles as 
 well as fix bugs.  Advice from Code Institute Slack community has also helped me to learn about debugging in *JavaScript*. 
 
-Solution for cloning an array to avoid changing with the original array is from Smantha Ming: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
+Solution for cloning an array to avoid changing with the original array is from Ssmantha Ming: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
 
-Tooltip idea and css solution is from tutorialzine: (https://tutorialzine.com/2014/07/css-inline-help-tips) Create inline help tips for your site with a bit of CSS
+Tooltip css solution is from tutorialzine: [Create inline help tips for your site with a bit of CSS](https://tutorialzine.com/2014/07/css-inline-help-tips) 
 
-
+I used JSHint.com to validate my javaScript code. 
