@@ -72,8 +72,6 @@
             setTimeout(function() {
                 highScoreDiv.removeClass("score-animate");
             }, 200);
-            //.fadeOut(50)
-            //.fadeIn(50);
             highScoreChange = false;
         }
         if (scoreChange) {

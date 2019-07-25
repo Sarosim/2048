@@ -220,7 +220,7 @@ therefore a `git checkout <filename>` solved my issue.
 I used *Stackoverflow* and *w3schools.com* to help me better understand certain JavaScript functionalities and overcome obstacles as 
 well as fix bugs.  Advice from Code Institute Slack community has also helped me to learn about debugging in *JavaScript*. 
 
-Solution for cloning an array to avoid changing with the original array is from Ssmantha Ming: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
+Solution for cloning an array to avoid changing with the original array is from Samantha Ming: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
 
 Tooltip css solution is from tutorialzine: [Create inline help tips for your site with a bit of CSS](https://tutorialzine.com/2014/07/css-inline-help-tips) 
 

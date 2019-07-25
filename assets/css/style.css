@@ -1,19 +1,15 @@
 html,
 body {
     margin: 0;
-    /*  height: 100vh; 
-    overflow: hidden */
 }
 
 .title-row {
     padding-top: 10px;
 }
 
-
 .scores-row {
     padding-top: 20px;
 }
-
 
 .message-row {
     padding-top: 14px;
@@ -23,6 +19,7 @@ body {
     position: relative;
     padding-top: 14px;
     padding-bottom: 24px;
+    width: 100%;
 }
 
 .game-board {

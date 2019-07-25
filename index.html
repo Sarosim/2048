@@ -9,8 +9,13 @@
     <link rel="shortcut icon" href="assets/images/game2048_logo_icon.ico" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-    <link rel="stylesheet" href="assets/css/colour-scheme.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/style.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/colour-scheme.min.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-{3.4.0}/jasmine.css">
+    <script type="text/javascript" src="jasmine/lib/jasmine-{3.4.0}/jasmine.js"></script>
+    <script type="text/javascript" src="jasmine/lib/jasmine-{3.4.0}/jasmine-html.js"></script>
+    <script type="text/javascript" src="jasmine/lib/jasmine-{3.4.0}/boot.js"></script>
+
 </head>
 
 <body>
@@ -56,7 +61,7 @@
                     <div id="current-score" class="score text-center">0</div>
                 </div>
             </div>
-            <div id="title-landscape" class="d-none d-lg-block col-md-2">
+            <div id="title-landscape" class="d-none d-lg-block col-md-2 px-0">
                 <h1 class="text-primary">2048</h1>
             </div>
             <div class="scores text-info col-6 col-lg-4 text-center">
@@ -74,10 +79,8 @@
                 <div class="col-12 d-md-none tooltip-container">
                     <div class="details">
                         <p> The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number
-                            <span class="emph1">2048</span>. <br> If two tiles of the same number collide while moving, they will <strong>merge</strong> 
-                            into a tile with the <span class="emph2">total value of 
-                        the two.</span> Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br>
-                        Tiles can be slid by <span class="emph3">on-screen buttons</span>, <span class="emph3">keyboard arrows</span> or <span class="emph3">swiping</span> your tousch-screen.<br>
+                            <span class="emph1">2048</span>. <br> If two tiles of the same number collide while moving, they will <strong>merge</strong> into a tile with the <span class="emph2">total value of 
+                        the two.</span> Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br> Tiles can be slid by <span class="emph3">on-screen buttons</span>, <span class="emph3">keyboard arrows</span>                            or <span class="emph3">swiping</span> your tousch-screen.<br>
                             <a target="_blank" href="https://en.wikipedia.org/wiki/2048_(video_game)">Detailed description</a>
                         </p>
                     </div>
@@ -96,9 +99,9 @@
         <section id="swipe-area" class="game-board-container container mx-auto">
             <div class="game-board py-1 px-1 bg-secondary mx-auto">
                 <div class="game-tile text-center gf-value-style-2 gt-position-style-1-1">2</div>
-                <div class="game-tile text-center gf-value-style-4 gt-position-style-1-2">4</div>
-                <div class="game-tile text-center gf-value-style-8 gt-position-style-1-3">8</div>
-                <div class="game-tile text-center gf-value-style-16 gt-position-style-1-4">16</div>
+                <div class="game-tile text-center gf-value-style-2 gt-position-style-1-2">2</div>
+                <div class="game-tile text-center gf-value-style-2 gt-position-style-1-3">2</div>
+                <div class="game-tile text-center gf-value-style-2 gt-position-style-1-4">2</div>
                 <div class="game-tile text-center gf-value-style-32 gt-position-style-2-1">32</div>
                 <!--        <div class="game-tile text-center gf-value-style-1024 gt-position-style-3-3">1024</div>
                 <div class="game-tile text-center gf-value-style-1024 gt-position-style-4-4">1024</div>
@@ -117,7 +120,7 @@
                 <!--<div class="game-tile text-center gf-value-style-8 gt-position-style-4-4">8</div>-->
             </div>
         </section>
-        <section class="buttons">
+        <section class="container buttons">
             <div class="row">
                 <div class="d-none d-md-block col-2 dummy"></div>
                 <div class="col-5 col-md-3 text-center">
@@ -145,13 +148,11 @@
                     <div class="container description d-none d-md-block mt-3">
                         <p>
                             The game’s objective is to slide numbered tiles on a grid to combine them to create a tile with the number
-                            <span class="emph1">2048</span>. If two tiles of the same number collide while moving, they will <strong>merge</strong> 
-                            into a tile with the <span class="emph2">total value of 
-                        the two.</span> Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br>
-                        Tiles can be slid by <span class="emph3">on-screen buttons</span>, <span class="emph3">keyboard arrows</span> or <span class="emph3">swiping</span> your tousch-screen.
+                            <span class="emph1">2048</span>. If two tiles of the same number collide while moving, they will <strong>merge</strong> into a tile with the <span class="emph2">total value of 
+                        the two.</span> Each turn, a <em>new tile will randomly appear</em> in an empty spot on the board with a value of either 2 or 4. <br> Tiles can be slid by <span class="emph3">on-screen buttons</span>, <span class="emph3">keyboard arrows</span>                            or <span class="emph3">swiping</span> your tousch-screen.
                         </p>
                         <p class="mt-1">
-                            <a  target="_blank" href="https://en.wikipedia.org/wiki/2048_(video_game)">Detailed description</a>
+                            <a target="_blank" href="https://en.wikipedia.org/wiki/2048_(video_game)">Detailed description</a>
                         </p>
                     </div>
                 </div>
@@ -161,7 +162,7 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="assets/js/my.js"></script>
+    <script type="text/javascript" src="assets/js/my.min.js"></script>
 
 </body>
 
