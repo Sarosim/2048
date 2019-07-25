@@ -56,8 +56,8 @@ Based on these I drew the following wireframes:
 
 ## Tablet layout
 
-![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/preview_index.html_iPad_landscape.png "tablet portrait")
-![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/preview_index.html_iPad_portrait.png "tablet landscape")
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/preview_index.html_iPad_landscape.png "tablet landscape")...
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/preview_index.html_iPad_portrait.png "tablet portrait")
 
 ## Desktop layout
 
