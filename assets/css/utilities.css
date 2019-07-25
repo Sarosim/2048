@@ -505,7 +505,7 @@
 /*
 LARGE
 */
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 992px) {
   .gt-position-style-1-1 {
     position: absolute;
     top: 10px;
@@ -709,4 +709,4 @@ LARGE
   .gf-value-style-131072 {
     font-size: 1.375rem; } }
 
-/*# sourceMappingURL=colour-scheme.css.map */
+/*# sourceMappingURL=utilities.css.map */
