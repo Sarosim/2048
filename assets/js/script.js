@@ -486,7 +486,7 @@
     }
 
     function onUserInput(dir) {
-        gameInPlay = true; // Just for the testing!!! DELETE FROM PRODUCTION VERSION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     //   gameInPlay = true; // Just for the testing!!! DELETE FROM PRODUCTION VERSION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (gameInPlay) {
             if (readyStatus) {
                 recordTileData();
