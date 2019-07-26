@@ -7,6 +7,10 @@ body {
     padding-top: 10px;
 }
 
+#title-landscape h1 {
+    display: none;
+}
+
 .scores-row {
     padding-top: 20px;
 }
@@ -75,6 +79,7 @@ body {
 .tooltip-container {
     height: 2px;
     position: relative;
+    display: block;
 }
 
 .details {
@@ -264,31 +269,72 @@ body {
         width: 450px;
         height: 450px;
     }
-    .details {
-        top: 0px;
-        right: 120px;
+    .title-landscape {
+        display: block;
     }
 }
 
-@media only screen and (min-width: 768px) {
+/*Visibility and Positioning of Tooltip and Description*/
+
+/*SMALL*/
+
+@media only screen and (max-width: 768px) {
+    .tooltip-container {
+        display: block;
+    }
+    .description {
+        display: none;
+    }
+    .details {
+        top: 26px;
+        right: 18px;
+    }
+}
+
+/*MEDIUM landscape, including tablet*/
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     .details {
         top: 0px;
         right: 20px;
     }
-}
-
-@media only screen and (min-width: 992px) {
-    .details {
-        top: 0px;
-        right: 120px;
+    .tooltip-container {
+        display: block;
+    }
+    .description {
+        display: none;
     }
 }
+
+/*MEDIUM portrait, including tablet*/
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .tooltip-container {
+        display: none;
+    }
+    .description {
+        display: block;
+    }
+}
+
+/*Large, laptop / desktop*/
+
+@media only screen and (min-width: 1025px) {
+    .tooltip-container {
+        display: none;
+    }
+    .description {
+        display: block;
+    }
+}
+
+/*2048 TITLE Positioning*/
 
 @media (orientation: landscape) {
     .title-container {
         display: none;
     }
-    .title-landscape h1 {
+    #title-landscape h1 {
         display: block;
     }
 }
