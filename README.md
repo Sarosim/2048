@@ -215,13 +215,30 @@ therefore a `git checkout <filename>` solved my issue.
 
 - production version uses minified javaScript file to reduce file size and loading time and potentially mobile data usage.
 
+
+
+
+
 # Credits
+
+## Content
+
+The text for the description and the tooltip - as well as for this README file is taken from Wikipedia article about the original game, I altered it to shorten and be more succint.
+
+## Media
+Pictures used throughout the project are all screenshots from the project.
 
 I used *Stackoverflow* and *w3schools.com* to help me better understand certain JavaScript functionalities and overcome obstacles as 
 well as fix bugs.  Advice from Code Institute Slack community has also helped me to learn about debugging in *JavaScript*. 
 
+## Acknowledgements
+
+Thanks to Ali Ashik - my mentor - for the inspiration and avice on important but not so obvious considerations.
+
 Solution for cloning an array to avoid changing with the original array is from Samantha Ming: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
 
 Tooltip css solution is from tutorialzine: [Create inline help tips for your site with a bit of CSS](https://tutorialzine.com/2014/07/css-inline-help-tips) 
+
+Swip detection and identification of direction is tutorials from [javascriptkit.com](www.javascriptkit.com/)
 
 I used JSHint.com to validate my javaScript code. 
