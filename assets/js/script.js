@@ -272,6 +272,7 @@
                 y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
                 if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
                 else {
+                    //      debugger;
                     deleteTile(x1, y1);
                     changeTileValue(x2, y2, valueOfThis[a + b * 1] * 2);
                     $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
@@ -451,7 +452,10 @@
                 }
             }
         }
-        $(".game-board div").removeClass("changed");
+        setTimeout(function() {
+            $(".game-board div").removeClass("changed");
+        }, 180);
+
     }
 
     function createNewTile(x, y, val) {
@@ -486,7 +490,7 @@
     }
 
     function onUserInput(dir) {
-     //   gameInPlay = true; // Just for the testing!!! DELETE FROM PRODUCTION VERSION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        gameInPlay = true; // Just for the testing!!! DELETE FROM PRODUCTION VERSION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (gameInPlay) {
             if (readyStatus) {
                 recordTileData();
