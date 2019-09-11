@@ -160,6 +160,15 @@ The game can end either:
 
 # Testing
 
+## Test planning
+
+During testing, I wanted to test:
+
+- design and responsiveness: to see if I like the look and feel of the game on different devices and screen sizes,
+- functioning and operability in different browsers (mobile and pc),
+- against user stories,
+- against misbehaviour (defensive design).
+
 ## Design and responsiveness
 
 I performed manual tests on available devices (Android 6.0.1 and 8.1 on Sony and Samsung, iPhone 4S, SE and 6, Google Chrome 75.0.3770.142 
@@ -175,7 +184,9 @@ change the size of the gameboard itself. This created bad user experience, becau
 resulted in too small gameboard on larger devices and vice versa. I used media queries and generated three different gameboard size variants
 to overcome this issue.
 
-## JavaScript
+## Functioning and operability
+
+### JavaScript
 
 For the testing of most gameplay solutions I simulated the gameboard by inserting the appropriate 'tiles' into the HTML file,
 then faked game in play status in the javaScript by forcing the variable that checks whether there is a game in play. 
@@ -194,6 +205,21 @@ To overcome the problem, I implemented a `readyStatus` boolean variable,
 set it to `false` every time when an actual move starts. When the new tile has been generated and displayed after a move, it is set to `true`.
 On user input, if the `readyStatus` isn't `true` the user input is neglected.
 
+### Testing in different browsers
+
+**Chrome**
+
+The entire development was done in Chrome 75.0, didn't require further testing on desktop, but I also tested mobile version on different Android 
+phones (Sony, Samsung).
+
+**Safari**
+
+Tested on iPhone 6, SE, 4S.
+
+**Firefox**
+
+I tested all the functionality in Firefox on desktop version 69.0 (64-bit). All features worked properly.
+
 ## Testing against the user stories
 
 1. "let the user realise what this game is and how to play, regardless of the platform they came accross it." --> either the tooltip 
@@ -202,6 +228,13 @@ or the description under the gameboard informs the user.
 3. provide a harmonic colour experience, while keeping the original idea of changing tile colour with increasing tile value. --> Generating the colours by a code helped achieve it.
 4. build in the opportunity of undoing in case of accidentially sliding tiles to unwanted direction or bad luck with random tile position or value when getting a new tile. 
 Especially when it results in game over. --> specifically tested by generating game over situations, works well.
+
+## Defensive testing - MEG ATIRNI + BELEIRNI
+
+I tested unexpected user behaviour - tried to misbehave. One of the interesting findings was that pressing arrow buttons very fast resulted
+in starting moves before the previous move has finished, therefore game tile elements got undefined position styles ('gt-position-style-undefined-undefined'),
+therefore were positioned off-grid. I introduced a 'readyStatus' boolean to practically switch off listening to user input whilest 
+animating tile moves.
 
 # Deployment
 
@@ -213,7 +246,9 @@ therefore a `git checkout <filename>` solved my issue.
 
 ## Differences between the deployed production version and the development version
 
-- production version uses minified javaScript file to reduce file size and loading time and potentially mobile data usage.
+- production version uses minified CSS and javaScript files to reduce file size and loading time and potentially mobile data usage,
+- `debugger;` and `console.log();` statements are eliminated from the production version, 
+- variables overridden for testing purposes are re-set to standard functionality.
 
 
 
@@ -239,6 +274,6 @@ Solution for cloning an array to avoid changing with the original array is from 
 
 Tooltip css solution is from tutorialzine: [Create inline help tips for your site with a bit of CSS](https://tutorialzine.com/2014/07/css-inline-help-tips) 
 
-Swip detection and identification of direction is tutorials from [javascriptkit.com](www.javascriptkit.com/)
+Swip detection and identification of direction is tutorials from javascriptkit.com.
 
 I used JSHint.com to validate my javaScript code. 
