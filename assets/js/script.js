@@ -1,6 +1,10 @@
-// my.js is linked in the bottom of index.html, therefore didn't start with document ready function, may consider...
+// my.js is linked in the bottom of index.html, therefore didn't start with document ready function...
+
+// Based on the suggestion of my mentor Ali Ashik, I use IIFE (Immediately Invoked Function Expression)
+// to avoid tampering with variables and eliminating misuse 
 (function() {
 
+//variable definitions
     var gameInPlay = false;
     var readyStatus = true;
     var potentialMove = true;
@@ -56,7 +60,7 @@
         }, 150);
     }
 
-    //check if current score is higher than highscore
+    //check if current score is higher than highscore if yes, modify highscore
     function checkHighScore() {
         if (score > currentHighScore) {
             currentHighScore = score;
@@ -129,6 +133,7 @@
             currentTileData.push(yPos);
             currentTileData.push(val);
         }
+        // cloning an array to avoid changing with the original array is from Samantha Ming: es6 way to clone an array
         const cloneOfCurrentTileData = [...currentTileData];
         gamePlayHistory.push(cloneOfCurrentTileData);
         if (gamePlayHistory.length > maxMovesToStore) { // if more moves than max stored, 'forget' of the eldest
@@ -141,7 +146,7 @@
         var numOfTiles = tileData.length / 3;
         var xPos, yPos, val;
         $(".game-board div").remove(); //   remove all children of .game-board
-        for (var i = 0; i < numOfTiles; i++) {
+        for (var i = 0; i < numOfTiles; i++) { // create each tiles from game play history
             xPos = tileData[i * 3];
             yPos = tileData[i * 3 + 1];
             val = tileData[i * 3 + 2];
@@ -153,7 +158,7 @@
     function recordCurrentScore() {
         //for undo
         scoreHistory.push(score);
-        if (scoreHistory.length - 1 > maxMovesToStore) {
+        if (scoreHistory.length - 1 > maxMovesToStore) { // if more moves than max stored, 'forget' of the eldest
             scoreHistory.shift();
         }
     }
@@ -164,8 +169,9 @@
         scoreHistory.pop();
     }
 
+    // Checks whether the game is over. It also checks whether there are two tiles on the same position (bug control)
     function isItGameOver() {
-        // It also checks whether there are two tiles on the same position (bug control)
+    
         var pos = [
             [0, 0, 0, 0],
             [0, 0, 0, 0],
@@ -173,36 +179,36 @@
             [0, 0, 0, 0]
         ];
         var positionStyle;
-        var currentTiles = document.getElementsByClassName("game-tile");
-        var amountOfTiles = currentTiles.length;
-        for (var i = 0; i < amountOfTiles; i++) {
+        var currentTiles = document.getElementsByClassName("game-tile"); // stores game-tiles in an array
+        var amountOfTiles = currentTiles.length; // counts the number of 'tiles'
+        for (var i = 0; i < amountOfTiles; i++) { // for each existing tile:
             for (var j = 1; j <= 4; j++) {
                 for (var k = 1; k <= 4; k++) {
                     positionStyle = "gt-position-style-" + j + "-" + k;
-                    if ($(currentTiles[i]).hasClass(positionStyle)) {
-                        pos[j - 1][k - 1]++;
+                    if ($(currentTiles[i]).hasClass(positionStyle)) { // checks the coordinates of the based on their class used for positioning
+                        pos[j - 1][k - 1]++; // increases the counter of the tiles for the given position
                     }
                 }
             }
         }
         for (var j = 0; j < 4; j++) {
             pos[j].sort();
-            if (pos[j][3] > 1) {
+            if (pos[j][3] > 1) { //alerts if there are more tiles on the same position
                 alert("there are two tiles on a cell ! ! ! This is a bug, please inform the developer :) ");
             }
         }
-        if (amountOfTiles == 16) {
+        if (amountOfTiles == 16) { // if there are 16 tiles - meaning the gameboard is fully loaded:
             potentialMove = false;
             var valIJ, valIPlus1J, valIJPlus1;
             for (i = 1; i <= 4; i++) {
                 for (j = 1; j <= 4; j++) {
                     var theTile = document.getElementsByClassName("gt-position-style-" + i + "-" + j);
-                    valIJ = $(theTile[0]).text();
+                    valIJ = $(theTile[0]).text(); // takes the value of the tile into a variable
                     theTile = document.getElementsByClassName("gt-position-style-" + (i + 1) + "-" + j);
-                    valIPlus1J = $(theTile[0]).text();
+                    valIPlus1J = $(theTile[0]).text(); // takes the value of the neighboring tile into a variable
                     theTile = document.getElementsByClassName("gt-position-style-" + i + "-" + (j + 1));
-                    valIJPlus1 = $(theTile[0]).text();
-                    if ((valIJ == valIPlus1J) || (valIJ == valIJPlus1)) {
+                    valIJPlus1 = $(theTile[0]).text(); // takes the value of the neighboring tile in the other direction into a variable
+                    if ((valIJ == valIPlus1J) || (valIJ == valIJPlus1)) { // if there are equal value tiles next to each other, there is a potential move
                         potentialMove = true;
 
                     }
@@ -253,7 +259,7 @@
         }
 
         wasThereAMove = false;
-        for (var i = 0; i < 4; i++) { //For each 'row' (meaning line of the direction) do the following
+        for (var i = 0; i < 4; i++) { //For each 'row' do the following
 
 
             var classOfPosition = [];
@@ -272,7 +278,6 @@
                 y2 = (i + 1) * vertical + (a + b * 1 + 1) * horizontal;
                 if ($(".gt-position-style-" + x1 + "-" + y1).hasClass("changed") || $(".gt-position-style-" + x2 + "-" + y2).hasClass("changed")) {} // Do nothing
                 else {
-                    //      debugger;
                     deleteTile(x1, y1);
                     changeTileValue(x2, y2, valueOfThis[a + b * 1] * 2);
                     $(".gt-position-style-" + x2 + "-" + y2).addClass("changed");
@@ -467,6 +472,8 @@
             .addClass(valueStyle)
             .text(val)
             .removeClass("new-tile");
+        var posClassError = ".gt-position-style-undefined-undefined";
+        $(posClassError).remove();
         isItGameOver();
 
     }
@@ -480,7 +487,7 @@
                 if ($(pos).length) {}
                 else {
                     n++;
-                    emptyFields.push(i + 1, j + 1);
+                    emptyFields.push(i + 1, j + 1); //Stores the 'coordinates' of all the empty fields to pick from
                 }
             }
         }
@@ -519,7 +526,7 @@
             }
         }
     }
-
+    // Detecting swipe on touch-screen devices, based on a tutorial from javascriptkit.com
     function swipeDetect(element, callback) {
 
         var touchSurface = element,
@@ -547,7 +554,7 @@
         }, false);
 
         touchSurface.addEventListener('touchmove', function(e) {
-            e.preventDefault(); // prevent scrolling when inside DIV
+            e.preventDefault(); // prevent scrolling when swiping at the gameboard area (<section id="swipe-area" class="game-board-container container mx-auto">)
         }, false);
 
         touchSurface.addEventListener('touchend', function(e) {
@@ -562,23 +569,23 @@
                         arrowDir = btnLeft;
                     }
                     else {
-                        swipeDir = 3; //otherwie it is right swipe
+                        swipeDir = 3; //otherwise it is right swipe
                         arrowDir = btnRight;
                     } //dir(ections): 0-up, 1-left, 2-down, 3-right
                 }
                 else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint) { // 2nd condition for vertical swipe met
-                    if (distY < 0) { // if dist traveled vertically is negative, it indicates up swipe
+                    if (distY < 0) { // if dist traveled vertically is negative, it indicates upwards swipe
                         swipeDir = 0;
                         arrowDir = btnUp;
                     }
                     else {
-                        swipeDir = 2; // otherwie it is down swipe
+                        swipeDir = 2; // otherwise it is down swipe
                         arrowDir = btnDown;
                     }
                 }
             }
             handleSwipe(swipeDir);
-            e.preventDefault(); // prevent scrolling when inside DIV
+            e.preventDefault(); // prevent scrolling when swiping at the gameboard area 
         }, false);
     }
 
@@ -686,6 +693,7 @@
     }, false); // end window.onload
 
     //****************************************************
-    //    E X E C U T E
-
+    //****************************************************
+    
+// end of the IFFE function: 
 })();

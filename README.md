@@ -1,11 +1,3 @@
-
-Available here: https://sarosim.github.io/2048/index.html
-
-Provide details in your README.md of the logic you have used to build your game as well as an explanation of how you tested your logic
-
-
-HERE IT STARTS:
-
 # The 2048 game
 
 2048 is a single-player sliding block puzzle game designed by Italian web developer Gabriele Cirulli. 
@@ -21,6 +13,7 @@ I was right, it was much more complex, it includes complicated logic and a lot t
 **These are the exact resons why I loved developing it!** I hope you love playing it and I equally hope you like some of my solutions. 
 
 Be careful when playing, it's addictive :)
+My version is available [here](https://sarosim.github.io/2048/index.html).
 
 # UX
 
@@ -49,6 +42,14 @@ Based on these I drew the following wireframes:
 ## The final design of the gameboard itself
 
 ![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/gameboard.png "game board")
+
+## 'You Won' message:
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/you_won_screen.jpg "game board")
+
+## Game Over message
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/game_over_screen.jpg "game board")
 
 ## Mobile layout
 
@@ -97,7 +98,8 @@ On top of the necessary *start game*/*new game*, my version includes:
 # Technologies used
 
 [*HTML*](https://en.wikipedia.org/wiki/HTML5) and [*CSS*](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) used for the look
-and feel of the game, as well as Bootstrap framework, more specifically  **Bootswatch Cyborg theme**. Besides the built in responsive functionality
+and feel of the game, as well as [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) framework, more 
+specifically  [**Bootswatch Cyborg theme**](https://bootswatch.com/cyborg/). Besides the built in responsive functionality
 of Bootstrap, I used further media queries to generate more appropriate size variants and to identify landscape/portrait format. 
 I also used [*Sass*](https://en.wikipedia.org/wiki/Sass_(stylesheet_language)) to generate the colour scheme for the game tiles as well as the style attributes for the tile positioning classes.  
 
@@ -129,8 +131,8 @@ named onUserInput, which takes the direction as its argument.
 
 ### New game
 
-The newGame function initializes all the variables, cleans the gameboard by deleting all the content of the game-board div.
-and starts the game by randomizing two tiles and waiting for user input.
+The newGame function initializes all the variables, cleans the gameboard by deleting all the content of the game-board `<div>`
+and starts the game by randomizing two tiles then waiting for user input.
 
 ### Undo
 
@@ -145,10 +147,12 @@ The following steps are performed once a user indicated the required direction:
 
 - recording position and value of all tiles currently on the board into the `gamePlayHistory` array,
 - recording the current score to the `scoreHistory` array,
-- shifting the tiles by passing the direction into the function handling the move `shiftTiles(direction)`.
-- checks if there was a move 
-- if there was a move then generates a new tile, checks whether there is a potential move otherwise it is game over; 
-- updates the score 
+- shifting the tiles by passing the direction into the function handling the move `shiftTiles(direction)`,
+- checks if there was a move (new tiles are only to be created if tiles were actually sliding, if a user indicated a direction, 
+but there are no tiles to be moved that way, no new tile needed)
+- if there was a move then generates a new tile, 
+- checks whether there is a potential move, otherwise it is game over, 
+- updates the score,
 - checks if the aim of the game was reached.
 
 ### Ending the game
@@ -175,9 +179,9 @@ I performed manual tests on available devices (Android 6.0.1 and 8.1 on Sony and
 both on laptop and desktop) and asked family members to do the same by checking page layout, clicking the link to Wikipedia page
 as well as playing the game. I've also checked all different sizes available in Chrome Dev Tools.
 
-The outcome was that in case of landscape orientation on a tablet the screen width is 'large' enough to display the descripton
-but it wouldn't fit to the screen. Instead of shrinking the gameboard, I decided to modify the UX and go for the tooltip
-for landscape tablets.
+The outcome was that in case of landscape orientation on a tablet the screen width is 'large' enough to display the game descripton
+but it wouldn't fit to the screen (user would have to scroll down to be able to read it). Instead of shrinking the gameboard, 
+I decided to modify the UX and go for the tooltip solution for landscape tablets.
 
 Bootstrap makes the page responsive by displaying certain elements differently depending on the screen size, but doesn't 
 change the size of the gameboard itself. This created bad user experience, because sizing the gameboard to small mobile screens 
@@ -231,10 +235,11 @@ Especially when it results in game over. --> specifically tested by generating g
 
 ## Defensive testing - MEG ATIRNI + BELEIRNI
 
-I tested unexpected user behaviour - tried to misbehave. One of the interesting findings was that pressing arrow buttons very fast resulted
-in starting moves before the previous move has finished, therefore game tile elements got undefined position styles ('gt-position-style-undefined-undefined'),
-therefore were positioned off-grid. I introduced a 'readyStatus' boolean to practically switch off listening to user input whilest 
-animating tile moves.
+I tested unexpected user behaviour - tried to misbehave. This is how I found the bug of pressing arrow buttons very fast resulted
+in starting moves before the previous move has finished. Even though I eliminated it by checking ready status, when the gameboard is full 
+of tiles and the quick keystrokes are continued, a tile appeared off-grid: tile element was generated with undefined position style
+('gt-position-style-undefined-undefined'), therefore were positioned off-grid. I'm simply deleting the tiles with erroneous position classes 
+as soon as they are created.
 
 # Deployment
 
@@ -250,10 +255,6 @@ therefore a `git checkout <filename>` solved my issue.
 - `debugger;` and `console.log();` statements are eliminated from the production version, 
 - variables overridden for testing purposes are re-set to standard functionality.
 
-
-
-
-
 # Credits
 
 ## Content
@@ -263,17 +264,21 @@ The text for the description and the tooltip - as well as for this README file i
 ## Media
 Pictures used throughout the project are all screenshots from the project.
 
-I used *Stackoverflow* and *w3schools.com* to help me better understand certain JavaScript functionalities and overcome obstacles as 
-well as fix bugs.  Advice from Code Institute Slack community has also helped me to learn about debugging in *JavaScript*. 
+
 
 ## Acknowledgements
 
 Thanks to Ali Ashik - my mentor - for the inspiration and avice on important but not so obvious considerations.
 
+I used *Stackoverflow* and *w3schools.com* to help me better understand certain JavaScript functionalities and overcome obstacles as 
+well as fix bugs. 
+
+Advice from Code Institute Slack community has also helped me to learn about debugging in *JavaScript*. 
+
 Solution for cloning an array to avoid changing with the original array is from Samantha Ming: https://www.samanthaming.com/tidbits/35-es6-way-to-clone-an-array
 
 Tooltip css solution is from tutorialzine: [Create inline help tips for your site with a bit of CSS](https://tutorialzine.com/2014/07/css-inline-help-tips) 
 
-Swip detection and identification of direction is tutorials from javascriptkit.com.
+Swipe detection and identification of direction is based on tutorials from www.javascriptkit.com 
 
 I used JSHint.com to validate my javaScript code. 
