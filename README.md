@@ -3,6 +3,7 @@
 2048 is a single-player sliding block puzzle game designed by Italian web developer Gabriele Cirulli. 
 The game's objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048. 
 However, one can continue to play the game after reaching the goal, creating tiles with larger numbers.
+Read more about the original game [here](https://en.wikipedia.org/wiki/2048_(video_game)) on Wikipedia.
 
 I started to work on the Simon game as the 2nd Milestone Project for the Fullstack Web Developer course of Code Institute. 
 One day - when I was still at the planning phase of my version of the Simon game I was playing 2048 on my phone and the idea struck me
@@ -12,7 +13,8 @@ I was right, it was much more complex, it includes complicated logic and a lot t
 
 **These are the exact resons why I loved developing it!** I hope you love playing it and I equally hope you like some of my solutions. 
 
-Be careful when playing, it's addictive :)
+Be careful when playing, it's addictive :) **HAVE FUN!!!**
+
 My version is available [here](https://sarosim.github.io/2048/index.html).
 
 # UX
@@ -42,14 +44,6 @@ Based on these I drew the following wireframes:
 ## The final design of the gameboard itself
 
 ![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/gameboard.png "game board")
-
-## 'You Won' message:
-
-![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/you_won_screen.jpg "game board")
-
-## Game Over message
-
-![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/game_over_screen.jpg "game board")
 
 ## Mobile layout
 
@@ -158,9 +152,14 @@ but there are no tiles to be moved that way, no new tile needed)
 ### Ending the game
 
 The game can end either:
-- if there is no potential move, or
+- if there is no potential move. In this case a Game Over message is displayed:
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/game_over_screen.jpg "game board")
+or
 - if the aim of the game is reached and the player doesn’t want to continue playing. 
-(Once 2048 reached, they can still continue, but they are congratulated!)
+(Once 2048 reached, they can still continue, but they are congratulated!). In this case a 'You Won' message is displayed:
+
+![alt text](https://github.com/Sarosim/2048/blob/master/assets/images/you_won_screen.jpg "game board")
 
 # Testing
 
@@ -233,13 +232,13 @@ or the description under the gameboard informs the user.
 4. build in the opportunity of undoing in case of accidentially sliding tiles to unwanted direction or bad luck with random tile position or value when getting a new tile. 
 Especially when it results in game over. --> specifically tested by generating game over situations, works well.
 
-## Defensive testing - MEG ATIRNI + BELEIRNI
+## Defensive testing
 
 I tested unexpected user behaviour - tried to misbehave. This is how I found the bug of pressing arrow buttons very fast resulted
 in starting moves before the previous move has finished. Even though I eliminated it by checking ready status, when the gameboard is full 
 of tiles and the quick keystrokes are continued, a tile appeared off-grid: tile element was generated with undefined position style
 ('gt-position-style-undefined-undefined'), therefore were positioned off-grid. I'm simply deleting the tiles with erroneous position classes 
-as soon as they are created.
+as soon as they are created to overcome this issue.
 
 # Deployment
 
@@ -268,9 +267,11 @@ Pictures used throughout the project are all screenshots from the project.
 
 ## Acknowledgements
 
-Thanks to Ali Ashik - my mentor - for the inspiration and avice on important but not so obvious considerations.
+Thanks to Ali Ashik - my mentor - for the inspiration and avice on important but not so obvious considerations like:
+- IIFE
+- DOM manipulation is consuming resources, so we should assign variables to them.
 
-I used *Stackoverflow* and *w3schools.com* to help me better understand certain JavaScript functionalities and overcome obstacles as 
+I used [*Stackoverflow*](https://stackoverflow.com/) and [*w3schools.com*](https://www.w3schools.com/) to help me better understand certain JavaScript functionalities and overcome obstacles as 
 well as fix bugs. 
 
 Advice from Code Institute Slack community has also helped me to learn about debugging in *JavaScript*. 
@@ -281,4 +282,4 @@ Tooltip css solution is from tutorialzine: [Create inline help tips for your sit
 
 Swipe detection and identification of direction is based on tutorials from www.javascriptkit.com 
 
-I used JSHint.com to validate my javaScript code. 
+I used [JSHint.com](https://jshint.com/) to validate my javaScript code. 
