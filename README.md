@@ -287,4 +287,4 @@ Swipe detection and identification of direction is based on tutorials from www.j
 
 I used [JSHint.com](https://jshint.com/) to validate my javaScript code. 
 
-I used [javaScript-minifier](https://javascript-minifier.com/) and 
+I used [javaScript-minifier](https://javascript-minifier.com/) and [css-minifier](https://cssminifier.com/) to create the minified files.
