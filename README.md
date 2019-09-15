@@ -1,12 +1,12 @@
 # The 2048 game
 
 2048 is a single-player sliding block puzzle game designed by Italian web developer Gabriele Cirulli. 
-The game's objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048. 
+The game's objective is to slide numbered tiles on a grid to combine them in order to create a tile with the number 2048. 
 However, one can continue to play the game after reaching the goal, creating tiles with larger numbers.
 Read more about the original game [here](https://en.wikipedia.org/wiki/2048_(video_game)) on Wikipedia.
 
 I started to work on the Simon game as the 2nd Milestone Project for the Fullstack Web Developer course of Code Institute. 
-One day - when I was still at the planning phase of my version of the Simon game I was playing 2048 on my phone and the idea struck me
+One day - when I was still in the planning phase of my version of the Simon game I was playing 2048 on my phone and the idea struck me
 to develop my 2048 game instead of Simon. It seemed more challenging and I wanted to test my ability. 
 
 I was right, it was much more complex, it includes complicated logic and a lot to handle. Making it properly responsive had its own challenges as well.
