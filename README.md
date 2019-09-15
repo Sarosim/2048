@@ -35,9 +35,12 @@ Translating it to user stoies I wanted to:
 4. build in the opportunity of undoing in case of accidentially sliding tiles to unwanted direction or bad luck with random tile position or value when getting a new tile. 
 Especially when it results in game over.
 
+I didn't incorporate a main navigation menu as I deemed it irrelevant considering that the main functionalities of the game can be accessed 
+through the on-screen buttons, the interactivity lays in the gameplay itself. 
+
 Based on these I drew the following wireframes:
 
-[Scan of hand-drawn wireframes](assets/documents/Scan20190723_06.pdf) 
+[Scan of hand-drawn wireframes](assets/documents/wireframes.pdf) 
 
 # Design
 
@@ -283,3 +286,5 @@ Tooltip css solution is from tutorialzine: [Create inline help tips for your sit
 Swipe detection and identification of direction is based on tutorials from www.javascriptkit.com 
 
 I used [JSHint.com](https://jshint.com/) to validate my javaScript code. 
+
+I used [javaScript-minifier](https://javascript-minifier.com/) and 

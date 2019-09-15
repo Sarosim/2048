@@ -117,8 +117,8 @@
             .addClass(newPositionClass)
             .removeClass(oldPositionClass);
     }
-
-    function recordTileData() { //for undo
+    // Functions for the undo functionality
+    function recordTileData() { 
         var startPos;
         var xPos, yPos, val;
         var currentTileData = [];
@@ -472,7 +472,7 @@
             .addClass(valueStyle)
             .text(val)
             .removeClass("new-tile");
-        var posClassError = ".gt-position-style-undefined-undefined";
+        var posClassError = ".gt-position-style-undefined-undefined"; // bug fixing for tiles with undefined position class
         $(posClassError).remove();
         isItGameOver();
 
@@ -497,7 +497,6 @@
     }
 
     function onUserInput(dir) {
-        gameInPlay = true; // Just for the testing!!! DELETE FROM PRODUCTION VERSION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (gameInPlay) {
             if (readyStatus) {
                 recordTileData();
@@ -695,5 +694,5 @@
     //****************************************************
     //****************************************************
     
-// end of the IFFE function: 
+// end of the IIFE function: 
 })();
